@@ -55,10 +55,14 @@ class QuestDispatchPayload(BaseModel):
     title: str
     prompt: str
     difficulty: str = "normal"
+    preset: str = "classic"
     author: str = "Guild Master Rama"
 
+class GuildMasterInterventionPayload(BaseModel):
+    quest_id: str
+    instruction: str
+
 def purge_quest_sandbox(quest_id: str, reason: str = "auto_ttl"):
-    """Deletes the quest sandbox directory and marks artifacts as purged."""
     quest_dir = os.path.join(SANDBOX_BASE_DIR, quest_id)
     if os.path.exists(quest_dir):
         try:
@@ -73,10 +77,8 @@ def purge_quest_sandbox(quest_id: str, reason: str = "auto_ttl"):
         QUEST_HISTORY[quest_id]["purge_reason"] = reason
 
 def schedule_quest_auto_purge(quest_id: str, delay_seconds: int = 900):
-    """Schedules sandbox deletion after 15 minutes in a detached background timer."""
     def timer_callback():
         purge_quest_sandbox(quest_id, reason="15_min_ttl_expired")
-        # Broadcast wipe event to visual clients
         asyncio.run(manager.broadcast({
             "event_type": "QUEST_PURGED",
             "quest_id": quest_id,
@@ -107,7 +109,6 @@ def get_quest(quest_id: str):
 
 @app.get("/api/quests/{quest_id}/download")
 def download_quest_artifacts(quest_id: str, auto_wipe: bool = True):
-    """Zips and returns all generated files in the quest sandbox directory, then wipes immediately."""
     quest_dir = os.path.join(SANDBOX_BASE_DIR, quest_id)
     if not os.path.exists(quest_dir) or QUEST_HISTORY.get(quest_id, {}).get("purged"):
         raise HTTPException(status_code=410, detail="Berkas artefak sudah dihapus (Masa simpan 15 menit telah habis atau sudah diunduh).")
@@ -123,7 +124,6 @@ def download_quest_artifacts(quest_id: str, auto_wipe: bool = True):
 
     zip_buffer.seek(0)
     
-    # Auto-wipe immediately upon direct user web download if specified
     if auto_wipe:
         threading.Timer(2.0, lambda: purge_quest_sandbox(quest_id, reason="downloaded_by_user")).start()
 
@@ -135,30 +135,26 @@ def download_quest_artifacts(quest_id: str, auto_wipe: bool = True):
 
 @app.get("/api/quests/{quest_id}/file/{file_name}")
 def download_single_file(quest_id: str, file_name: str):
-    """Returns single source file content directly."""
     quest_dir = os.path.join(SANDBOX_BASE_DIR, quest_id)
     file_path = os.path.join(quest_dir, file_name)
     if not os.path.exists(file_path) or QUEST_HISTORY.get(quest_id, {}).get("purged"):
         raise HTTPException(status_code=410, detail="Berkas sudah dihapus (Masa simpan 15 menit habis).")
     return FileResponse(file_path, filename=file_name)
 
-async def run_quest_task(quest_id: str, prompt: str, title: str):
+async def run_quest_task(quest_id: str, prompt: str, title: str, preset: str = "classic"):
     async def ws_event_broadcaster(event_payload: dict):
         await manager.broadcast(event_payload)
 
-    orchestrator = GuildOrchestrator(quest_id, prompt, event_callback=ws_event_broadcaster)
+    orchestrator = GuildOrchestrator(quest_id, prompt, preset=preset, event_callback=ws_event_broadcaster)
     result = await orchestrator.run()
     
-    # Update quest record
     QUEST_HISTORY[quest_id]["status"] = result.get("status")
     QUEST_HISTORY[quest_id]["result"] = result
     QUEST_HISTORY[quest_id]["finished_at"] = time.time()
     QUEST_HISTORY[quest_id]["expires_at"] = time.time() + CLEANUP_TTL_SECONDS
     
-    # Schedule 15-minute auto purge timer
     schedule_quest_auto_purge(quest_id, delay_seconds=CLEANUP_TTL_SECONDS)
     
-    # Final event broadcast
     await manager.broadcast({
         "event_type": "QUEST_ARCHIVED",
         "quest_id": quest_id,
@@ -177,6 +173,7 @@ async def dispatch_quest(payload: QuestDispatchPayload, background_tasks: Backgr
         "title": payload.title,
         "prompt": payload.prompt,
         "difficulty": payload.difficulty,
+        "preset": payload.preset,
         "author": payload.author,
         "status": "in_progress",
         "created_at": time.time(),
@@ -186,19 +183,29 @@ async def dispatch_quest(payload: QuestDispatchPayload, background_tasks: Backgr
         "result": None
     }
     
-    # Broadcast quest acceptance to visual clients
     await manager.broadcast({
         "event_type": "QUEST_ENQUEUED",
         "quest_id": quest_id,
         "title": payload.title,
         "prompt": payload.prompt,
+        "preset": payload.preset,
         "author": payload.author
     })
     
-    # Run async pipeline in background
-    background_tasks.add_task(run_quest_task, quest_id, payload.prompt, payload.title)
+    background_tasks.add_task(run_quest_task, quest_id, payload.prompt, payload.title, payload.preset)
     
     return {"status": "dispatched", "quest_id": quest_id, "title": payload.title}
+
+# 🪓 FITUR 2: GUILD MASTER DIRECT INTERVENTION ENDPOINT
+@app.post("/api/quest/intervene")
+async def intervene_quest(payload: GuildMasterInterventionPayload):
+    await manager.broadcast({
+        "event_type": "GUILD_MASTER_INTERVENTION",
+        "quest_id": payload.quest_id,
+        "instruction": payload.instruction,
+        "message": f"👑 Guild Master mengintervensi strategi: '{payload.instruction}'"
+    })
+    return {"status": "intervention_broadcasted"}
 
 @app.websocket("/ws/guild-events")
 async def websocket_endpoint(websocket: WebSocket):
