@@ -45,22 +45,22 @@ def monitor_and_deliver_quest(quest_id: str, bot_token: str, chat_id: str, title
                     score = result.get("score", 100)
                     files = list(result.get("files", {}).keys())
                     
-                    # Fetch ZIP artifact
-                    zip_res = requests.get(f"{API_BASE_URL}/quests/{quest_id}/download", timeout=10)
+                    # Fetch ZIP artifact directly (without auto_wipe to let Telegram deliver safely)
+                    zip_res = requests.get(f"{API_BASE_URL}/quests/{quest_id}/download?auto_wipe=false", timeout=10)
                     if zip_res.status_code == 200:
                         caption = (
-                            f"🏆 **QUEST SELESAI & 100% LOLOS UJI!** ⚔️✨\n\n"
-                            f"📜 **Quest:** {title}\n"
-                            f"📊 **Skor Sentinel:** `{score}/100` (Pytest Passed)\n"
-                            f"📦 **Artefak:** {', '.join(f'`{f}`' for f in files)}\n\n"
-                            f"📁 *Berkas zip artefak terlampir di atas.*"
+                            f"🏆 *QUEST SELESAI & 100% LOLOS UJI!* ⚔️✨\n\n"
+                            f"📜 *Quest:* {title}\n"
+                            f"📊 *Skor Sentinel:* `{score}/100` (Pytest Passed)\n"
+                            f"📦 *File Terlampir:* {', '.join(f'`{f}`' for f in files)}\n\n"
+                            f"⚠️ *Catatan Keamanan & Penyimpanan:* Berkas proyek di server hanya disimpan sementara selama *15 menit* (atau langsung terhapus saat diunduh dari web) demi efisiensi dan keamanan storage server."
                         )
                         send_telegram_document(bot_token, chat_id, zip_res.content, f"{quest_id}_artifacts.zip", caption)
                     else:
                         send_telegram_message(bot_token, chat_id, f"✅ Quest selesai! Skor: {score}/100. File: {', '.join(files)}")
                     break
                 elif status == "failed":
-                    send_telegram_message(bot_token, chat_id, f"❌ **Quest Gagal:** Batas iterasi habis atau pengujian belum terpenuhi.")
+                    send_telegram_message(bot_token, chat_id, f"❌ *Quest Gagal:* Batas iterasi habis atau pengujian belum terpenuhi.")
                     break
         except Exception as e:
             print(f"Error monitoring quest: {e}")
@@ -69,11 +69,10 @@ def run_telegram_listener(bot_token: str, admin_chat_id: str):
     offset = None
     print(f"🏛️ SynapseGuild Dedicated Telegram Bot Listener started for Admin ID: {admin_chat_id}")
     
-    # Set bot commands in Telegram
     try:
         commands = [
-            {"command": "quest", "description": "Dispatch misi/tugas baru ke 3 AI Agent"},
-            {"command": "status", "description": "Cek kesehatan party & server SynapseGuild"},
+            {"command": "quest", "description": "Dispatch misi baru ke 3 AI Agent (Hasil ZIP dikirim)"},
+            {"command": "status", "description": "Cek kesehatan party & storage TTL"},
             {"command": "help", "description": "Panduan remote control SynapseGuild"}
         ]
         requests.post(f"https://api.telegram.org/bot{bot_token}/setMyCommands", json={"commands": commands}, timeout=5)
@@ -109,13 +108,14 @@ def run_telegram_listener(bot_token: str, admin_chat_id: str):
                     
                 if text.startswith("/start") or text.startswith("/help"):
                     welcome = (
-                        "🏛️ **SYNAPSEGUILD AI PARTY REMOTE** ⚔️\n\n"
+                        "🏛️ *SYNAPSEGUILD AI PARTY REMOTE* ⚔️\n\n"
                         "Selamat datang, Guild Master Mas Rama!\n\n"
                         "Gunakan bot ini untuk memerintah party 3 AI Agent secara remote:\n"
-                        "• `/quest <perintah>` ➔ Dispatch misi baru ke (The Sage, Forge Master, Sentinel)\n"
-                        "• `/status` ➔ Cek status server, party & WebSocket link\n"
-                        "• `/help` ➔ Bantuan perintah\n\n"
-                        "💡 *Contoh: `/quest Buatkan script kalkulator kalori pendakian dan unit test pytest-nya`*"
+                        "• `/quest <perintah>` ➔ Dispatch misi baru (Kode + Tes + File ZIP dikirim langsung ke sini!)\n"
+                        "• `/status` ➔ Cek status server, party & sistem auto-wipe TTL\n"
+                        "• `/help` ➔ Bantuan navigasi\n\n"
+                        "🧹 *Kebijakan Penyimpanan Sementara:*\n"
+                        "Semua berkas kodingan di server VPS hanya disimpan selama *15 menit* lalu otomatis dihapus tuntas untuk menjaga kebersihan & keamanan storage."
                     )
                     send_telegram_message(bot_token, chat_id, welcome)
                     
@@ -129,10 +129,11 @@ def run_telegram_listener(bot_token: str, admin_chat_id: str):
                     send_telegram_message(
                         bot_token, 
                         chat_id, 
-                        f"⚔️ **QUEST DITERIMA & DIDISPATCH!** 📜\n\n"
-                        f"🎯 **Tujuan:** *\"{prompt}\"*\n\n"
-                        f"Party (*The Sage, Forge Master, Sentinel*) mulai berkumpul di War Room untuk berdiskusi & memprogram kode.\n"
-                        f"🌐 Pantau visual arena di: `http://localhost:8100`"
+                        f"⚔️ *QUEST DITERIMA & DIDISPATCH!* 📜\n\n"
+                        f"🎯 *Tujuan:* *\"{prompt}\"*\n\n"
+                        f"Party (*The Sage, Forge Master, Sentinel*) mulai berkumpul di War Room untuk merancang dan merakit kode.\n"
+                        f"📁 *Setelah 100% lolos uji, file .ZIP akan otomatis dikirimkan ke chat ini.* (TTL: 15 menit)\n"
+                        f"🌐 Pantau visual di: `http://43.133.47.135:8100`"
                     )
                     
                     try:
@@ -147,7 +148,6 @@ def run_telegram_listener(bot_token: str, admin_chat_id: str):
                             q_data = res.json()
                             quest_id = q_data.get("quest_id")
                             
-                            # Start thread to monitor and deliver result zip
                             threading.Thread(
                                 target=monitor_and_deliver_quest,
                                 args=(quest_id, bot_token, chat_id, title),
@@ -163,11 +163,11 @@ def run_telegram_listener(bot_token: str, admin_chat_id: str):
                         res = requests.get(f"{API_BASE_URL}/health", timeout=5)
                         if res.status_code == 200:
                             status_msg = (
-                                "🟢 **SYNAPSEGUILD ENGINE ONLINE** 🏛️✨\n\n"
-                                "• **Gateway Port:** `8100`\n"
-                                "• **WebSocket:** `ws://127.0.0.1:8100/ws/guild-events`\n"
-                                "• **Active Party:** The Sage, Forge Master, Sentinel\n"
-                                "• **Arena Web:** `http://localhost:8100`"
+                                "🟢 *SYNAPSEGUILD ENGINE ONLINE* 🏛️✨\n\n"
+                                "• *Gateway Port:* `8100` (rpg.dasrams.biz.id)\n"
+                                "• *Party:* The Sage, Forge Master, Sentinel\n"
+                                "• *Sandbox TTL:* `15 Menit Auto-Wipe` (Zero Clutter Storage)\n"
+                                "• *Dual-Ingress:* Web Canvas + Telegram Remote (@synapseguild_bot)"
                             )
                             send_telegram_message(bot_token, chat_id, status_msg)
                         else:

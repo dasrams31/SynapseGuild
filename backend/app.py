@@ -4,18 +4,20 @@ import time
 import os
 import io
 import zipfile
+import shutil
+import threading
 from typing import List, Dict, Any
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
 from orchestrator import GuildOrchestrator
+from sandbox_runner import SANDBOX_BASE_DIR
 
-app = FastAPI(title="SynapseGuild Autonomous AI Engine", version="1.0.0")
+app = FastAPI(title="SynapseGuild Autonomous AI Engine")
 
-# Enable CORS
+# CORS Setup
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,8 +26,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-FRONTEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../frontend"))
-SANDBOX_BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "sandbox"))
+# In-Memory Realtime Quest & Events Database
+QUEST_HISTORY: Dict[str, Dict[str, Any]] = {}
+CLEANUP_TTL_SECONDS = 900  # 15 Minutes auto-delete TTL
 
 class ConnectionManager:
     def __init__(self):
@@ -48,25 +51,49 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
-# In-Memory Quest Cache
-QUEST_HISTORY: Dict[str, Any] = {}
-
 class QuestDispatchPayload(BaseModel):
     title: str
     prompt: str
     difficulty: str = "normal"
-    author: str = "Guild Master"
+    author: str = "Guild Master Rama"
+
+def purge_quest_sandbox(quest_id: str, reason: str = "auto_ttl"):
+    """Deletes the quest sandbox directory and marks artifacts as purged."""
+    quest_dir = os.path.join(SANDBOX_BASE_DIR, quest_id)
+    if os.path.exists(quest_dir):
+        try:
+            shutil.rmtree(quest_dir)
+            print(f"🧹 [Auto-Purge] Sandbox directory for {quest_id} wiped from disk. ({reason})")
+        except Exception as e:
+            print(f"Error purging {quest_id}: {e}")
+            
+    if quest_id in QUEST_HISTORY:
+        QUEST_HISTORY[quest_id]["purged"] = True
+        QUEST_HISTORY[quest_id]["purged_at"] = time.time()
+        QUEST_HISTORY[quest_id]["purge_reason"] = reason
+
+def schedule_quest_auto_purge(quest_id: str, delay_seconds: int = 900):
+    """Schedules sandbox deletion after 15 minutes in a detached background timer."""
+    def timer_callback():
+        purge_quest_sandbox(quest_id, reason="15_min_ttl_expired")
+        # Broadcast wipe event to visual clients
+        asyncio.run(manager.broadcast({
+            "event_type": "QUEST_PURGED",
+            "quest_id": quest_id,
+            "message": "⌛ Masa simpan 15 menit habis. Berkas kodingan otomatis dihapus demi efisiensi & keamanan server."
+        }))
+        
+    t = threading.Timer(delay_seconds, timer_callback)
+    t.daemon = True
+    t.start()
 
 @app.get("/")
-def serve_index():
-    index_path = os.path.join(FRONTEND_DIR, "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
-    return {"message": "SynapseGuild API is online"}
+def read_root():
+    return FileResponse(os.path.join(os.path.dirname(__file__), "../frontend/index.html"))
 
 @app.get("/api/health")
 def health_check():
-    return {"status": "online", "service": "SynapseGuild AI Engine", "timestamp": time.time()}
+    return {"status": "online", "service": "SynapseGuild AI Engine", "timestamp": time.time(), "auto_cleanup_ttl": "15m"}
 
 @app.get("/api/quests")
 def list_quests():
@@ -79,11 +106,11 @@ def get_quest(quest_id: str):
     return QUEST_HISTORY[quest_id]
 
 @app.get("/api/quests/{quest_id}/download")
-def download_quest_artifacts(quest_id: str):
-    """Zips and returns all generated files in the quest sandbox directory."""
+def download_quest_artifacts(quest_id: str, auto_wipe: bool = True):
+    """Zips and returns all generated files in the quest sandbox directory, then wipes immediately."""
     quest_dir = os.path.join(SANDBOX_BASE_DIR, quest_id)
-    if not os.path.exists(quest_dir):
-        raise HTTPException(status_code=404, detail="Quest sandbox directory not found")
+    if not os.path.exists(quest_dir) or QUEST_HISTORY.get(quest_id, {}).get("purged"):
+        raise HTTPException(status_code=410, detail="Berkas artefak sudah dihapus (Masa simpan 15 menit telah habis atau sudah diunduh).")
 
     zip_buffer = io.BytesIO()
     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zip_file:
@@ -95,6 +122,11 @@ def download_quest_artifacts(quest_id: str):
                     zip_file.write(full_path, rel_path)
 
     zip_buffer.seek(0)
+    
+    # Auto-wipe immediately upon direct user web download if specified
+    if auto_wipe:
+        threading.Timer(2.0, lambda: purge_quest_sandbox(quest_id, reason="downloaded_by_user")).start()
+
     return StreamingResponse(
         zip_buffer,
         media_type="application/zip",
@@ -106,8 +138,8 @@ def download_single_file(quest_id: str, file_name: str):
     """Returns single source file content directly."""
     quest_dir = os.path.join(SANDBOX_BASE_DIR, quest_id)
     file_path = os.path.join(quest_dir, file_name)
-    if not os.path.exists(file_path):
-        raise HTTPException(status_code=404, detail="File not found")
+    if not os.path.exists(file_path) or QUEST_HISTORY.get(quest_id, {}).get("purged"):
+        raise HTTPException(status_code=410, detail="Berkas sudah dihapus (Masa simpan 15 menit habis).")
     return FileResponse(file_path, filename=file_name)
 
 async def run_quest_task(quest_id: str, prompt: str, title: str):
@@ -121,6 +153,10 @@ async def run_quest_task(quest_id: str, prompt: str, title: str):
     QUEST_HISTORY[quest_id]["status"] = result.get("status")
     QUEST_HISTORY[quest_id]["result"] = result
     QUEST_HISTORY[quest_id]["finished_at"] = time.time()
+    QUEST_HISTORY[quest_id]["expires_at"] = time.time() + CLEANUP_TTL_SECONDS
+    
+    # Schedule 15-minute auto purge timer
+    schedule_quest_auto_purge(quest_id, delay_seconds=CLEANUP_TTL_SECONDS)
     
     # Final event broadcast
     await manager.broadcast({
@@ -128,7 +164,8 @@ async def run_quest_task(quest_id: str, prompt: str, title: str):
         "quest_id": quest_id,
         "title": title,
         "status": result.get("status"),
-        "score": result.get("score")
+        "score": result.get("score"),
+        "expires_in_seconds": CLEANUP_TTL_SECONDS
     })
 
 @app.post("/api/quest/dispatch")
@@ -144,6 +181,8 @@ async def dispatch_quest(payload: QuestDispatchPayload, background_tasks: Backgr
         "status": "in_progress",
         "created_at": time.time(),
         "finished_at": None,
+        "expires_at": None,
+        "purged": False,
         "result": None
     }
     
@@ -167,16 +206,12 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         await websocket.send_json({
             "event_type": "GUILD_CONNECTED",
-            "message": "Connected to SynapseGuild Realtime Neural Hub 🏛️",
-            "active_party": ["The Sage (Architect)", "The Forge Master (Craftsman)", "The Grand Inquisitor (Sentinel)"]
+            "message": "Connected to SynapseGuild Live Event Stream",
+            "timestamp": time.time()
         })
         while True:
-            data = await websocket.receive_text()
-            try:
-                parsed = json.loads(data)
-                if parsed.get("action") == "ping":
-                    await websocket.send_json({"event_type": "PONG", "timestamp": time.time()})
-            except Exception:
-                pass
+            await websocket.receive_text()
     except WebSocketDisconnect:
+        manager.disconnect(websocket)
+    except Exception:
         manager.disconnect(websocket)
