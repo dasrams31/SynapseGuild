@@ -117,48 +117,51 @@
         </h1>
         <p class="text-[9px] text-amber-500/90 font-pixel tracking-tight flex items-center space-x-1.5 mt-1">
           <span class="w-2 h-2 bg-emerald-400 animate-pulse"></span>
-          <span>MEDIEVAL CYBER-OFFICE GUILDHALL</span>
+          <span>MEDIEVAL CYBER-OFFICE & BOSS BATTLE</span>
         </p>
       </div>
     </div>
 
-    <!-- Active Party 16-Bit Status Bars -->
+    <!-- Active Party 16-Bit Status Bars (HP & MP) -->
     <div class="hidden lg:flex items-center space-x-4 font-pixel text-[9px]">
+      <!-- Architect Status -->
       <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-indigo-400 transition" onclick="selectPlayableCharacter('architect')">
         <div class="w-6 h-6 bg-indigo-600 border border-indigo-300 flex items-center justify-center text-[10px] text-white">S</div>
         <div>
           <div class="flex justify-between text-indigo-300 mb-0.5">
-            <span>SAGE (PLANNER)</span>
-            <span class="text-slate-400 text-[8px]">LV.99</span>
+            <span>SAGE</span>
+            <span id="mp-val-architect" class="text-indigo-400 text-[8px]">MP: 100%</span>
           </div>
           <div class="w-24 bg-slate-900 h-2 border border-slate-700">
-            <div id="hp-bar-architect" class="bg-indigo-400 h-full w-full"></div>
+            <div id="mp-bar-architect" class="bg-indigo-400 h-full w-full transition-all duration-300"></div>
           </div>
         </div>
       </div>
 
+      <!-- Craftsman Status -->
       <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-amber-400 transition" onclick="selectPlayableCharacter('craftsman')">
         <div class="w-6 h-6 bg-amber-600 border border-amber-300 flex items-center justify-center text-[10px] text-white">F</div>
         <div>
           <div class="flex justify-between text-amber-300 mb-0.5">
-            <span>FORGE (CODER)</span>
-            <span class="text-slate-400 text-[8px]">LV.99</span>
+            <span>FORGE</span>
+            <span id="mp-val-craftsman" class="text-amber-400 text-[8px]">MP: 100%</span>
           </div>
           <div class="w-24 bg-slate-900 h-2 border border-slate-700">
-            <div id="hp-bar-craftsman" class="bg-amber-400 h-full w-full"></div>
+            <div id="mp-bar-craftsman" class="bg-amber-400 h-full w-full transition-all duration-300"></div>
           </div>
         </div>
       </div>
 
+      <!-- Sentinel Status -->
       <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-emerald-400 transition" onclick="selectPlayableCharacter('sentinel')">
         <div class="w-6 h-6 bg-emerald-600 border border-emerald-300 flex items-center justify-center text-[10px] text-white">I</div>
         <div>
           <div class="flex justify-between text-emerald-300 mb-0.5">
             <span>INQUISITOR</span>
-            <span class="text-slate-400 text-[8px]">LV.99</span>
+            <span id="mp-val-sentinel" class="text-emerald-400 text-[8px]">MP: 100%</span>
           </div>
           <div class="w-24 bg-slate-900 h-2 border border-slate-700">
-            <div id="hp-bar-sentinel" class="bg-emerald-400 h-full w-full"></div>
+            <div id="mp-bar-sentinel" class="bg-emerald-400 h-full w-full transition-all duration-300"></div>
           </div>
         </div>
       </div>
@@ -216,9 +219,9 @@
               </select>
             </div>
             <div>
-              <label class="block font-pixel text-[8px] text-slate-400 mb-1">CONTROLS</label>
+              <label class="block font-pixel text-[8px] text-slate-400 mb-1">FACILITIES</label>
               <div class="bg-slate-900 border-2 border-slate-700 p-1.5 text-amber-400 text-[8px] truncate font-pixel">
-                On-Screen D-Pad / Click
+                Coffee + Archive + Anvil
               </div>
             </div>
           </div>
@@ -292,11 +295,25 @@
 
       <!-- RETRO PIXEL GUILDHALL CANVAS -->
       <div class="pixel-border-amber bg-slate-950 overflow-hidden shadow-2xl relative flex flex-col">
+        
+        <!-- HEADER TOP OF CANVAS WITH BOSS BATTLE BAR (IF ACTIVE) -->
         <div class="bg-slate-900 px-4 py-2 border-b-2 border-slate-800 flex items-center justify-between font-pixel text-[9px]">
           <div class="flex items-center space-x-2 text-amber-300">
             <i data-lucide="gamepad-2" class="w-4 h-4 text-amber-400"></i>
-            <span>MEDIEVAL OFFICE ARENA (JOYSTICK & POINT-AND-CLICK)</span>
+            <span>MEDIEVAL OFFICE ARENA</span>
           </div>
+
+          <!-- 🐉 BOSS BATTLE HP BAR (THE BUG BEAST) -->
+          <div id="boss-hud" class="flex items-center space-x-2 bg-rose-950/90 border border-rose-500/60 px-2.5 py-1 rounded hidden animate-pulse">
+            <span class="text-rose-300 font-pixel text-[8px] flex items-center space-x-1">
+              <span>👾</span><span>BUG BEAST:</span>
+            </span>
+            <div class="w-28 bg-slate-950 h-2 border border-rose-500/80 overflow-hidden">
+              <div id="boss-hp-fill" class="bg-rose-500 h-full w-full transition-all duration-500"></div>
+            </div>
+            <span id="boss-hp-text" class="text-rose-400 font-mono text-[9px] font-bold">100 HP</span>
+          </div>
+
           <div class="hidden sm:flex items-center space-x-3 text-[8px] text-slate-300">
             <span id="player-control-badge" class="bg-amber-500 text-slate-950 px-2 py-0.5 font-bold">CONTROL: SAGE</span>
           </div>
@@ -306,7 +323,7 @@
         <div class="relative w-full h-[480px] bg-[#0c1424] flex items-center justify-center">
           <div id="phaser-container" class="w-full h-full"></div>
 
-          <!-- 🕹️ FLOATING RETRO ARCADE D-PAD CONTROLLER (BOTTOM RIGHT OF CANVAS) -->
+          <!-- 🕹️ FLOATING RETRO ARCADE D-PAD CONTROLLER -->
           <div class="absolute bottom-4 right-4 z-40 bg-slate-950/85 p-2.5 rounded-xl border-2 border-amber-500/60 shadow-2xl backdrop-blur-sm select-none">
             <div class="text-[8px] font-pixel text-amber-400 text-center mb-1">D-PAD</div>
             <div class="grid grid-cols-3 gap-1 w-28 h-28">
@@ -359,7 +376,7 @@
 
         <!-- Dialogue & Terminal Output Window -->
         <div id="terminal-stream" class="h-44 overflow-y-auto space-y-2 text-xs font-mono-code text-slate-300 pr-2">
-          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild Medieval Office Grid online. Ready for quest dispatch.</div>
+          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild Medieval Office Grid online. Click facilities (Coffee, Vault, Anvil) to interact.</div>
         </div>
       </div>
 
@@ -388,6 +405,11 @@
     const btnDownloadZip = document.getElementById('btn-download-zip');
     const playerControlBadge = document.getElementById('player-control-badge');
 
+    // Boss Battle HUD Elements
+    const bossHud = document.getElementById('boss-hud');
+    const bossHpFill = document.getElementById('boss-hp-fill');
+    const bossHpText = document.getElementById('boss-hp-text');
+
     // Time-Travel Replay Elements
     const replaySlider = document.getElementById('replay-slider');
     const replayCounter = document.getElementById('replay-counter');
@@ -401,6 +423,23 @@
     let currentCompletedQuestId = null;
     let sfxEnabled = true;
     let activePlayerActor = 'architect';
+
+    // Party MP Stats
+    const partyStats = {
+      architect: 100,
+      craftsman: 100,
+      sentinel: 100
+    };
+
+    function updatePartyMPUI() {
+      ['architect', 'craftsman', 'sentinel'].forEach(key => {
+        const val = partyStats[key];
+        const bar = document.getElementById(`mp-bar-${key}`);
+        const text = document.getElementById(`mp-val-${key}`);
+        if (bar) bar.style.width = `${val}%`;
+        if (text) text.innerText = `MP: ${val}%`;
+      });
+    }
 
     // Joystick D-Pad State Vector
     const joystickState = { up: false, down: false, left: false, right: false };
@@ -435,7 +474,7 @@
       activePlayerActor = actorId;
       const names = { architect: 'THE SAGE (PLANNER)', craftsman: 'FORGE MASTER (CODER)', sentinel: 'INQUISITOR (AUDITOR)' };
       playerControlBadge.innerText = 'CONTROL: ' + names[actorId];
-      logTerminal("OFFICE", `🎮 Anda mengontrol: ${names[actorId]} (Gunakan D-Pad Joystick di pojok kanan bawah canvas atau klik lantai)`, "text-amber-300");
+      logTerminal("OFFICE", `🎮 Anda mengontrol: ${names[actorId]} (Gunakan D-Pad Joystick atau klik lantai)`, "text-amber-300");
       play8BitSFX('chat');
     }
 
@@ -470,6 +509,34 @@
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
         osc.start(now);
         osc.stop(now + 0.05);
+      } else if (type === 'coffee') {
+        // Coffee Gulp / Steam Slurp Chime
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.setValueAtTime(660, now + 0.1);
+        osc.frequency.setValueAtTime(880, now + 0.2);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now);
+        osc.stop(now + 0.35);
+      } else if (type === 'book') {
+        // Page Flip Whisper
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(700, now);
+        osc.frequency.exponentialRampToValueAtTime(300, now + 0.15);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+        osc.start(now);
+        osc.stop(now + 0.15);
+      } else if (type === 'attack') {
+        // Slash / Laser Hit
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(900, now);
+        osc.frequency.exponentialRampToValueAtTime(120, now + 0.2);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+        osc.start(now);
+        osc.stop(now + 0.2);
       } else if (type === 'hammer') {
         osc.type = 'square';
         osc.frequency.setValueAtTime(800, now);
@@ -531,12 +598,14 @@
         this.agents = {};
         this.bubbleContainers = {};
         this.nameTags = {};
+        this.bossMonster = null;
         this.stepTimer = 0;
       }
 
       preload() {
         const g = this.make.graphics();
         
+        // Tiles
         g.fillStyle(0x334155); g.fillRect(0, 0, 32, 32);
         g.fillStyle(0x1e293b); g.fillRect(0, 15, 32, 2); g.fillRect(15, 0, 2, 15); g.fillRect(7, 17, 2, 15);
         g.fillStyle(0x475569); g.fillRect(0, 0, 32, 2); g.fillRect(0, 0, 2, 32);
@@ -579,6 +648,15 @@
         g.fillStyle(0x34d399); g.fillRect(2, 16, 6, 16);
         g.generateTexture('chibi_sentinel', 32, 40); g.clear();
 
+        // 👾 16-Bit Bug Beast / Glitch Boss Monster Sprite (48x48)
+        g.fillStyle(0x000000); g.fillRect(4, 4, 40, 40);
+        g.fillStyle(0xe11d48); g.fillRect(8, 8, 32, 32); // Red Glitch Body
+        g.fillStyle(0xffffff); g.fillRect(12, 16, 8, 8); g.fillRect(28, 16, 8, 8); // White Glowing Eyes
+        g.fillStyle(0x000000); g.fillRect(16, 18, 4, 4); g.fillRect(32, 18, 4, 4); // Slit Pupils
+        g.fillStyle(0xfbbf24); g.fillRect(16, 30, 16, 4); g.fillRect(18, 34, 12, 4); // Sharp Teeth
+        g.fillStyle(0x881337); g.fillRect(4, 0, 8, 8); g.fillRect(36, 0, 8, 8); // Monster Horns
+        g.generateTexture('boss_bug_beast', 48, 48); g.clear();
+
         // Props
         g.fillStyle(0x0284c7); g.fillRect(6, 0, 20, 16);
         g.fillStyle(0xe0f2fe); g.fillRect(8, 2, 16, 12);
@@ -614,7 +692,7 @@
         const width = this.cameras.main.width;
         const height = this.cameras.main.height;
 
-        // Tilemap Grid
+        // Tilemap Grid (5 Rooms)
         for (let x = 0; x < width; x += 32) {
           for (let y = 0; y < height; y += 32) {
             const isBorder = (y === 0 || y === height - 32 || x === 0 || x === width - 32 || y === 224 || x === 256 || (y < 224 && x === 544));
@@ -644,34 +722,38 @@
         [32, 224, 288, 512, 576, 800].forEach(tx => this.add.image(tx, 32, 'prop_torch'));
         [32, 224, 288, 800].forEach(tx => this.add.image(tx, 256, 'prop_torch'));
 
+        // 🔮 Room 1: War Room Planning Table (CLICKABLE)
         const g = this.add.graphics();
         g.fillStyle(0x1e1b4b, 0.9);
         g.fillRect(78, 80, 100, 80);
         g.lineStyle(2, 0x6366f1, 1);
         g.strokeRect(78, 80, 100, 80);
-        this.add.text(128, 120, 'PLANNING\nTABLE', { font: '7px "Press Start 2P"', fill: '#a5b4fc', align: 'center' }).setOrigin(0.5);
+        const warTableText = this.add.text(128, 120, 'PLANNING\nTABLE 🔮', { font: '7px "Press Start 2P"', fill: '#a5b4fc', align: 'center' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
+        warTableText.on('pointerdown', () => this.interactFacility('table'));
 
-        this.add.image(400, 80, 'prop_watercooler').setScale(1.5).setInteractive({ cursor: 'pointer' });
+        // ☕ Room 2: Watercooler & Pantry (CLICKABLE - REFILL MP)
+        const cooler = this.add.image(400, 80, 'prop_watercooler').setScale(1.5).setInteractive({ cursor: 'pointer' });
         this.add.text(400, 110, 'WATERCOOLER ☕', { font: '6px "Press Start 2P"', fill: '#bae6fd' }).setOrigin(0.5);
-        g.fillStyle(0x0369a1, 0.9);
-        g.fillRect(320, 140, 60, 24);
-        g.fillRect(420, 140, 60, 24);
-        this.add.text(350, 152, 'SOFA', { font: '6px "Press Start 2P"', fill: '#e0f2fe' }).setOrigin(0.5);
-        this.add.text(450, 152, 'SOFA', { font: '6px "Press Start 2P"', fill: '#e0f2fe' }).setOrigin(0.5);
+        cooler.on('pointerdown', () => this.interactFacility('coffee'));
 
-        this.add.image(620, 80, 'prop_bookshelf').setScale(1.4);
-        this.add.image(670, 80, 'prop_bookshelf').setScale(1.4);
-        this.add.image(720, 80, 'prop_bookshelf').setScale(1.4);
-        this.add.image(770, 80, 'prop_bookshelf').setScale(1.4);
-        this.add.text(695, 120, 'KNOWLEDGE VAULT 📜', { font: '6px "Press Start 2P"', fill: '#fed7aa' }).setOrigin(0.5);
+        // 📚 Room 3: Knowledge Archive Vault (CLICKABLE - LOAD TEMPLATE)
+        const b1 = this.add.image(620, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        const b2 = this.add.image(670, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        const b3 = this.add.image(720, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        const b4 = this.add.image(770, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        const vaultText = this.add.text(695, 120, 'KNOWLEDGE VAULT 📜', { font: '6px "Press Start 2P"', fill: '#fed7aa' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
+        [b1, b2, b3, b4, vaultText].forEach(b => b.on('pointerdown', () => this.interactFacility('bookshelf')));
 
-        this.add.image(128, 330, 'prop_anvil').setScale(1.6);
+        // ⚒️ Room 4: Forge Computer Anvil (CLICKABLE - BOOST FORGE)
+        const anvil = this.add.image(128, 330, 'prop_anvil').setScale(1.6).setInteractive({ cursor: 'pointer' });
         g.fillStyle(0x7c2d12, 0.9);
         g.fillRect(68, 380, 120, 40);
         g.lineStyle(2, 0xf97316, 1);
         g.strokeRect(68, 380, 120, 40);
-        this.add.text(128, 400, 'FORGE TERMINAL 💻', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5);
+        const forgeText = this.add.text(128, 400, 'FORGE TERMINAL 💻', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
+        [anvil, forgeText].forEach(f => f.on('pointerdown', () => this.interactFacility('anvil')));
 
+        // ⚖️ Room 5: Server Lab & Pytest Testing Altar
         this.add.image(420, 310, 'prop_server_rack').setScale(1.5);
         this.add.image(470, 310, 'prop_server_rack').setScale(1.5);
         this.add.image(520, 310, 'prop_server_rack').setScale(1.5);
@@ -679,16 +761,19 @@
         g.fillRect(620, 310, 150, 90);
         g.lineStyle(3, 0x10b981, 1);
         g.strokeRect(620, 310, 150, 90);
-        this.add.text(695, 355, 'PYTEST SANDBOX\nALTAR ⚖️', { font: '8px "Press Start 2P"', fill: '#6ee7b7', align: 'center' }).setOrigin(0.5);
+        this.add.text(695, 330, 'PYTEST SANDBOX ⚖️', { font: '7px "Press Start 2P"', fill: '#6ee7b7', align: 'center' }).setOrigin(0.5);
+
+        // 👾 Boss Monster (The Bug Beast) inside QA Altar (Hidden until test phase)
+        this.bossMonster = this.add.sprite(695, 375, 'boss_bug_beast').setScale(1.2).setVisible(false);
 
         // Spawn Characters
         this.agents['architect'] = this.add.sprite(128, 120, 'chibi_sage').setScale(1.4).setInteractive({ cursor: 'pointer' });
         this.agents['craftsman'] = this.add.sprite(128, 330, 'chibi_forge').setScale(1.4).setInteractive({ cursor: 'pointer' });
-        this.agents['sentinel'] = this.add.sprite(695, 330, 'chibi_sentinel').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        this.agents['sentinel'] = this.add.sprite(640, 330, 'chibi_sentinel').setScale(1.4).setInteractive({ cursor: 'pointer' });
 
         this.nameTags['architect'] = this.add.text(128, 148, 'The Sage', { font: '8px "Press Start 2P"', fill: '#a5b4fc', backgroundColor: '#020617' }).setOrigin(0.5);
         this.nameTags['craftsman'] = this.add.text(128, 358, 'Forge Master', { font: '8px "Press Start 2P"', fill: '#fcd34d', backgroundColor: '#020617' }).setOrigin(0.5);
-        this.nameTags['sentinel'] = this.add.text(695, 358, 'Sentinel', { font: '8px "Press Start 2P"', fill: '#6ee7b7', backgroundColor: '#020617' }).setOrigin(0.5);
+        this.nameTags['sentinel'] = this.add.text(640, 358, 'Sentinel', { font: '8px "Press Start 2P"', fill: '#6ee7b7', backgroundColor: '#020617' }).setOrigin(0.5);
 
         this.agents['architect'].on('pointerdown', () => selectPlayableCharacter('architect'));
         this.agents['craftsman'].on('pointerdown', () => selectPlayableCharacter('craftsman'));
@@ -717,8 +802,90 @@
           container.add([bubbleBg, bubbleText]);
           this.bubbleContainers[key] = { container, bubbleBg, bubbleText };
         });
+      }
 
-        // NOTE: Keyboard event capture is completely disabled for game movement so text inputs are 100% uninterrupted.
+      // Facility Interactions (Coffee Refill, Archive Read, Anvil Polish)
+      interactFacility(type) {
+        if (type === 'coffee') {
+          partyStats.architect = 100;
+          partyStats.craftsman = 100;
+          partyStats.sentinel = 100;
+          updatePartyMPUI();
+          play8BitSFX('coffee');
+          this.showBubble(activePlayerActor, "☕ *Gulp!* Menikmati kopi segar di pantry. Mana & stamina party pulih 100%!");
+          logTerminal("PANTRY", "☕ Seluruh anggota party meminum kopi! MP & Stamina terisi penuh 100%!", "text-sky-300 font-bold");
+        } else if (type === 'bookshelf') {
+          play8BitSFX('book');
+          const templates = [
+            { title: "Kalkulator Kalori", prompt: "Buatkan modul perhitungan kalori pendakian berdasarkan berat badan, carrier (kg), dan elevasi (m) beserta unit test pytest lengkap." },
+            { title: "Estimasi Waktu Naismith", prompt: "Buatkan kalkulator estimasi waktu tempuh rute gunung menggunakan Naismith Rule dan unit test pytest-nya." },
+            { title: "Kalkulator Konversi Suhu", prompt: "Buatkan fungsi konversi suhu Celsius, Fahrenheit, dan Kelvin lengkap dengan unit test pytest." }
+          ];
+          const t = templates[Math.floor(Math.random() * templates.length)];
+          document.getElementById('quest-title').value = t.title;
+          document.getElementById('quest-prompt').value = t.prompt;
+          this.showBubble(activePlayerActor, `📖 Membaca naskah kuno di Vault: Memuat template "${t.title}" ke papan quest!`);
+          logTerminal("ARCHIVE", `📚 Template "${t.title}" berhasil dimuat dari Knowledge Vault ke Quest Board!`, "text-amber-300");
+        } else if (type === 'anvil') {
+          play8BitSFX('hammer');
+          this.showBubble('craftsman', "⚒️ *Clang!* Palu tempaan diasah tajam. Kecepatan menulis kode Forge meningkat!");
+          logTerminal("FORGE", "⚒️ Forge Master mengasah palu tempa di anvil! Efisiensi koding bertambah.", "text-amber-400");
+        } else if (type === 'table') {
+          play8BitSFX('chat');
+          this.showBubble('architect', "🔮 Meja Blueprint siap untuk perumusan arsitektur modular.");
+        }
+      }
+
+      spawnBossBattle() {
+        if (!this.bossMonster) return;
+        this.bossMonster.setVisible(true);
+        bossHud.classList.remove('hidden');
+        bossHpFill.style.width = "100%";
+        bossHpText.innerText = "100 HP";
+        
+        // Monster Spawn Jitter Animation
+        this.tweens.add({
+          targets: this.bossMonster,
+          scaleX: 1.4,
+          scaleY: 1.4,
+          yoyo: true,
+          repeat: -1,
+          duration: 400
+        });
+      }
+
+      hitBossMonster(damage = 50, remainingHp = 0) {
+        if (!this.bossMonster) return;
+        play8BitSFX('attack');
+        
+        // Flash boss red/white on hit
+        this.tweens.add({
+          targets: this.bossMonster,
+          alpha: 0.2,
+          yoyo: true,
+          repeat: 3,
+          duration: 80,
+          onComplete: () => {
+            if (this.bossMonster) this.bossMonster.alpha = 1.0;
+          }
+        });
+
+        bossHpFill.style.width = `${remainingHp}%`;
+        bossHpText.innerText = `${remainingHp} HP`;
+
+        if (remainingHp <= 0) {
+          // Boss Defeated Animation
+          this.tweens.add({
+            targets: this.bossMonster,
+            alpha: 0,
+            y: this.bossMonster.y + 20,
+            duration: 800,
+            onComplete: () => {
+              if (this.bossMonster) this.bossMonster.setVisible(false);
+              bossHud.classList.add('hidden');
+            }
+          });
+        }
       }
 
       showBubble(actorId, text) {
@@ -758,7 +925,6 @@
         let vx = 0, vy = 0;
         const speed = 3.0;
 
-        // Joystick-driven movement
         if (joystickState.left) { vx = -speed; sprite.flipX = true; }
         else if (joystickState.right) { vx = speed; sprite.flipX = false; }
         
@@ -896,12 +1062,20 @@
             color = "text-amber-300"; 
             targetX = 128; targetY = 330;
             activePhase.innerText = "THE FORGE (DEV WORKSHOP)"; 
+            partyStats.craftsman = Math.max(20, partyStats.craftsman - 30);
+            updatePartyMPUI();
           }
           if (actorId === "sentinel") { 
             if (!isFastReplay) play8BitSFX('chat');
             color = "text-emerald-300"; 
-            targetX = 695; targetY = 330;
-            activePhase.innerText = "SERVER LAB (QA ALTAR)"; 
+            targetX = 640; targetY = 330;
+            activePhase.innerText = "BOSS BATTLE (BUG BEAST AUDIT)"; 
+            partyStats.sentinel = Math.max(20, partyStats.sentinel - 35);
+            updatePartyMPUI();
+            if (phaserScene) {
+              phaserScene.spawnBossBattle();
+              phaserScene.hitBossMonster(50, 45);
+            }
           }
 
           if (!isFastReplay) logTerminal(actorName, dialogue, color);
@@ -915,12 +1089,17 @@
         currentCompletedQuestId = data.quest_id;
         activeQuestBadge.innerText = "COMPLETED";
         activeQuestBadge.className = "font-pixel text-[8px] bg-emerald-500 text-slate-950 px-2 py-0.5 font-bold";
-        activePhase.innerText = "VICTORY (100% PASSED)";
+        activePhase.innerText = "VICTORY (BOSS DEFEATED)";
         activeSandboxStatus.innerText = `Score: ${data.extra.score}/100`;
         
         if (!isFastReplay) {
-          logTerminal("SENTINEL", `✅ QUEST APPROVED: Pengujian lolos 100% (${data.extra.score}/100)!`, "text-emerald-400 font-bold");
+          logTerminal("SENTINEL", `🏆 VICTORY: The Bug Beast berhasil dikalahkan! Pengujian 100% lolos (${data.extra.score}/100)!`, "text-emerald-400 font-bold");
           play8BitSFX('victory');
+        }
+
+        if (phaserScene) {
+          phaserScene.hitBossMonster(100, 0);
+          phaserScene.moveAndSpeak("sentinel", 640, 330, data.action.dialogue);
         }
         
         if (data.extra.artifacts) {
@@ -934,17 +1113,13 @@
           `).join('');
           lootBox.classList.remove('hidden');
         }
-
-        if (phaserScene) {
-          phaserScene.moveAndSpeak("sentinel", 695, 330, data.action.dialogue);
-        }
       }
 
       if (type === "QUEST_REVISION_REQUIRED") {
-        activePhase.innerText = "REVISING IN FORGE";
+        activePhase.innerText = "BOSS COUNTER-ATTACK! (REVISING)";
         activeSandboxStatus.innerText = "Needs Revision";
         if (!isFastReplay) {
-          logTerminal("SENTINEL", `⚠️ REVISI: ${data.action.dialogue}`, "text-rose-400");
+          logTerminal("SENTINEL", `⚠️ BOSS MENYERANG BALIK: ${data.action.dialogue}`, "text-rose-400 font-bold");
           play8BitSFX('error');
         }
       }
