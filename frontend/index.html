@@ -44,6 +44,16 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #334155;
     }
+    /* Slider styling */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: #f59e0b;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+    }
   </style>
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
@@ -230,8 +240,8 @@
     <!-- CENTER & RIGHT: RPG ARENA CANVAS & REALTIME DIALOGUE LOGS (8 COLS) -->
     <div class="lg:col-span-8 flex flex-col space-y-6">
 
-      <!-- RPG VISUAL GUILDHALL (PHASER.JS 2.5D CANVAS) -->
-      <div class="bg-slate-900 border-2 border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative">
+      <!-- RPG VISUAL GUILDHALL (PHASER.JS 2.5D CANVAS + TIME-TRAVEL BAR) -->
+      <div class="bg-slate-900 border-2 border-slate-800 rounded-2xl overflow-hidden shadow-2xl relative flex flex-col">
         <div class="bg-slate-950 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between text-xs font-mono">
           <div class="flex items-center space-x-2 text-slate-300">
             <i data-lucide="gamepad-2" class="w-4 h-4 text-amber-400"></i>
@@ -245,7 +255,28 @@
         </div>
 
         <!-- Canvas Container -->
-        <div id="phaser-container" class="w-full h-[420px] bg-[#070b14] flex items-center justify-center relative"></div>
+        <div id="phaser-container" class="w-full h-[400px] bg-[#070b14] flex items-center justify-center relative"></div>
+
+        <!-- ⏳ TIME-TRAVEL REPLAY SCRUBBER BAR -->
+        <div class="bg-slate-950/95 px-4 py-2.5 border-t border-slate-800/80 flex items-center space-x-4 text-xs font-mono">
+          <div class="flex items-center space-x-2 text-amber-400 shrink-0">
+            <i data-lucide="history" class="w-4 h-4"></i>
+            <span class="font-bold text-[11px] font-rpg tracking-wider">TIME-TRAVEL:</span>
+          </div>
+
+          <button id="btn-replay-play" class="p-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-amber-500/40 text-slate-300 hover:text-amber-300 transition flex items-center space-x-1">
+            <i data-lucide="play" id="replay-icon" class="w-3.5 h-3.5"></i>
+          </button>
+
+          <input type="range" id="replay-slider" min="0" max="0" value="0" step="1" 
+                 class="flex-1 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+
+          <span id="replay-counter" class="text-slate-400 text-[11px] shrink-0 min-w-[75px] text-right">0 / 0 Events</span>
+
+          <button id="btn-live-return" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-950 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-900/60 transition shrink-0">
+            LIVE 🔴
+          </button>
+        </div>
       </div>
 
       <!-- LIVE DEBATE & SANDBOX TERMINAL LOGS -->
@@ -288,10 +319,20 @@
     const lootFiles = document.getElementById('loot-files');
     const btnDownloadZip = document.getElementById('btn-download-zip');
 
+    // Time-Travel Replay Elements
+    const replaySlider = document.getElementById('replay-slider');
+    const replayCounter = document.getElementById('replay-counter');
+    const btnReplayPlay = document.getElementById('btn-replay-play');
+    const replayIcon = document.getElementById('replay-icon');
+    const btnLiveReturn = document.getElementById('btn-live-return');
+
+    let recordedEvents = [];
+    let isReplayMode = false;
+    let replayInterval = null;
     let currentCompletedQuestId = null;
     let sfxEnabled = true;
 
-    // 8-Bit Web Audio Synthesizer (Zero External Dependencies)
+    // 8-Bit Web Audio Synthesizer
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     
     function play8BitSFX(type) {
@@ -305,7 +346,6 @@
       const now = audioCtx.currentTime;
 
       if (type === 'start') {
-        // Quest Start Fanfare (Arpeggio)
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(330, now);
         osc.frequency.setValueAtTime(440, now + 0.1);
@@ -316,7 +356,6 @@
         osc.start(now);
         osc.stop(now + 0.6);
       } else if (type === 'hammer') {
-        // Blacksmith Anvil Strike
         osc.type = 'square';
         osc.frequency.setValueAtTime(800, now);
         osc.frequency.exponentialRampToValueAtTime(200, now + 0.15);
@@ -325,7 +364,6 @@
         osc.start(now);
         osc.stop(now + 0.2);
       } else if (type === 'chat') {
-        // Retro Blip Dialogue Speech
         osc.type = 'sine';
         osc.frequency.setValueAtTime(480, now);
         osc.frequency.setValueAtTime(600, now + 0.05);
@@ -334,7 +372,6 @@
         osc.start(now);
         osc.stop(now + 0.12);
       } else if (type === 'victory') {
-        // Victory Triumph Chime
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(523.25, now);
         osc.frequency.setValueAtTime(659.25, now + 0.15);
@@ -345,7 +382,6 @@
         osc.start(now);
         osc.stop(now + 0.9);
       } else if (type === 'error') {
-        // Warning Buzzer
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(220, now);
         osc.frequency.setValueAtTime(160, now + 0.15);
@@ -356,7 +392,6 @@
       }
     }
 
-    // Toggle SFX Button
     document.getElementById('btn-sfx-toggle').addEventListener('click', () => {
       sfxEnabled = !sfxEnabled;
       document.getElementById('sfx-label').innerText = sfxEnabled ? 'SFX: ON' : 'SFX: OFF';
@@ -384,7 +419,6 @@
       preload() {
         const g = this.make.graphics();
         
-        // 1. The Sage (Architect - Blue Robe + Staff)
         g.fillStyle(0x6366f1);
         g.fillRoundedRect(0, 0, 32, 44, 8);
         g.fillStyle(0xfde047);
@@ -394,7 +428,6 @@
         g.generateTexture('sprite_architect', 32, 44);
         g.clear();
 
-        // 2. The Forge Master (Craftsman - Amber/Brown Armor + Hammer)
         g.fillStyle(0xf59e0b);
         g.fillRoundedRect(0, 0, 34, 44, 6);
         g.fillStyle(0xfde047);
@@ -404,7 +437,6 @@
         g.generateTexture('sprite_craftsman', 34, 44);
         g.clear();
 
-        // 3. The Inquisitor (Sentinel - Emerald Armor + Cape)
         g.fillStyle(0x10b981);
         g.fillRoundedRect(0, 0, 32, 44, 8);
         g.fillStyle(0xfde047);
@@ -422,37 +454,34 @@
 
         const g = this.add.graphics();
         
-        // Background
         g.fillStyle(0x080c16, 1);
         g.fillRect(0, 0, width, height);
 
         // Zone 1: War Room (Round Table)
         g.lineStyle(2, 0x6366f1, 0.35);
-        g.strokeRoundedRect(35, 50, 230, 320, 16);
-        this.add.text(150, 75, 'WAR ROOM (DEBATE)', { font: '11px Cinzel', fill: '#818cf8', fontStyle: 'bold' }).setOrigin(0.5);
+        g.strokeRoundedRect(35, 45, 230, 310, 16);
+        this.add.text(150, 68, 'WAR ROOM (DEBATE)', { font: '11px Cinzel', fill: '#818cf8', fontStyle: 'bold' }).setOrigin(0.5);
         g.fillStyle(0x1e1b4b, 0.9);
-        g.fillCircle(150, 210, 52);
+        g.fillCircle(150, 200, 50);
 
         // Zone 2: The Forge
         g.lineStyle(2, 0xf59e0b, 0.35);
-        g.strokeRoundedRect(285, 50, 230, 320, 16);
-        this.add.text(400, 75, 'THE FORGE (WORKSHOP)', { font: '11px Cinzel', fill: '#fbbf24', fontStyle: 'bold' }).setOrigin(0.5);
+        g.strokeRoundedRect(285, 45, 230, 310, 16);
+        this.add.text(400, 68, 'THE FORGE (WORKSHOP)', { font: '11px Cinzel', fill: '#fbbf24', fontStyle: 'bold' }).setOrigin(0.5);
         g.fillStyle(0x451a03, 0.9);
-        g.fillRect(360, 185, 80, 50);
+        g.fillRect(360, 175, 80, 50);
 
         // Zone 3: Chamber of Judgment
         g.lineStyle(2, 0x10b981, 0.35);
-        g.strokeRoundedRect(535, 50, 230, 320, 16);
-        this.add.text(650, 75, 'CHAMBER OF JUDGMENT', { font: '11px Cinzel', fill: '#34d399', fontStyle: 'bold' }).setOrigin(0.5);
+        g.strokeRoundedRect(535, 45, 230, 310, 16);
+        this.add.text(650, 68, 'CHAMBER OF JUDGMENT', { font: '11px Cinzel', fill: '#34d399', fontStyle: 'bold' }).setOrigin(0.5);
         g.fillStyle(0x064e3b, 0.9);
-        g.fillCircle(650, 210, 52);
+        g.fillCircle(650, 200, 50);
 
-        // Spawn Characters
-        this.agents['architect'] = this.add.sprite(150, 210, 'sprite_architect').setScale(1.25);
-        this.agents['craftsman'] = this.add.sprite(400, 210, 'sprite_craftsman').setScale(1.25);
-        this.agents['sentinel'] = this.add.sprite(650, 210, 'sprite_sentinel').setScale(1.25);
+        this.agents['architect'] = this.add.sprite(150, 200, 'sprite_architect').setScale(1.25);
+        this.agents['craftsman'] = this.add.sprite(400, 200, 'sprite_craftsman').setScale(1.25);
+        this.agents['sentinel'] = this.add.sprite(650, 200, 'sprite_sentinel').setScale(1.25);
 
-        // Speech Bubbles Container
         ['architect', 'craftsman', 'sentinel'].forEach(key => {
           this.speechBubbles[key] = this.add.text(0, 0, '', {
             font: '11px Inter',
@@ -465,7 +494,7 @@
         });
       }
 
-      moveAndSpeak(actorId, targetX, targetY, dialogue) {
+      moveAndSpeak(actorId, targetX, targetY, dialogue, speed = 800) {
         const sprite = this.agents[actorId];
         const bubble = this.speechBubbles[actorId];
         if (!sprite) return;
@@ -474,7 +503,7 @@
           targets: sprite,
           x: targetX,
           y: targetY,
-          duration: 800,
+          duration: speed,
           ease: 'Power2',
           onComplete: () => {
             if (dialogue) {
@@ -488,9 +517,9 @@
       }
 
       gatherInWarRoom(dialogueActor, dialogue) {
-        this.moveAndSpeak('architect', 120, 180, (dialogueActor === 'architect' ? dialogue : ''));
-        this.moveAndSpeak('craftsman', 180, 180, (dialogueActor === 'craftsman' ? dialogue : ''));
-        this.moveAndSpeak('sentinel', 150, 250, (dialogueActor === 'sentinel' ? dialogue : ''));
+        this.moveAndSpeak('architect', 120, 175, (dialogueActor === 'architect' ? dialogue : ''));
+        this.moveAndSpeak('craftsman', 180, 175, (dialogueActor === 'craftsman' ? dialogue : ''));
+        this.moveAndSpeak('sentinel', 150, 240, (dialogueActor === 'sentinel' ? dialogue : ''));
       }
     }
 
@@ -498,7 +527,7 @@
       type: Phaser.AUTO,
       parent: 'phaser-container',
       width: 800,
-      height: 420,
+      height: 400,
       scene: GuildhallScene,
       transparent: true
     };
@@ -518,7 +547,13 @@
       socket.onmessage = (evt) => {
         try {
           const data = JSON.parse(evt.data);
-          handleGuildEvent(data);
+          // Record event for Time-Travel Replay
+          recordedEvents.push(data);
+          updateReplaySlider();
+
+          if (!isReplayMode) {
+            handleGuildEvent(data);
+          }
         } catch(e) {}
       };
 
@@ -528,7 +563,7 @@
       };
     }
 
-    function handleGuildEvent(data) {
+    function handleGuildEvent(data, isFastReplay = false) {
       const type = data.event_type;
       
       if (type === "QUEST_ENQUEUED" || type === "QUEST_INITIALIZED") {
@@ -539,8 +574,10 @@
         activeQuestTitle.innerText = data.title || "Running Quest";
         activeQuestDesc.innerText = data.prompt || "";
         activePhase.innerText = "WAR ROOM (TEAM DISCUSSION)";
-        logTerminal("QUEST", `⚔️ Misi Baru Dimulai: "${data.title}"`, "text-amber-300 font-bold");
-        play8BitSFX('start');
+        if (!isFastReplay) {
+          logTerminal("QUEST", `⚔️ Misi Baru Dimulai: "${data.title}"`, "text-amber-300 font-bold");
+          play8BitSFX('start');
+        }
       }
       
       if (type === "AGENT_SPEECH") {
@@ -550,31 +587,33 @@
         const extra = data.extra || {};
         
         let color = "text-indigo-300";
-        let targetX = 150, targetY = 210;
+        let targetX = 150, targetY = 200;
         
         if (extra.mode === "discussion") {
-          play8BitSFX('chat');
-          logTerminal(actorName, `💬 "${dialogue}"`, (actorId === 'architect' ? 'text-indigo-300' : actorId === 'craftsman' ? 'text-amber-300' : 'text-emerald-300'));
+          if (!isFastReplay) {
+            play8BitSFX('chat');
+            logTerminal(actorName, `💬 "${dialogue}"`, (actorId === 'architect' ? 'text-indigo-300' : actorId === 'craftsman' ? 'text-amber-300' : 'text-emerald-300'));
+          }
           if (phaserScene) {
             phaserScene.gatherInWarRoom(actorId, dialogue);
           }
         } else {
           if (actorId === "craftsman") {
-            play8BitSFX('hammer');
+            if (!isFastReplay) play8BitSFX('hammer');
             color = "text-amber-300"; 
             targetX = 400; 
             activePhase.innerText = "THE FORGE (CRAFTING CODE)"; 
           }
           if (actorId === "sentinel") { 
-            play8BitSFX('chat');
+            if (!isFastReplay) play8BitSFX('chat');
             color = "text-emerald-300"; 
             targetX = 650; 
             activePhase.innerText = "CHAMBER OF JUDGMENT (AUDITING)"; 
           }
 
-          logTerminal(actorName, dialogue, color);
+          if (!isFastReplay) logTerminal(actorName, dialogue, color);
           if (phaserScene) {
-            phaserScene.moveAndSpeak(actorId, targetX, targetY, dialogue);
+            phaserScene.moveAndSpeak(actorId, targetX, targetY, dialogue, isFastReplay ? 300 : 800);
           }
         }
       }
@@ -585,8 +624,11 @@
         activeQuestBadge.className = "text-[10px] font-mono bg-emerald-950 border border-emerald-500/40 text-emerald-300 px-2 py-0.5 rounded font-bold";
         activePhase.innerText = "VICTORY (ALL TESTS PASSED)";
         activeSandboxStatus.innerText = `Score: ${data.extra.score}/100 (Pytest Passed)`;
-        logTerminal("SENTINEL", `✅ QUEST APPROVED: Pengujian lolos 100% dengan skor ${data.extra.score}/100!`, "text-emerald-400 font-bold");
-        play8BitSFX('victory');
+        
+        if (!isFastReplay) {
+          logTerminal("SENTINEL", `✅ QUEST APPROVED: Pengujian lolos 100% dengan skor ${data.extra.score}/100!`, "text-emerald-400 font-bold");
+          play8BitSFX('victory');
+        }
         
         if (data.extra.artifacts) {
           lootFiles.innerHTML = data.extra.artifacts.map(f => `
@@ -603,17 +645,88 @@
         }
 
         if (phaserScene) {
-          phaserScene.moveAndSpeak("sentinel", 650, 210, data.action.dialogue);
+          phaserScene.moveAndSpeak("sentinel", 650, 200, data.action.dialogue);
         }
       }
 
       if (type === "QUEST_REVISION_REQUIRED") {
         activePhase.innerText = "REFACTORING IN FORGE";
         activeSandboxStatus.innerText = "Test Revision Required";
-        logTerminal("SENTINEL", `⚠️ REVISI DIBUTUHKAN: ${data.action.dialogue}`, "text-rose-400");
-        play8BitSFX('error');
+        if (!isFastReplay) {
+          logTerminal("SENTINEL", `⚠️ REVISI DIBUTUHKAN: ${data.action.dialogue}`, "text-rose-400");
+          play8BitSFX('error');
+        }
       }
     }
+
+    // ── TIME-TRAVEL REPLAY SCRUBBER LOGIC ────────────────────────────────────
+    function updateReplaySlider() {
+      replaySlider.max = Math.max(0, recordedEvents.length - 1);
+      if (!isReplayMode) {
+        replaySlider.value = replaySlider.max;
+        replayCounter.innerText = `${recordedEvents.length} / ${recordedEvents.length} Events`;
+      }
+    }
+
+    function scrubToEventIndex(idx) {
+      if (idx < 0 || idx >= recordedEvents.length) return;
+      isReplayMode = true;
+      btnLiveReturn.className = "px-2.5 py-1 rounded-lg text-[10px] font-bold bg-amber-950 border border-amber-500/40 text-amber-300 hover:bg-amber-900/60 transition shrink-0 animate-pulse";
+      btnLiveReturn.innerText = "RETURN TO LIVE ⏪";
+
+      const ev = recordedEvents[idx];
+      replayCounter.innerText = `${idx + 1} / ${recordedEvents.length} Events`;
+      handleGuildEvent(ev, true);
+    }
+
+    replaySlider.addEventListener('input', (e) => {
+      const idx = parseInt(e.target.value);
+      scrubToEventIndex(idx);
+    });
+
+    btnLiveReturn.addEventListener('click', () => {
+      isReplayMode = false;
+      clearInterval(replayInterval);
+      replayIcon.setAttribute('data-lucide', 'play');
+      lucide.createIcons();
+
+      btnLiveReturn.className = "px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-950 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-900/60 transition shrink-0";
+      btnLiveReturn.innerText = "LIVE 🔴";
+
+      replaySlider.value = recordedEvents.length - 1;
+      replayCounter.innerText = `${recordedEvents.length} / ${recordedEvents.length} Events`;
+      
+      if (recordedEvents.length > 0) {
+        handleGuildEvent(recordedEvents[recordedEvents.length - 1]);
+      }
+    });
+
+    btnReplayPlay.addEventListener('click', () => {
+      if (replayInterval) {
+        clearInterval(replayInterval);
+        replayInterval = null;
+        replayIcon.setAttribute('data-lucide', 'play');
+      } else {
+        isReplayMode = true;
+        replayIcon.setAttribute('data-lucide', 'pause');
+        let currentIdx = parseInt(replaySlider.value);
+        if (currentIdx >= recordedEvents.length - 1) currentIdx = 0;
+
+        replayInterval = setInterval(() => {
+          if (currentIdx < recordedEvents.length) {
+            replaySlider.value = currentIdx;
+            scrubToEventIndex(currentIdx);
+            currentIdx++;
+          } else {
+            clearInterval(replayInterval);
+            replayInterval = null;
+            replayIcon.setAttribute('data-lucide', 'play');
+            lucide.createIcons();
+          }
+        }, 1200);
+      }
+      lucide.createIcons();
+    });
 
     connectWebSocket();
 
