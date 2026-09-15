@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SynapseGuild — 16-Bit Pixel RPG Guildhall Arena</title>
+  <title>SynapseGuild — 16-Bit Medieval Cyber-Guildhall</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -22,8 +22,8 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #050811;
-      background-image: radial-gradient(#151f38 1px, transparent 1px);
+      background-color: #040711;
+      background-image: radial-gradient(#121c33 1px, transparent 1px);
       background-size: 24px 24px;
     }
     .font-pixel {
@@ -90,7 +90,7 @@
   <header class="border-b-4 border-slate-800 bg-slate-950/95 px-6 py-3 sticky top-0 z-50 flex items-center justify-between shadow-2xl">
     <div class="flex items-center space-x-3.5">
       <div class="w-11 h-11 bg-amber-500 border-2 border-yellow-200 flex items-center justify-center shadow-lg shadow-amber-500/30">
-        <i data-lucide="swords" class="w-6 h-6 text-slate-950"></i>
+        <i data-lucide="castle" class="w-6 h-6 text-slate-950"></i>
       </div>
       <div>
         <h1 class="font-pixel text-xs sm:text-sm tracking-wider text-amber-400 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
@@ -98,7 +98,7 @@
         </h1>
         <p class="text-[9px] text-amber-500/90 font-pixel tracking-tight flex items-center space-x-1.5 mt-1">
           <span class="w-2 h-2 bg-emerald-400 animate-pulse"></span>
-          <span>16-BIT PIXEL MULTI-AGENT ARENA</span>
+          <span>MEDIEVAL CYBER-OFFICE GUILDHALL</span>
         </p>
       </div>
     </div>
@@ -109,7 +109,7 @@
         <div class="w-6 h-6 bg-indigo-600 border border-indigo-300 flex items-center justify-center text-[10px] text-white">S</div>
         <div>
           <div class="flex justify-between text-indigo-300 mb-0.5">
-            <span>SAGE (WIZARD)</span>
+            <span>SAGE (PLANNER)</span>
             <span class="text-slate-400 text-[8px]">LV.99</span>
           </div>
           <div class="w-24 bg-slate-900 h-2 border border-slate-700">
@@ -122,7 +122,7 @@
         <div class="w-6 h-6 bg-amber-600 border border-amber-300 flex items-center justify-center text-[10px] text-white">F</div>
         <div>
           <div class="flex justify-between text-amber-300 mb-0.5">
-            <span>FORGE (SMITH)</span>
+            <span>FORGE (CODER)</span>
             <span class="text-slate-400 text-[8px]">LV.99</span>
           </div>
           <div class="w-24 bg-slate-900 h-2 border border-slate-700">
@@ -160,7 +160,7 @@
   </header>
 
   <!-- MAIN VIEWPORT GRID -->
-  <main class="flex-1 max-w-[1720px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+  <main class="flex-1 max-w-[1740px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
 
     <!-- LEFT COLUMN: RETRO QUEST BOARD & ACTIVE CARD (4 COLS) -->
     <div class="lg:col-span-4 flex flex-col space-y-6">
@@ -170,9 +170,9 @@
         <div class="flex items-center justify-between mb-4 border-b-2 border-slate-800 pb-2.5">
           <div class="flex items-center space-x-2">
             <i data-lucide="scroll" class="w-4 h-4 text-amber-400"></i>
-            <h2 class="font-pixel text-[11px] text-amber-300 tracking-wide">QUEST BOARD</h2>
+            <h2 class="font-pixel text-[11px] text-amber-300 tracking-wide">QUEST DISPATCH BOARD</h2>
           </div>
-          <span class="text-[8px] font-pixel bg-amber-500 text-slate-950 px-1.5 py-0.5 font-bold">DISPATCH</span>
+          <span class="text-[8px] font-pixel bg-amber-500 text-slate-950 px-1.5 py-0.5 font-bold">PAPIS MISI</span>
         </div>
 
         <form id="quest-form" class="space-y-4 font-sans text-xs">
@@ -197,9 +197,9 @@
               </select>
             </div>
             <div>
-              <label class="block font-pixel text-[8px] text-slate-400 mb-1">CONTROLS</label>
-              <div class="bg-slate-900 border-2 border-slate-700 p-1.5 text-amber-400 text-[9px] truncate font-pixel">
-                WASD / Arrow Keys
+              <label class="block font-pixel text-[8px] text-slate-400 mb-1">FACILITIES</label>
+              <div class="bg-slate-900 border-2 border-slate-700 p-1.5 text-amber-400 text-[8px] truncate font-pixel">
+                Coffee + Archive + Server
               </div>
             </div>
           </div>
@@ -218,7 +218,7 @@
           <div class="flex items-center justify-between mb-3 border-b-2 border-slate-800 pb-2">
             <div class="flex items-center space-x-2">
               <i data-lucide="crosshair" class="w-4 h-4 text-indigo-400"></i>
-              <h3 class="font-pixel text-[10px] text-slate-200">ACTIVE TRACKER</h3>
+              <h3 class="font-pixel text-[10px] text-slate-200">OFFICE TASK TRACKER</h3>
             </div>
             <span id="active-quest-badge" class="font-pixel text-[8px] text-slate-500 bg-slate-900 px-2 py-0.5 border border-slate-800">IDLE</span>
           </div>
@@ -231,8 +231,8 @@
 
             <div class="space-y-2 text-xs font-mono">
               <div class="flex items-center justify-between text-slate-400">
-                <span class="font-pixel text-[8px]">STAGE:</span>
-                <span id="active-phase" class="text-amber-300 font-bold">READY IN GUILDHALL</span>
+                <span class="font-pixel text-[8px]">LOCATION:</span>
+                <span id="active-phase" class="text-amber-300 font-bold font-pixel text-[8px]">OFFICE LOBBY</span>
               </div>
               <div class="flex items-center justify-between text-slate-400">
                 <span class="font-pixel text-[8px]">SANDBOX:</span>
@@ -262,7 +262,7 @@
 
     </div>
 
-    <!-- CENTER & RIGHT: 16-BIT PIXEL ARENA & RETRO TERMINAL LOGS (8 COLS) -->
+    <!-- CENTER & RIGHT: 16-BIT MEDIEVAL OFFICE ARENA & TERMINAL (8 COLS) -->
     <div class="lg:col-span-8 flex flex-col space-y-6">
 
       <!-- RETRO PIXEL GUILDHALL CANVAS -->
@@ -270,15 +270,15 @@
         <div class="bg-slate-900 px-4 py-2 border-b-2 border-slate-800 flex items-center justify-between font-pixel text-[9px]">
           <div class="flex items-center space-x-2 text-amber-300">
             <i data-lucide="gamepad-2" class="w-4 h-4 text-amber-400"></i>
-            <span>GUILDHALL WORLD (USE WASD / ARROWS / MOUSE CLICK)</span>
+            <span>MEDIEVAL OFFICE ARENA (INTERACTIVE WORLD)</span>
           </div>
           <div class="hidden sm:flex items-center space-x-3 text-[8px] text-slate-300">
-            <span id="player-control-badge" class="bg-amber-500 text-slate-950 px-2 py-0.5 font-bold">CONTROL: THE SAGE</span>
+            <span id="player-control-badge" class="bg-amber-500 text-slate-950 px-2 py-0.5 font-bold">CONTROL: SAGE</span>
           </div>
         </div>
 
-        <!-- Canvas Container -->
-        <div id="phaser-container" class="w-full h-[410px] bg-[#0c1424] flex items-center justify-center relative"></div>
+        <!-- Canvas Container (Extended Map: 860 x 480) -->
+        <div id="phaser-container" class="w-full h-[480px] bg-[#0c1424] flex items-center justify-center relative"></div>
 
         <!-- ⏳ TIME-TRAVEL REPLAY SCRUBBER BAR -->
         <div class="bg-slate-900 px-4 py-2 border-t-2 border-slate-800 flex items-center space-x-4 text-xs font-mono">
@@ -307,14 +307,14 @@
         <div class="flex items-center justify-between border-b-2 border-slate-800 pb-2 mb-3">
           <div class="flex items-center space-x-2">
             <i data-lucide="terminal" class="w-4 h-4 text-amber-400"></i>
-            <h3 class="font-pixel text-[9px] text-amber-300">CONSENSUS & DIALOGUE LOGS</h3>
+            <h3 class="font-pixel text-[9px] text-amber-300">CONSENSUS & OFFICE WATERCOOLER DIALOGUES</h3>
           </div>
           <button id="btn-clear-logs" class="text-[9px] font-pixel text-slate-500 hover:text-slate-300 transition">CLEAR</button>
         </div>
 
         <!-- Dialogue & Terminal Output Window -->
         <div id="terminal-stream" class="h-44 overflow-y-auto space-y-2 text-xs font-mono-code text-slate-300 pr-2">
-          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild 16-Bit Neural Link established. Ready for party dispatch.</div>
+          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild Medieval Office Grid online. Office facilities ready.</div>
         </div>
       </div>
 
@@ -324,7 +324,7 @@
 
   <!-- FOOTER -->
   <footer class="border-t-2 border-slate-800 bg-slate-950 py-2.5 text-center text-[9px] text-slate-500 font-pixel">
-    SYNAPSEGUILD v1.0 • MULTI-AGENT RPG ENGINE • RAMA DANADIPA
+    SYNAPSEGUILD v1.0 • MEDIEVAL CYBER-OFFICE MULTI-AGENT ENGINE • RAMA DANADIPA
   </footer>
 
   <!-- CORE SCRIPT & GAME ENGINE -->
@@ -355,13 +355,13 @@
     let replayInterval = null;
     let currentCompletedQuestId = null;
     let sfxEnabled = true;
-    let activePlayerActor = 'architect'; // Player controls The Sage by default
+    let activePlayerActor = 'architect';
 
     function selectPlayableCharacter(actorId) {
       activePlayerActor = actorId;
-      const names = { architect: 'THE SAGE (WIZARD)', craftsman: 'FORGE MASTER (SMITH)', sentinel: 'SENTINEL (KNIGHT)' };
+      const names = { architect: 'THE SAGE (PLANNER)', craftsman: 'FORGE MASTER (CODER)', sentinel: 'INQUISITOR (AUDITOR)' };
       playerControlBadge.innerText = 'CONTROL: ' + names[actorId];
-      logTerminal("SYSTEM", `🎮 Anda sekarang mengontrol karakter: ${names[actorId]} (Gunakan tombol WASD / Panah / Klik Mouse di canvas)`, "text-amber-300");
+      logTerminal("OFFICE", `🎮 Anda mengontrol: ${names[actorId]} (Gunakan WASD / Panah / Klik Lantai)`, "text-amber-300");
       play8BitSFX('chat');
     }
 
@@ -396,6 +396,15 @@
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
         osc.start(now);
         osc.stop(now + 0.05);
+      } else if (type === 'coffee') {
+        // Gulp / Steam Sound
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(800, now + 0.1);
+        gain.gain.setValueAtTime(0.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+        osc.start(now);
+        osc.stop(now + 0.2);
       } else if (type === 'hammer') {
         osc.type = 'square';
         osc.frequency.setValueAtTime(800, now);
@@ -406,8 +415,8 @@
         osc.stop(now + 0.2);
       } else if (type === 'chat') {
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(480, now);
-        osc.frequency.setValueAtTime(600, now + 0.05);
+        osc.frequency.setValueAtTime(500, now);
+        osc.frequency.setValueAtTime(650, now + 0.05);
         gain.gain.setValueAtTime(0.08, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
         osc.start(now);
@@ -448,14 +457,14 @@
       terminal.scrollTop = terminal.scrollHeight;
     }
 
-    // ── PHASER 3 GAME SCENE WITH PLAYER CONTROLS ─────────────────────────────
+    // ── PHASER 3 MEDIEVAL OFFICE GUILDHALL SCENE ─────────────────────────────
     let phaserScene = null;
 
-    class PixelGuildhallScene extends Phaser.Scene {
+    class MedievalOfficeScene extends Phaser.Scene {
       constructor() {
-        super({ key: 'PixelGuildhallScene' });
+        super({ key: 'MedievalOfficeScene' });
         this.agents = {};
-        this.speechBubbles = {};
+        this.bubbleContainers = {};
         this.nameTags = {};
         this.cursors = null;
         this.wasd = null;
@@ -465,21 +474,23 @@
       preload() {
         const g = this.make.graphics();
         
-        // Stone Brick Tile (32x32)
+        // 🧱 Tiles: Stone Wall, Office Wood Plank, Luxury Carpet
         g.fillStyle(0x334155); g.fillRect(0, 0, 32, 32);
         g.fillStyle(0x1e293b); g.fillRect(0, 15, 32, 2); g.fillRect(15, 0, 2, 15); g.fillRect(7, 17, 2, 15);
         g.fillStyle(0x475569); g.fillRect(0, 0, 32, 2); g.fillRect(0, 0, 2, 32);
-        g.generateTexture('tile_stone', 32, 32);
-        g.clear();
+        g.generateTexture('tile_stone', 32, 32); g.clear();
 
-        // Wood Floor Tile (32x32)
         g.fillStyle(0x78350f); g.fillRect(0, 0, 32, 32);
         g.fillStyle(0x451a03); g.fillRect(0, 10, 32, 2); g.fillRect(0, 21, 32, 2);
         g.fillStyle(0x92400e); g.fillRect(0, 0, 32, 2);
-        g.generateTexture('tile_wood', 32, 32);
-        g.clear();
+        g.generateTexture('tile_wood', 32, 32); g.clear();
 
-        // Sage Chibi
+        g.fillStyle(0x881337); g.fillRect(0, 0, 32, 32);
+        g.fillStyle(0xf59e0b); g.fillRect(0, 0, 32, 2); g.fillRect(0, 30, 32, 2);
+        g.generateTexture('tile_carpet', 32, 32); g.clear();
+
+        // 🧙 Chibi Sprites
+        // Sage
         g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
         g.fillStyle(0x4f46e5); g.fillRect(6, 16, 20, 20);
         g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
@@ -487,40 +498,59 @@
         g.fillStyle(0x3730a3); g.fillRect(6, 2, 20, 10); g.fillRect(12, 0, 8, 4);
         g.fillStyle(0xf59e0b); g.fillRect(4, 8, 24, 3);
         g.fillStyle(0xca8a04); g.fillRect(24, 12, 3, 24); g.fillStyle(0x38bdf8); g.fillRect(23, 10, 5, 5);
-        g.generateTexture('chibi_sage', 32, 40);
-        g.clear();
+        g.generateTexture('chibi_sage', 32, 40); g.clear();
 
-        // Forge Chibi
+        // Forge
         g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
         g.fillStyle(0xd97706); g.fillRect(6, 16, 20, 20);
         g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
         g.fillStyle(0x000000); g.fillRect(10, 12, 3, 4); g.fillRect(18, 12, 3, 4);
         g.fillStyle(0x78350f); g.fillRect(6, 4, 20, 8);
         g.fillStyle(0x94a3b8); g.fillRect(24, 18, 7, 6); g.fillStyle(0x475569); g.fillRect(26, 24, 3, 12);
-        g.generateTexture('chibi_forge', 32, 40);
-        g.clear();
+        g.generateTexture('chibi_forge', 32, 40); g.clear();
 
-        // Sentinel Chibi
+        // Sentinel
         g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
         g.fillStyle(0x059669); g.fillRect(6, 16, 20, 20);
         g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
         g.fillStyle(0x000000); g.fillRect(10, 12, 3, 4); g.fillRect(18, 12, 3, 4);
         g.fillStyle(0x10b981); g.fillRect(6, 2, 20, 10); g.fillStyle(0xf59e0b); g.fillRect(14, 0, 4, 6);
         g.fillStyle(0x34d399); g.fillRect(2, 16, 6, 16);
-        g.generateTexture('chibi_sentinel', 32, 40);
-        g.clear();
+        g.generateTexture('chibi_sentinel', 32, 40); g.clear();
 
-        // Props
+        // ☕ Office Facilities & Props
+        // Coffee Machine / Watercooler
+        g.fillStyle(0x0284c7); g.fillRect(6, 0, 20, 16);
+        g.fillStyle(0xe0f2fe); g.fillRect(8, 2, 16, 12);
+        g.fillStyle(0x334155); g.fillRect(4, 16, 24, 16);
+        g.fillStyle(0xf59e0b); g.fillRect(12, 20, 8, 4);
+        g.generateTexture('prop_watercooler', 32, 32); g.clear();
+
+        // Bookshelf / Archive
+        g.fillStyle(0x451a03); g.fillRect(0, 0, 32, 32);
+        g.fillStyle(0x991b1b); g.fillRect(4, 4, 6, 10);
+        g.fillStyle(0x1e3a8a); g.fillRect(12, 4, 6, 10);
+        g.fillStyle(0x065f46); g.fillRect(20, 4, 6, 10);
+        g.fillStyle(0xd97706); g.fillRect(4, 18, 8, 10);
+        g.fillStyle(0x7c3aed); g.fillRect(14, 18, 12, 10);
+        g.generateTexture('prop_bookshelf', 32, 32); g.clear();
+
+        // Server Rack / Crystal Data Node
+        g.fillStyle(0x0f172a); g.fillRect(0, 0, 32, 32);
+        g.fillStyle(0x10b981); g.fillRect(4, 4, 24, 4); g.fillRect(4, 12, 24, 4); g.fillRect(4, 20, 24, 4);
+        g.fillStyle(0x38bdf8); g.fillRect(8, 26, 4, 4); g.fillRect(16, 26, 4, 4);
+        g.generateTexture('prop_server_rack', 32, 32); g.clear();
+
+        // Anvil
         g.fillStyle(0x1e293b); g.fillRect(2, 12, 28, 12); g.fillRect(8, 24, 16, 8);
         g.fillStyle(0x475569); g.fillRect(0, 8, 32, 6);
-        g.generateTexture('prop_anvil', 32, 32);
-        g.clear();
+        g.generateTexture('prop_anvil', 32, 32); g.clear();
 
+        // Torch Fire
         g.fillStyle(0x78350f); g.fillRect(6, 10, 4, 14);
         g.fillStyle(0xf59e0b); g.fillRect(4, 2, 8, 8);
         g.fillStyle(0xfef08a); g.fillRect(6, 4, 4, 4);
-        g.generateTexture('prop_torch', 16, 24);
-        g.clear();
+        g.generateTexture('prop_torch', 16, 24); g.clear();
       }
 
       create() {
@@ -528,85 +558,127 @@
         const width = this.cameras.main.width;
         const height = this.cameras.main.height;
 
-        // Tilemap Grid
+        // 🏰 Build 5 Medieval Office Rooms Map (2 Rows: 3 Top Rooms, 2 Bottom Rooms)
+        // Room 1 (Top Left): 🔮 WAR ROOM / MEETING ROOM
+        // Room 2 (Top Center): ☕ BREAK ROOM / WATERCOOLER LOUNGE
+        // Room 3 (Top Right): 📚 ARCHIVE & LAW LIBRARY
+        // Room 4 (Bottom Left): ⚒️ THE FORGE (DEV WORKSHOP)
+        // Room 5 (Bottom Right): ⚖️ SERVER LAB & TESTING ALTAR
+
         for (let x = 0; x < width; x += 32) {
           for (let y = 0; y < height; y += 32) {
-            if (y === 0 || y === height - 32 || x === 0 || x === width - 32 || x === 256 || x === 512) {
+            // Walls & Partition Borders
+            const isBorder = (y === 0 || y === height - 32 || x === 0 || x === width - 32 || y === 224 || x === 256 || (y < 224 && x === 544));
+            // Doorways opening in walls
+            const isDoorway = (
+              (y === 224 && (x === 128 || x === 416 || x === 672)) ||
+              (x === 256 && (y === 96 || y === 320)) ||
+              (x === 544 && y === 96)
+            );
+
+            if (isBorder && !isDoorway) {
               this.add.image(x + 16, y + 16, 'tile_stone');
+            } else if (x > 256 && x < 544 && y < 224) {
+              this.add.image(x + 16, y + 16, 'tile_carpet'); // Break room red carpet
             } else {
               this.add.image(x + 16, y + 16, 'tile_wood');
             }
           }
         }
 
-        // Labels
-        this.add.text(130, 24, '🔮 WAR ROOM', { font: '9px "Press Start 2P"', fill: '#818cf8' }).setOrigin(0.5);
-        this.add.text(384, 24, '⚒️ THE FORGE', { font: '9px "Press Start 2P"', fill: '#fbbf24' }).setOrigin(0.5);
-        this.add.text(640, 24, '⚖️ JUDGMENT', { font: '9px "Press Start 2P"', fill: '#34d399' }).setOrigin(0.5);
+        // Room Labels (16-Bit Pixel Style)
+        this.add.text(128, 16, '🔮 WAR ROOM (MEETING)', { font: '7px "Press Start 2P"', fill: '#818cf8' }).setOrigin(0.5);
+        this.add.text(400, 16, '☕ BREAK ROOM / PANTRY', { font: '7px "Press Start 2P"', fill: '#38bdf8' }).setOrigin(0.5);
+        this.add.text(700, 16, '📚 ARCHIVE & DOCS', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5);
+        this.add.text(128, 240, '⚒️ THE FORGE (DEV)', { font: '7px "Press Start 2P"', fill: '#fbbf24' }).setOrigin(0.5);
+        this.add.text(560, 240, '⚖️ SERVER LAB & QA ALTAR', { font: '7px "Press Start 2P"', fill: '#34d399' }).setOrigin(0.5);
 
-        // Props
-        this.add.image(48, 48, 'prop_torch');
-        this.add.image(210, 48, 'prop_torch');
-        this.add.image(304, 48, 'prop_torch');
-        this.add.image(464, 48, 'prop_torch');
-        this.add.image(560, 48, 'prop_torch');
-        this.add.image(720, 48, 'prop_torch');
+        // Torches along hallway walls
+        [32, 224, 288, 512, 576, 800].forEach(tx => this.add.image(tx, 32, 'prop_torch'));
+        [32, 224, 288, 800].forEach(tx => this.add.image(tx, 256, 'prop_torch'));
 
+        // 🔮 Room 1 Furniture: War Room Round Table & Chairs
         const g = this.add.graphics();
         g.fillStyle(0x1e1b4b, 0.9);
-        g.fillRect(80, 150, 100, 100);
-        g.lineStyle(3, 0x6366f1, 1);
-        g.strokeRect(80, 150, 100, 100);
-        this.add.text(130, 200, 'BLUEPRINT\nTABLE', { font: '7px "Press Start 2P"', fill: '#a5b4fc', align: 'center' }).setOrigin(0.5);
+        g.fillRect(78, 80, 100, 80);
+        g.lineStyle(2, 0x6366f1, 1);
+        g.strokeRect(78, 80, 100, 80);
+        this.add.text(128, 120, 'PLANNING\nTABLE', { font: '7px "Press Start 2P"', fill: '#a5b4fc', align: 'center' }).setOrigin(0.5);
 
-        this.add.image(384, 210, 'prop_anvil').setScale(1.5);
-        g.fillStyle(0x7c2d12, 0.8);
-        g.fillRect(344, 260, 80, 40);
+        // ☕ Room 2 Furniture: Watercooler / Coffee Dispenser & Couches
+        this.add.image(400, 80, 'prop_watercooler').setScale(1.5).setInteractive({ cursor: 'pointer' });
+        this.add.text(400, 110, 'WATERCOOLER ☕', { font: '6px "Press Start 2P"', fill: '#bae6fd' }).setOrigin(0.5);
+        // Lounge Sofas
+        g.fillStyle(0x0369a1, 0.9);
+        g.fillRect(320, 140, 60, 24);
+        g.fillRect(420, 140, 60, 24);
+        this.add.text(350, 152, 'SOFA', { font: '6px "Press Start 2P"', fill: '#e0f2fe' }).setOrigin(0.5);
+        this.add.text(450, 152, 'SOFA', { font: '6px "Press Start 2P"', fill: '#e0f2fe' }).setOrigin(0.5);
+
+        // 📚 Room 3 Furniture: Bookshelves / Archive Wall
+        this.add.image(620, 80, 'prop_bookshelf').setScale(1.4);
+        this.add.image(670, 80, 'prop_bookshelf').setScale(1.4);
+        this.add.image(720, 80, 'prop_bookshelf').setScale(1.4);
+        this.add.image(770, 80, 'prop_bookshelf').setScale(1.4);
+        this.add.text(695, 120, 'KNOWLEDGE VAULT 📜', { font: '6px "Press Start 2P"', fill: '#fed7aa' }).setOrigin(0.5);
+
+        // ⚒️ Room 4 Furniture: Dev Workshop / Computer Anvil & Desks
+        this.add.image(128, 330, 'prop_anvil').setScale(1.6);
+        g.fillStyle(0x7c2d12, 0.9);
+        g.fillRect(68, 380, 120, 40);
         g.lineStyle(2, 0xf97316, 1);
-        g.strokeRect(344, 260, 80, 40);
-        this.add.text(384, 280, 'SMELTER 🔥', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5);
+        g.strokeRect(68, 380, 120, 40);
+        this.add.text(128, 400, 'FORGE TERMINAL 💻', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5);
 
+        // ⚖️ Room 5 Furniture: QA Testing Altar & Server Racks
+        this.add.image(420, 310, 'prop_server_rack').setScale(1.5);
+        this.add.image(470, 310, 'prop_server_rack').setScale(1.5);
+        this.add.image(520, 310, 'prop_server_rack').setScale(1.5);
         g.fillStyle(0x064e3b, 0.9);
-        g.fillRect(590, 160, 100, 90);
+        g.fillRect(620, 310, 150, 90);
         g.lineStyle(3, 0x10b981, 1);
-        g.strokeRect(590, 160, 100, 90);
-        this.add.text(640, 205, 'PYTEST\nALTAR ⚖️', { font: '7px "Press Start 2P"', fill: '#6ee7b7', align: 'center' }).setOrigin(0.5);
+        g.strokeRect(620, 310, 150, 90);
+        this.add.text(695, 355, 'PYTEST SANDBOX\nALTAR ⚖️', { font: '8px "Press Start 2P"', fill: '#6ee7b7', align: 'center' }).setOrigin(0.5);
 
-        // Chibis
-        this.agents['architect'] = this.add.sprite(130, 200, 'chibi_sage').setScale(1.4).setInteractive({ cursor: 'pointer' });
-        this.agents['craftsman'] = this.add.sprite(384, 200, 'chibi_forge').setScale(1.4).setInteractive({ cursor: 'pointer' });
-        this.agents['sentinel'] = this.add.sprite(640, 200, 'chibi_sentinel').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        // 👾 Spawn Chibi Agents
+        this.agents['architect'] = this.add.sprite(128, 120, 'chibi_sage').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        this.agents['craftsman'] = this.add.sprite(128, 330, 'chibi_forge').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        this.agents['sentinel'] = this.add.sprite(695, 330, 'chibi_sentinel').setScale(1.4).setInteractive({ cursor: 'pointer' });
 
-        this.nameTags['architect'] = this.add.text(130, 235, 'The Sage', { font: '8px "Press Start 2P"', fill: '#a5b4fc', backgroundColor: '#020617' }).setOrigin(0.5);
-        this.nameTags['craftsman'] = this.add.text(384, 235, 'Forge Master', { font: '8px "Press Start 2P"', fill: '#fcd34d', backgroundColor: '#020617' }).setOrigin(0.5);
-        this.nameTags['sentinel'] = this.add.text(640, 235, 'Sentinel', { font: '8px "Press Start 2P"', fill: '#6ee7b7', backgroundColor: '#020617' }).setOrigin(0.5);
+        this.nameTags['architect'] = this.add.text(128, 148, 'The Sage', { font: '8px "Press Start 2P"', fill: '#a5b4fc', backgroundColor: '#020617' }).setOrigin(0.5);
+        this.nameTags['craftsman'] = this.add.text(128, 358, 'Forge Master', { font: '8px "Press Start 2P"', fill: '#fcd34d', backgroundColor: '#020617' }).setOrigin(0.5);
+        this.nameTags['sentinel'] = this.add.text(695, 358, 'Sentinel', { font: '8px "Press Start 2P"', fill: '#6ee7b7', backgroundColor: '#020617' }).setOrigin(0.5);
 
-        // Click on character to switch control
+        // Click character to switch control
         this.agents['architect'].on('pointerdown', () => selectPlayableCharacter('architect'));
         this.agents['craftsman'].on('pointerdown', () => selectPlayableCharacter('craftsman'));
         this.agents['sentinel'].on('pointerdown', () => selectPlayableCharacter('sentinel'));
 
-        // Click on ground to walk there (Point & Click)
+        // Click to Walk (Point & Click)
         this.input.on('pointerdown', (pointer) => {
-          if (pointer.y > 40 && pointer.y < 370 && pointer.x > 35 && pointer.x < 765) {
+          if (pointer.y > 35 && pointer.y < height - 35 && pointer.x > 35 && pointer.x < width - 35) {
             this.moveAndSpeak(activePlayerActor, pointer.x, pointer.y, '', 600);
             play8BitSFX('step');
           }
         });
 
-        // Speech Bubbles Container
+        // 💬 Pixel RPG Speech Bubble Container with Tail & Border
         ['architect', 'craftsman', 'sentinel'].forEach(key => {
-          this.speechBubbles[key] = this.add.text(0, 0, '', {
+          const container = this.add.container(0, 0).setVisible(false).setDepth(200);
+          
+          const bubbleBg = this.add.graphics();
+          const bubbleText = this.add.text(0, 0, '', {
             font: '10px Inter',
             fill: '#ffffff',
-            backgroundColor: '#020617f5',
-            padding: { x: 8, y: 6 },
             wordWrap: { width: 170 },
             align: 'center'
-          }).setOrigin(0.5, 1.45).setVisible(false).setDepth(100);
+          }).setOrigin(0.5, 0.5);
+
+          container.add([bubbleBg, bubbleText]);
+          this.bubbleContainers[key] = { container, bubbleBg, bubbleText };
         });
 
-        // Keyboard Controls Setup (WASD + Arrow Keys)
+        // Keyboard Setup
         this.cursors = this.input.keyboard.createCursorKeys();
         this.wasd = this.input.keyboard.addKeys({
           up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -616,14 +688,44 @@
         });
       }
 
+      showBubble(actorId, text) {
+        const sprite = this.agents[actorId];
+        const bubbleObj = this.bubbleContainers[actorId];
+        if (!sprite || !bubbleObj) return;
+
+        bubbleObj.bubbleText.setText(text);
+        const bounds = bubbleObj.bubbleText.getBounds();
+        const padding = 12;
+        const w = bounds.width + padding * 2;
+        const h = bounds.height + padding * 2;
+
+        bubbleObj.bubbleBg.clear();
+        // Dark translucent RPG box with gold/white border
+        bubbleObj.bubbleBg.fillStyle(0x090d1af8, 1);
+        bubbleObj.bubbleBg.fillRoundedRect(-w/2, -h/2, w, h, 6);
+        bubbleObj.bubbleBg.lineStyle(2, (actorId === 'architect' ? 0x818cf8 : actorId === 'craftsman' ? 0xfbbf24 : 0x34d399), 1);
+        bubbleObj.bubbleBg.strokeRoundedRect(-w/2, -h/2, w, h, 6);
+
+        // Speech Bubble Tail
+        bubbleObj.bubbleBg.fillStyle(0x090d1af8, 1);
+        bubbleObj.bubbleBg.fillTriangle(-6, h/2, 6, h/2, 0, h/2 + 8);
+
+        bubbleObj.container.setPosition(sprite.x, sprite.y - 38 - h/2);
+        bubbleObj.container.setVisible(true);
+
+        this.time.delayedCall(5000, () => {
+          bubbleObj.container.setVisible(false);
+        });
+      }
+
       update(time, delta) {
         const sprite = this.agents[activePlayerActor];
         const nameTag = this.nameTags[activePlayerActor];
-        const bubble = this.speechBubbles[activePlayerActor];
+        const bubbleObj = this.bubbleContainers[activePlayerActor];
         if (!sprite) return;
 
         let vx = 0, vy = 0;
-        const speed = 2.5;
+        const speed = 2.8;
 
         if (this.cursors.left.isDown || this.wasd.left.isDown) { vx = -speed; sprite.flipX = true; }
         else if (this.cursors.right.isDown || this.wasd.right.isDown) { vx = speed; sprite.flipX = false; }
@@ -632,11 +734,13 @@
         else if (this.cursors.down.isDown || this.wasd.down.isDown) { vy = speed; }
 
         if (vx !== 0 || vy !== 0) {
-          sprite.x = Phaser.Math.Clamp(sprite.x + vx, 45, 755);
-          sprite.y = Phaser.Math.Clamp(sprite.y + vy, 55, 360);
+          sprite.x = Phaser.Math.Clamp(sprite.x + vx, 45, 815);
+          sprite.y = Phaser.Math.Clamp(sprite.y + vy, 45, 435);
           
           if (nameTag) nameTag.setPosition(sprite.x, sprite.y + 26);
-          if (bubble && bubble.visible) bubble.setPosition(sprite.x, sprite.y);
+          if (bubbleObj && bubbleObj.container.visible) {
+            bubbleObj.container.setPosition(sprite.x, sprite.y - 45);
+          }
 
           // Step walking bounce animation & SFX
           this.stepTimer += delta;
@@ -651,10 +755,9 @@
       moveAndSpeak(actorId, targetX, targetY, dialogue, speed = 800) {
         const sprite = this.agents[actorId];
         const nameTag = this.nameTags[actorId];
-        const bubble = this.speechBubbles[actorId];
+        const bubbleObj = this.bubbleContainers[actorId];
         if (!sprite) return;
 
-        // Flip direction based on target
         sprite.flipX = targetX < sprite.x;
 
         this.tweens.add({
@@ -666,30 +769,27 @@
           onComplete: () => {
             if (nameTag) nameTag.setPosition(sprite.x, sprite.y + 26);
             if (dialogue) {
-              bubble.setPosition(sprite.x, sprite.y);
-              bubble.setText(dialogue);
-              bubble.setVisible(true);
-              this.time.delayedCall(4500, () => bubble.setVisible(false));
+              this.showBubble(actorId, dialogue);
             }
           }
         });
       }
 
       gatherInWarRoom(dialogueActor, dialogue) {
-        this.moveAndSpeak('architect', 100, 180, (dialogueActor === 'architect' ? dialogue : ''));
-        this.moveAndSpeak('craftsman', 160, 180, (dialogueActor === 'craftsman' ? dialogue : ''));
-        this.moveAndSpeak('sentinel', 130, 240, (dialogueActor === 'sentinel' ? dialogue : ''));
+        this.moveAndSpeak('architect', 98, 100, (dialogueActor === 'architect' ? dialogue : ''));
+        this.moveAndSpeak('craftsman', 158, 100, (dialogueActor === 'craftsman' ? dialogue : ''));
+        this.moveAndSpeak('sentinel', 128, 155, (dialogueActor === 'sentinel' ? dialogue : ''));
       }
     }
 
     const phaserConfig = {
       type: Phaser.AUTO,
       parent: 'phaser-container',
-      width: 800,
-      height: 410,
+      width: 860,
+      height: 480,
       pixelArt: true,
       roundPixels: true,
-      scene: PixelGuildhallScene,
+      scene: MedievalOfficeScene,
       transparent: false
     };
     const game = new Phaser.Game(phaserConfig);
@@ -736,7 +836,7 @@
         activeQuestBadge.className = "font-pixel text-[8px] bg-amber-500 text-slate-950 px-2 py-0.5 font-bold animate-pulse";
         activeQuestTitle.innerText = data.title || "Running Quest";
         activeQuestDesc.innerText = data.prompt || "";
-        activePhase.innerText = "WAR ROOM (TEAMWORK)";
+        activePhase.innerText = "WAR ROOM (DEBATE)";
         if (!isFastReplay) {
           logTerminal("QUEST", `⚔️ Misi Baru: "${data.title}"`, "text-amber-300 font-bold");
           play8BitSFX('start');
@@ -750,7 +850,7 @@
         const extra = data.extra || {};
         
         let color = "text-indigo-300";
-        let targetX = 130, targetY = 200;
+        let targetX = 128, targetY = 120;
         
         if (extra.mode === "discussion") {
           if (!isFastReplay) {
@@ -764,14 +864,14 @@
           if (actorId === "craftsman") {
             if (!isFastReplay) play8BitSFX('hammer');
             color = "text-amber-300"; 
-            targetX = 384; 
-            activePhase.innerText = "THE FORGE (CRAFTING)"; 
+            targetX = 128; targetY = 330;
+            activePhase.innerText = "THE FORGE (DEV WORKSHOP)"; 
           }
           if (actorId === "sentinel") { 
             if (!isFastReplay) play8BitSFX('chat');
             color = "text-emerald-300"; 
-            targetX = 640; 
-            activePhase.innerText = "CHAMBER (AUDITING)"; 
+            targetX = 695; targetY = 330;
+            activePhase.innerText = "SERVER LAB (QA ALTAR)"; 
           }
 
           if (!isFastReplay) logTerminal(actorName, dialogue, color);
@@ -806,7 +906,7 @@
         }
 
         if (phaserScene) {
-          phaserScene.moveAndSpeak("sentinel", 640, 200, data.action.dialogue);
+          phaserScene.moveAndSpeak("sentinel", 695, 330, data.action.dialogue);
         }
       }
 
