@@ -6,14 +6,15 @@ import io
 import zipfile
 import shutil
 import threading
-from typing import List, Dict, Any
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, BackgroundTasks, HTTPException
+from typing import List, Dict, Any, Optional
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, BackgroundTasks, HTTPException, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
 from orchestrator import GuildOrchestrator
 from sandbox_runner import SANDBOX_BASE_DIR
+from auth import register_user, authenticate_user, save_user_quest, update_user_quest_finished, get_user_quest_history
 
 app = FastAPI(title="SynapseGuild Autonomous AI Engine")
 
@@ -26,7 +27,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# In-Memory Realtime Quest & Events Database
 QUEST_HISTORY: Dict[str, Dict[str, Any]] = {}
 CLEANUP_TTL_SECONDS = 900  # 15 Minutes auto-delete TTL
 
@@ -51,18 +51,56 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+# Auth Payload Schemas
+class RegisterPayload(BaseModel):
+    username: str
+    password: str
+    class_role: Optional[str] = "Knight"
+    avatar: Optional[str] = "⚔️"
+
+class LoginPayload(BaseModel):
+    username: str
+    password: str
+
 class QuestDispatchPayload(BaseModel):
     title: str
     prompt: str
-    language: str = "python" # python | javascript
+    language: str = "python"
     difficulty: str = "normal"
     preset: str = "classic"
-    author: str = "Guild Master Rama"
+    user_id: Optional[int] = 1
+    author: str = "Guild Adventurer"
 
 class GuildMasterInterventionPayload(BaseModel):
     quest_id: str
     instruction: str
 
+# ── 🛡️ AUTHENTICATION & GUILD PASSPORT ENDPOINTS ─────────────────────────────
+@app.post("/api/auth/register")
+def handle_register(payload: RegisterPayload):
+    if not payload.username or len(payload.username) < 3:
+        raise HTTPException(status_code=400, detail="Nama pahlawan minimal 3 karakter!")
+    if not payload.password or len(payload.password) < 4:
+        raise HTTPException(status_code=400, detail="Mantra sandi minimal 4 karakter!")
+        
+    res = register_user(payload.username, payload.password, payload.class_role or "Knight", payload.avatar or "⚔️")
+    if not res.get("success"):
+        raise HTTPException(status_code=400, detail=res.get("error", "Gagal mendaftar ke Guild"))
+    return res
+
+@app.post("/api/auth/login")
+def handle_login(payload: LoginPayload):
+    user = authenticate_user(payload.username, payload.password)
+    if not user:
+        raise HTTPException(status_code=401, detail="Nama pahlawan atau mantra sandi salah!")
+    return {"success": True, "user": user}
+
+@app.get("/api/user/{user_id}/history")
+def handle_user_history(user_id: int):
+    history = get_user_quest_history(user_id)
+    return {"history": history}
+
+# ── 🏰 GUILD ENGINE ENDPOINTS ────────────────────────────────────────────────
 def purge_quest_sandbox(quest_id: str, reason: str = "auto_ttl"):
     quest_dir = os.path.join(SANDBOX_BASE_DIR, quest_id)
     if os.path.exists(quest_dir):
@@ -142,7 +180,7 @@ def download_single_file(quest_id: str, file_name: str):
         raise HTTPException(status_code=410, detail="Berkas sudah dihapus (Masa simpan 15 menit habis).")
     return FileResponse(file_path, filename=file_name)
 
-async def run_quest_task(quest_id: str, prompt: str, title: str, language: str = "python", preset: str = "classic"):
+async def run_quest_task(quest_id: str, prompt: str, title: str, language: str = "python", preset: str = "classic", user_id: int = 1):
     async def ws_event_broadcaster(event_payload: dict):
         await manager.broadcast(event_payload)
 
@@ -153,6 +191,10 @@ async def run_quest_task(quest_id: str, prompt: str, title: str, language: str =
     QUEST_HISTORY[quest_id]["result"] = result
     QUEST_HISTORY[quest_id]["finished_at"] = time.time()
     QUEST_HISTORY[quest_id]["expires_at"] = time.time() + CLEANUP_TTL_SECONDS
+    
+    # Update SQLite database for user quest persistence
+    artifacts_list = list(result.get("files", {}).keys())
+    update_user_quest_finished(quest_id, result.get("status", "completed"), result.get("score", 100), artifacts_list, result.get("review", ""))
     
     schedule_quest_auto_purge(quest_id, delay_seconds=CLEANUP_TTL_SECONDS)
     
@@ -187,6 +229,10 @@ async def dispatch_quest(payload: QuestDispatchPayload, background_tasks: Backgr
         "result": None
     }
     
+    # Save quest to user database history
+    user_id = payload.user_id or 1
+    save_user_quest(user_id, payload.author, quest_id, payload.title, payload.prompt, payload.language, payload.preset)
+    
     await manager.broadcast({
         "event_type": "QUEST_ENQUEUED",
         "quest_id": quest_id,
@@ -197,7 +243,7 @@ async def dispatch_quest(payload: QuestDispatchPayload, background_tasks: Backgr
         "author": payload.author
     })
     
-    background_tasks.add_task(run_quest_task, quest_id, payload.prompt, payload.title, payload.language, payload.preset)
+    background_tasks.add_task(run_quest_task, quest_id, payload.prompt, payload.title, payload.language, payload.preset, user_id)
     
     return {"status": "dispatched", "quest_id": quest_id, "title": payload.title}
 

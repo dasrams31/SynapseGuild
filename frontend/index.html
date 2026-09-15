@@ -108,8 +108,81 @@
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
 
+  <!-- 🏰 MANDATORY RPG LOGIN & REGISTRATION MODAL OVERLAY -->
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="pixel-border-amber bg-slate-900 max-w-md w-full p-6 shadow-2xl relative">
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 bg-amber-500 border-2 border-yellow-200 mx-auto flex items-center justify-center shadow-lg shadow-amber-500/40 mb-3">
+          <i data-lucide="shield" class="w-8 h-8 text-slate-950"></i>
+        </div>
+        <h2 class="font-pixel text-sm text-amber-400">GUILD PASSPORT</h2>
+        <p class="font-pixel text-[8px] text-slate-400 mt-1">MASUKKAN IDENTITAS PETUALANG ANDA</p>
+      </div>
+
+      <!-- Tab Switcher (Login vs Register) -->
+      <div class="flex border-b-2 border-slate-800 mb-4 font-pixel text-[9px]">
+        <button id="tab-auth-login" class="flex-1 py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950">LOGIN</button>
+        <button id="tab-auth-register" class="flex-1 py-2 text-slate-400 hover:text-slate-200 bg-slate-900">REGISTER</button>
+      </div>
+
+      <!-- Auth Error Notification -->
+      <div id="auth-error-msg" class="p-2 mb-4 bg-rose-950/80 border border-rose-500 text-rose-300 text-xs font-mono hidden"></div>
+
+      <!-- Login Form -->
+      <form id="form-auth-login" class="space-y-4">
+        <div>
+          <label class="block font-pixel text-[8px] text-amber-200 mb-1">NAMA PETUALANG (USERNAME)</label>
+          <input type="text" id="login-username" required placeholder="dasrams" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
+        </div>
+        <div>
+          <label class="block font-pixel text-[8px] text-amber-200 mb-1">MANTRA SANDI (PASSWORD)</label>
+          <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
+        </div>
+        <button type="submit" class="pixel-btn w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-pixel text-[10px] py-3 transition">
+          ENTER GUILDHALL ⚔️
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="form-auth-register" class="space-y-3.5 hidden">
+        <div>
+          <label class="block font-pixel text-[8px] text-amber-200 mb-1">NAMA PETUALANG (USERNAME)</label>
+          <input type="text" id="reg-username" required placeholder="Contoh: arjuna_dev" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
+        </div>
+        <div>
+          <label class="block font-pixel text-[8px] text-amber-200 mb-1">MANTRA SANDI (PASSWORD)</label>
+          <input type="password" id="reg-password" required placeholder="Minimal 4 karakter" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-pixel text-[8px] text-amber-200 mb-1">CLASS ROLE</label>
+            <select id="reg-class" class="w-full bg-slate-950 border-2 border-slate-700 p-1.5 text-xs text-amber-300 font-pixel">
+              <option value="Wizard">🧙‍♂️ Wizard</option>
+              <option value="Knight">⚔️ Knight</option>
+              <option value="Paladin">🛡️ Paladin</option>
+              <option value="Blacksmith">⚒️ Smith</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-pixel text-[8px] text-amber-200 mb-1">AVATAR</label>
+            <select id="reg-avatar" class="w-full bg-slate-950 border-2 border-slate-700 p-1.5 text-xs text-slate-200 font-pixel">
+              <option value="⚔️">⚔️ Swords</option>
+              <option value="🧙‍♂️">🧙‍♂️ Sage</option>
+              <option value="⚒️">⚒️ Forge</option>
+              <option value="🛡️">🛡️ Shield</option>
+              <option value="👑">👑 Crown</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="pixel-btn w-full bg-emerald-600 hover:bg-emerald-500 text-white font-pixel text-[10px] py-3 transition">
+          CREATE HERO PASSPORT ⭐
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- TOP 16-BIT HUD BAR -->
-  <header class="border-b-4 border-slate-800 bg-slate-950/95 px-6 py-3 sticky top-0 z-50 flex items-center justify-between shadow-2xl">
+  <header class="border-b-4 border-slate-800 bg-slate-950/95 px-6 py-3 sticky top-0 z-40 flex items-center justify-between shadow-2xl">
     <div class="flex items-center space-x-3.5">
       <div class="w-11 h-11 bg-amber-500 border-2 border-yellow-200 flex items-center justify-center shadow-lg shadow-amber-500/30">
         <i data-lucide="swords" class="w-6 h-6 text-slate-950"></i>
@@ -125,7 +198,7 @@
       </div>
     </div>
 
-    <!-- Active Party 16-Bit Status Bars with Live EXP & Levels -->
+    <!-- Active Party Status -->
     <div class="hidden lg:flex items-center space-x-4 font-pixel text-[9px]">
       <!-- Architect Status -->
       <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-indigo-400 transition" onclick="selectPlayableCharacter('architect')">
@@ -179,22 +252,23 @@
       </div>
     </div>
 
-    <!-- BGM & SFX Controls -->
+    <!-- User Profile Badge & BGM / Logout -->
     <div class="flex items-center space-x-2.5">
-      <button id="btn-bgm-toggle" class="pixel-box px-3 py-1.5 bg-slate-900 border-amber-400 text-amber-300 font-pixel text-[9px] transition flex items-center space-x-1.5">
-        <i data-lucide="music" id="bgm-icon" class="w-3.5 h-3.5 text-emerald-400 animate-spin"></i>
-        <span id="bgm-label">BGM: ON 🎵</span>
-      </button>
-
-      <button id="btn-sfx-toggle" class="pixel-box px-2.5 py-1.5 hover:bg-slate-800 text-slate-400 hover:text-amber-300 transition flex items-center space-x-1 font-pixel text-[9px]">
-        <i data-lucide="volume-2" id="sfx-icon" class="w-3.5 h-3.5 text-amber-400"></i>
-        <span id="sfx-label" class="hidden sm:inline">SFX</span>
-      </button>
-
-      <div id="ws-status" class="pixel-box px-3 py-1.5 font-pixel text-[9px] text-emerald-400 border-emerald-500/60 flex items-center space-x-2">
-        <span class="w-2 h-2 bg-emerald-400 animate-ping"></span>
-        <span>ONLINE</span>
+      <!-- Logged User Status -->
+      <div id="user-badge" class="pixel-box px-2.5 py-1.5 flex items-center space-x-1.5 font-pixel text-[9px] text-amber-300">
+        <span id="user-avatar">🧙‍♂️</span>
+        <span id="user-name">GUEST</span>
+        <span id="user-lvl" class="text-yellow-400 ml-1">LV.1</span>
       </div>
+
+      <button id="btn-bgm-toggle" class="pixel-box px-2.5 py-1.5 bg-slate-900 border-amber-400 text-amber-300 font-pixel text-[9px] transition flex items-center space-x-1">
+        <i data-lucide="music" id="bgm-icon" class="w-3.5 h-3.5 text-emerald-400 animate-spin"></i>
+        <span id="bgm-label" class="hidden sm:inline">BGM: ON</span>
+      </button>
+
+      <button id="btn-logout" title="Logout dari Guild" class="pixel-box px-2 py-1.5 hover:bg-rose-950/80 text-rose-400 border-rose-500/50 transition flex items-center font-pixel text-[9px]">
+        <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+      </button>
     </div>
   </header>
 
@@ -280,7 +354,7 @@
         </div>
       </div>
 
-      <!-- ACTIVE STATUS, LOOT DROP & HALL OF FAME -->
+      <!-- ACTIVE STATUS, LOOT DROP & PERSONAL QUEST HISTORY -->
       <div class="pixel-border-dark bg-slate-950 p-5 shadow-2xl flex-1 flex flex-col justify-between space-y-4">
         <div>
           <div class="flex items-center justify-between mb-3 border-b-2 border-slate-800 pb-2">
@@ -310,16 +384,16 @@
           </div>
         </div>
 
-        <!-- 🏆 GUILD HALL OF FAME WITH ROYAL COURIER GIT BADGE -->
+        <!-- 📜 PERSONAL QUEST HISTORY (DATABASE BACKED) -->
         <div class="p-3 bg-slate-900/90 border-2 border-amber-500/40">
           <div class="flex items-center justify-between mb-2">
             <span class="font-pixel text-[8px] text-amber-300 flex items-center space-x-1">
-              <span>🏆</span><span>HALL OF FAME & GIT COURIER</span>
+              <span>📜</span><span>RIWAYAT QUEST ANDA</span>
             </span>
-            <span id="total-quests-count" class="font-pixel text-[8px] text-yellow-400">0 COMMITS</span>
+            <span id="user-quest-count" class="font-pixel text-[8px] text-yellow-400">0 QUESTS</span>
           </div>
-          <div id="hall-of-fame-list" class="space-y-1.5 max-h-20 overflow-y-auto text-[10px] font-mono text-slate-300 pr-1">
-            <div class="text-slate-500 italic">Belum ada misi tercatat di prasasti git.</div>
+          <div id="user-quest-history-list" class="space-y-1.5 max-h-24 overflow-y-auto text-[10px] font-mono text-slate-300 pr-1">
+            <div class="text-slate-500 italic">Memuat riwayat quest...</div>
           </div>
         </div>
 
@@ -337,7 +411,7 @@
 
           <p class="text-[9px] font-mono text-amber-200/90 mb-2.5 flex items-start space-x-1">
             <span class="text-amber-400">⚠️</span>
-            <span>Telah di-commit ke Git & disimpan 15 menit di server. Langsung hilang saat diunduh.</span>
+            <span>Tersimpan di riwayat & server selama 15 menit. Langsung hilang saat diunduh.</span>
           </p>
 
           <button id="btn-download-zip" class="pixel-btn w-full bg-emerald-600 hover:bg-emerald-500 text-white font-pixel text-[9px] py-2 px-3 flex items-center justify-center space-x-2 transition">
@@ -462,6 +536,146 @@
   <script>
     lucide.createIcons();
 
+    // 🛡️ AUTHENTICATION & USER SESSION STATE
+    let currentUser = null;
+    const authModal = document.getElementById('auth-modal');
+    const tabAuthLogin = document.getElementById('tab-auth-login');
+    const tabAuthRegister = document.getElementById('tab-auth-register');
+    const formAuthLogin = document.getElementById('form-auth-login');
+    const formAuthRegister = document.getElementById('form-auth-register');
+    const authErrorMsg = document.getElementById('auth-error-msg');
+    const userBadge = document.getElementById('user-badge');
+    const userAvatar = document.getElementById('user-avatar');
+    const userName = document.getElementById('user-name');
+    const userLvl = document.getElementById('user-lvl');
+    const btnLogout = document.getElementById('btn-logout');
+    const userQuestHistoryList = document.getElementById('user-quest-history-list');
+    const userQuestCount = document.getElementById('user-quest-count');
+
+    // Check stored user session
+    try {
+      const stored = localStorage.getItem('synapse_auth_user');
+      if (stored) {
+        currentUser = JSON.parse(stored);
+        applyUserSession(currentUser);
+      }
+    } catch(e) {}
+
+    // Tab Switcher
+    tabAuthLogin.addEventListener('click', () => {
+      tabAuthLogin.className = "flex-1 py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950";
+      tabAuthRegister.className = "flex-1 py-2 text-slate-400 hover:text-slate-200 bg-slate-900";
+      formAuthLogin.classList.remove('hidden');
+      formAuthRegister.classList.add('hidden');
+      authErrorMsg.classList.add('hidden');
+    });
+
+    tabAuthRegister.addEventListener('click', () => {
+      tabAuthRegister.className = "flex-1 py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950";
+      tabAuthLogin.className = "flex-1 py-2 text-slate-400 hover:text-slate-200 bg-slate-900";
+      formAuthRegister.classList.remove('hidden');
+      formAuthLogin.classList.add('hidden');
+      authErrorMsg.classList.add('hidden');
+    });
+
+    function applyUserSession(user) {
+      currentUser = user;
+      localStorage.setItem('synapse_auth_user', JSON.stringify(user));
+      authModal.classList.add('hidden');
+      userName.innerText = user.username.toUpperCase();
+      userAvatar.innerText = user.avatar || '🧙‍♂️';
+      userLvl.innerText = `LV.${user.level || 1}`;
+      loadUserQuestHistory();
+      tryUnlockAudio();
+    }
+
+    btnLogout.addEventListener('click', () => {
+      localStorage.removeItem('synapse_auth_user');
+      currentUser = null;
+      authModal.classList.remove('hidden');
+    });
+
+    // Login Form Submit
+    formAuthLogin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          applyUserSession(data.user);
+        } else {
+          authErrorMsg.innerText = data.detail || "Gagal masuk. Periksa nama pahlawan & mantra sandi!";
+          authErrorMsg.classList.remove('hidden');
+        }
+      } catch (err) {
+        authErrorMsg.innerText = "Koneksi ke gateway gagal: " + err;
+        authErrorMsg.classList.remove('hidden');
+      }
+    });
+
+    // Register Form Submit
+    formAuthRegister.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('reg-username').value;
+      const password = document.getElementById('reg-password').value;
+      const class_role = document.getElementById('reg-class').value;
+      const avatar = document.getElementById('reg-avatar').value;
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, class_role, avatar })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          applyUserSession(data.user);
+        } else {
+          authErrorMsg.innerText = data.detail || "Gagal mendaftar!";
+          authErrorMsg.classList.remove('hidden');
+        }
+      } catch (err) {
+        authErrorMsg.innerText = "Koneksi gagal: " + err;
+        authErrorMsg.classList.remove('hidden');
+      }
+    });
+
+    async function loadUserQuestHistory() {
+      if (!currentUser) return;
+      try {
+        const res = await fetch(`/api/user/${currentUser.id}/history`);
+        if (res.ok) {
+          const data = await res.json();
+          renderUserQuestHistory(data.history || []);
+        }
+      } catch(e) {}
+    }
+
+    function renderUserQuestHistory(history) {
+      userQuestCount.innerText = `${history.length} QUESTS`;
+      if (history.length === 0) {
+        userQuestHistoryList.innerHTML = `<div class="text-slate-500 italic">Belum ada quest. Lemparkan misi pertamamu!</div>`;
+        return;
+      }
+      userQuestHistoryList.innerHTML = history.map((q, idx) => `
+        <div class="p-1.5 bg-slate-950 border border-slate-800 rounded flex items-center justify-between">
+          <div class="truncate mr-2">
+            <span class="text-amber-400 font-bold">${q.language === 'javascript' ? '⚡' : '🐍'}</span>
+            <span class="text-slate-200 font-bold ml-1">${q.title}</span>
+          </div>
+          <span class="text-[8px] font-pixel ${q.status === 'completed' ? 'text-emerald-400' : 'text-amber-400'} shrink-0">${q.score || 100} PTS</span>
+        </div>
+      `).join('');
+    }
+
+    // Standard DOM Elements
     const questForm = document.getElementById('quest-form');
     const activeQuestBadge = document.getElementById('active-quest-badge');
     const activeQuestTitle = document.getElementById('active-quest-title');
@@ -474,8 +688,6 @@
     const playerControlBadge = document.getElementById('player-control-badge');
     const partyPresetSelect = document.getElementById('party-preset');
     const questLanguageSelect = document.getElementById('quest-language');
-    const hallOfFameList = document.getElementById('hall-of-fame-list');
-    const totalQuestsCount = document.getElementById('total-quests-count');
     const interventionPanel = document.getElementById('intervention-panel');
 
     const btnBgmToggle = document.getElementById('btn-bgm-toggle');
@@ -520,7 +732,7 @@
     let replayInterval = null;
     let currentCompletedQuestId = null;
     let sfxEnabled = true;
-    let bgmEnabled = true; // Auto-enabled on first page load
+    let bgmEnabled = true;
     let bgmInterval = null;
     let currentBgmTrack = 'peaceful';
     let activePlayerActor = 'architect';
@@ -550,7 +762,7 @@
 
     function playChiptuneTone(freq, duration, type = 'square', vol = 0.035) {
       if (!bgmEnabled || !audioCtx) return;
-      if (audioCtx.state === 'suspended') return; // Needs initial user gesture
+      if (audioCtx.state === 'suspended') return;
 
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
@@ -579,7 +791,6 @@
       }, 320);
     }
 
-    // Auto-start BGM Engine on load & on first user touch/click (Browser Autoplay Policy compliance)
     startBgmEngine();
 
     function tryUnlockAudio() {
@@ -599,13 +810,13 @@
         if (audioCtx.state === 'suspended') audioCtx.resume();
         bgmLabel.innerText = "BGM: ON 🎵";
         bgmIcon.className = "w-3.5 h-3.5 text-emerald-400 animate-spin";
-        btnBgmToggle.className = "pixel-box px-3 py-1.5 bg-slate-900 border-amber-400 text-amber-300 font-pixel text-[9px]";
+        btnBgmToggle.className = "pixel-box px-2.5 py-1.5 bg-slate-900 border-amber-400 text-amber-300 font-pixel text-[9px]";
         startBgmEngine();
         logTerminal("AUDIO", "🎵 Musik latar 16-Bit Chiptune RPG diaktifkan!", "text-emerald-400 font-bold");
       } else {
         bgmLabel.innerText = "BGM: OFF";
         bgmIcon.className = "w-3.5 h-3.5 text-slate-500";
-        btnBgmToggle.className = "pixel-box px-3 py-1.5 hover:bg-slate-800 text-slate-400 font-pixel text-[9px]";
+        btnBgmToggle.className = "pixel-box px-2.5 py-1.5 hover:bg-slate-800 text-slate-400 font-pixel text-[9px]";
         if (bgmInterval) clearInterval(bgmInterval);
       }
     });
@@ -615,15 +826,6 @@
       craftsman: { level: 1, exp: 0, mp: 100 },
       sentinel: { level: 1, exp: 0, mp: 100 }
     };
-
-    let hallOfFameHistory = [];
-
-    try {
-      const savedParty = localStorage.getItem('synapse_party_data');
-      if (savedParty) Object.assign(partyData, JSON.parse(savedParty));
-      const savedHall = localStorage.getItem('synapse_hall_fame');
-      if (savedHall) hallOfFameHistory = JSON.parse(savedHall);
-    } catch(e) {}
 
     function updatePartyStatsUI() {
       ['architect', 'craftsman', 'sentinel'].forEach(key => {
@@ -635,11 +837,6 @@
         if (lvlText) lvlText.innerText = `LV.${d.level}`;
         if (expText) expText.innerText = `${d.exp}/100`;
       });
-      renderHallOfFame();
-      try {
-        localStorage.setItem('synapse_party_data', JSON.stringify(partyData));
-        localStorage.setItem('synapse_hall_fame', JSON.stringify(hallOfFameHistory));
-      } catch(e) {}
     }
 
     function awardPartyExp(expAmount = 100) {
@@ -652,23 +849,10 @@
         }
       });
       updatePartyStatsUI();
-    }
-
-    function renderHallOfFame() {
-      totalQuestsCount.innerText = `${hallOfFameHistory.length} COMMITS`;
-      if (hallOfFameHistory.length === 0) {
-        hallOfFameList.innerHTML = `<div class="text-slate-500 italic">Belum ada misi tercatat di prasasti git.</div>`;
-        return;
+      if (currentUser) {
+        currentUser.level = (currentUser.level || 1) + 1;
+        userLvl.innerText = `LV.${currentUser.level}`;
       }
-      hallOfFameList.innerHTML = hallOfFameHistory.map((q, idx) => `
-        <div class="p-1.5 bg-slate-950 border border-slate-800 rounded flex items-center justify-between">
-          <div class="truncate mr-2">
-            <span class="text-amber-400 font-bold">#${idx+1}</span>
-            <span class="text-slate-200 font-bold ml-1">${q.title}</span>
-          </div>
-          <span class="text-[8px] font-pixel text-sky-400 shrink-0">GIT COMMITTED 📦</span>
-        </div>
-      `).reverse().join('');
     }
 
     async function sendQuickIntervention(instruction) {
@@ -722,7 +906,6 @@
     bindJoystickButton('btn-dpad-right', 'right');
 
     function selectPlayableCharacter(actorId) {
-      // Release joystick movement if switching
       joystickState.up = false; joystickState.down = false; joystickState.left = false; joystickState.right = false;
       activePlayerActor = actorId;
       tryUnlockAudio();
@@ -1278,7 +1461,7 @@
       socket = new WebSocket(WS_URL);
       
       socket.onopen = () => {
-        document.getElementById('ws-status').innerHTML = '<span class="w-2 h-2 bg-emerald-400 animate-ping"></span><span>ONLINE</span>';
+        // Connected
       };
 
       socket.onmessage = (evt) => {
@@ -1294,7 +1477,6 @@
       };
 
       socket.onclose = () => {
-        document.getElementById('ws-status').innerHTML = '<span class="w-2 h-2 bg-rose-500"></span><span>OFFLINE</span>';
         setTimeout(connectWebSocket, 3000);
       };
     }
@@ -1398,13 +1580,7 @@
         activeSandboxStatus.innerText = `Score: ${data.extra.score}/100`;
         
         awardPartyExp(100);
-        hallOfFameHistory.push({
-          id: data.quest_id,
-          title: data.title || activeQuestTitle.innerText,
-          score: data.extra.score,
-          time: new Date().toLocaleTimeString()
-        });
-        updatePartyStatsUI();
+        loadUserQuestHistory();
 
         if (phaserScene) {
           phaserScene.triggerCooperativeRaid(0);
@@ -1517,6 +1693,12 @@
     questForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       tryUnlockAudio();
+      
+      if (!currentUser) {
+        authModal.classList.remove('hidden');
+        return;
+      }
+
       const title = document.getElementById('quest-title').value;
       const prompt = document.getElementById('quest-prompt').value;
       const language = questLanguageSelect.value;
@@ -1532,7 +1714,8 @@
             language,
             preset,
             difficulty: "normal", 
-            author: 'Guild Master Rama' 
+            user_id: currentUser.id,
+            author: currentUser.username 
           })
         });
         if (res.ok) {
