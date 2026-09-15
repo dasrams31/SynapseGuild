@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SynapseGuild — 16-Bit Medieval Cyber-Guildhall</title>
   
+  <!-- 🏰 16-BIT RETRO SWORD & CASTLE FAVICON (SVG INLINE DATA-URI) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23090d1a'/><rect x='4' y='4' width='24' height='24' rx='4' fill='%23f59e0b'/><path d='M10 8h12v4h-2v4h-8v-4h-2z' fill='%230f172a'/><path d='M14 16h4v8h-4z' fill='%2338bdf8'/><circle cx='16' cy='12' r='2' fill='%23ef4444'/></svg>">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
@@ -117,7 +120,7 @@
         </h1>
         <p class="text-[9px] text-amber-500/90 font-pixel tracking-tight flex items-center space-x-1.5 mt-1">
           <span class="w-2 h-2 bg-emerald-400 animate-pulse"></span>
-          <span>POLYGLOT FORGE & ROYAL COURIER ACTIVE</span>
+          <span>CHIPTUNE RETRO BGM & SOUND ENGINE ACTIVE</span>
         </p>
       </div>
     </div>
@@ -176,13 +179,21 @@
       </div>
     </div>
 
-    <!-- SFX & Neural Status -->
-    <div class="flex items-center space-x-3">
-      <button id="btn-sfx-toggle" class="pixel-box px-3 py-1.5 hover:bg-slate-800 text-amber-300 transition flex items-center space-x-1.5 font-pixel text-[9px]">
-        <i data-lucide="volume-2" id="sfx-icon" class="w-3.5 h-3.5 text-amber-400"></i>
-        <span id="sfx-label" class="hidden sm:inline">SFX: ON</span>
+    <!-- 🎙️ FITUR 5: 16-BIT NPC CHIPTUNE BGM & SFX TOGGLE CONTROLLER -->
+    <div class="flex items-center space-x-2.5">
+      <!-- BGM Music Player Button -->
+      <button id="btn-bgm-toggle" class="pixel-box px-3 py-1.5 hover:bg-slate-800 text-amber-300 transition flex items-center space-x-1.5 font-pixel text-[9px]">
+        <i data-lucide="music" id="bgm-icon" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span id="bgm-label">BGM: OFF</span>
       </button>
 
+      <!-- SFX Toggle -->
+      <button id="btn-sfx-toggle" class="pixel-box px-2.5 py-1.5 hover:bg-slate-800 text-slate-400 hover:text-amber-300 transition flex items-center space-x-1 font-pixel text-[9px]">
+        <i data-lucide="volume-2" id="sfx-icon" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span id="sfx-label" class="hidden sm:inline">SFX</span>
+      </button>
+
+      <!-- Neural Online Badge -->
       <div id="ws-status" class="pixel-box px-3 py-1.5 font-pixel text-[9px] text-emerald-400 border-emerald-500/60 flex items-center space-x-2">
         <span class="w-2 h-2 bg-emerald-400 animate-ping"></span>
         <span>ONLINE</span>
@@ -196,7 +207,7 @@
     <!-- LEFT COLUMN: RETRO QUEST BOARD & INTERVENTIONS (4 COLS) -->
     <div class="lg:col-span-4 flex flex-col space-y-6">
       
-      <!-- QUEST DISPATCH PANEL WITH POLYGLOT LANGUAGE SELECTOR (FITUR 3) -->
+      <!-- QUEST DISPATCH PANEL -->
       <div class="pixel-border-dark bg-slate-950 p-5 shadow-2xl relative">
         <div class="flex items-center justify-between mb-4 border-b-2 border-slate-800 pb-2.5">
           <div class="flex items-center space-x-2">
@@ -207,7 +218,6 @@
         </div>
 
         <form id="quest-form" class="space-y-4 font-sans text-xs">
-          <!-- 🐍/⚡ FITUR 3: POLYGLOT LANGUAGE SELECTOR -->
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="block font-pixel text-[8px] text-amber-200 mb-1">LANGUAGE / RUNNER</label>
@@ -303,7 +313,7 @@
           </div>
         </div>
 
-        <!-- 🏆 GUILD HALL OF FAME WITH ROYAL COURIER GIT BADGE (FITUR 4) -->
+        <!-- 🏆 GUILD HALL OF FAME WITH ROYAL COURIER GIT BADGE -->
         <div class="p-3 bg-slate-900/90 border-2 border-amber-500/40">
           <div class="flex items-center justify-between mb-2">
             <span class="font-pixel text-[8px] text-amber-300 flex items-center space-x-1">
@@ -428,12 +438,10 @@
           <button id="btn-clear-logs" class="text-[9px] font-pixel text-slate-500 hover:text-slate-300 transition">CLEAR</button>
         </div>
 
-        <!-- TAB 1: Logs Stream Window -->
         <div id="tab-content-logs" class="h-44 overflow-y-auto space-y-2 text-xs font-mono-code text-slate-300 pr-2">
-          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild Polyglot Grid & Royal Courier online. Ready for dispatch.</div>
+          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild 16-Bit Chiptune Sound Engine online. Ready for quest dispatch.</div>
         </div>
 
-        <!-- TAB 2: Live Code Inspector -->
         <div id="tab-content-code" class="h-44 overflow-y-auto space-y-2 text-xs font-mono-code text-slate-300 pr-2 hidden">
           <div class="flex items-center justify-between bg-slate-900 p-1.5 border border-slate-800 mb-2">
             <span id="forge-file-title" class="text-amber-400 font-bold font-mono text-[11px]">📄 forge_output.py</span>
@@ -449,7 +457,7 @@
 
   <!-- FOOTER -->
   <footer class="border-t-2 border-slate-800 bg-slate-950 py-2.5 text-center text-[9px] text-slate-500 font-pixel">
-    SYNAPSEGUILD v1.0 • MEDIEVAL CYBER-OFFICE MULTI-AGENT ENGINE • RAMA DANADIPA
+    SYNAPSEGUILD v1.0 • 16-BIT MEDIEVAL CYBER-OFFICE ENGINE • RAMA DANADIPA
   </footer>
 
   <!-- CORE SCRIPT & GAME ENGINE -->
@@ -472,6 +480,11 @@
     const hallOfFameList = document.getElementById('hall-of-fame-list');
     const totalQuestsCount = document.getElementById('total-quests-count');
     const interventionPanel = document.getElementById('intervention-panel');
+
+    // BGM & SFX Buttons
+    const btnBgmToggle = document.getElementById('btn-bgm-toggle');
+    const bgmIcon = document.getElementById('bgm-icon');
+    const bgmLabel = document.getElementById('bgm-label');
 
     // Dual-Tab Elements
     const tabBtnLogs = document.getElementById('tab-btn-logs');
@@ -497,12 +510,10 @@
       play8BitSFX('chat');
     });
 
-    // Boss Battle HUD Elements
     const bossHud = document.getElementById('boss-hud');
     const bossHpFill = document.getElementById('boss-hp-fill');
     const bossHpText = document.getElementById('boss-hp-text');
 
-    // Time-Travel Replay Elements
     const replaySlider = document.getElementById('replay-slider');
     const replayCounter = document.getElementById('replay-counter');
     const btnReplayPlay = document.getElementById('btn-replay-play');
@@ -514,7 +525,85 @@
     let replayInterval = null;
     let currentCompletedQuestId = null;
     let sfxEnabled = true;
+    let bgmEnabled = false;
+    let bgmInterval = null;
+    let currentBgmTrack = 'peaceful'; // peaceful | battle
     let activePlayerActor = 'architect';
+
+    // ── 🎙️ FITUR 5: 16-BIT CHIPTUNE WEB AUDIO BGM SYNTHESIZER ────────────────
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    // Notes Frequencies (Chiptune RPG Scales)
+    const NOTES = {
+      C4: 261.63, D4: 293.66, E4: 329.63, F4: 349.23, G4: 392.00, A4: 440.00, B4: 493.88,
+      C5: 523.25, D5: 587.33, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.00
+    };
+
+    // Melodies (Peaceful Guildhall Lounge & Intense Boss Battle)
+    const PEACEFUL_BGM_MELODY = [
+      { note: NOTES.C4, dur: 0.25 }, { note: NOTES.E4, dur: 0.25 }, { note: NOTES.G4, dur: 0.25 }, { note: NOTES.C5, dur: 0.5 },
+      { note: NOTES.A4, dur: 0.25 }, { note: NOTES.G4, dur: 0.25 }, { note: NOTES.E4, dur: 0.5 },
+      { note: NOTES.F4, dur: 0.25 }, { note: NOTES.A4, dur: 0.25 }, { note: NOTES.G4, dur: 0.5 },
+      { note: NOTES.D4, dur: 0.25 }, { note: NOTES.F4, dur: 0.25 }, { note: NOTES.E4, dur: 0.5 }
+    ];
+
+    const BATTLE_BGM_MELODY = [
+      { note: NOTES.A4, dur: 0.15 }, { note: NOTES.A4, dur: 0.15 }, { note: NOTES.C5, dur: 0.15 }, { note: NOTES.D5, dur: 0.3 },
+      { note: NOTES.E5, dur: 0.15 }, { note: NOTES.D5, dur: 0.15 }, { note: NOTES.C5, dur: 0.3 },
+      { note: NOTES.A4, dur: 0.15 }, { note: NOTES.G4, dur: 0.15 }, { note: NOTES.A4, dur: 0.3 }
+    ];
+
+    let currentBgmStep = 0;
+
+    function playChiptuneTone(freq, duration, type = 'square', vol = 0.035) {
+      if (!bgmEnabled || !audioCtx) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    function startBgmEngine() {
+      if (bgmInterval) clearInterval(bgmInterval);
+      bgmInterval = setInterval(() => {
+        if (!bgmEnabled) return;
+        const melody = (currentBgmTrack === 'battle') ? BATTLE_BGM_MELODY : PEACEFUL_BGM_MELODY;
+        const item = melody[currentBgmStep % melody.length];
+        playChiptuneTone(item.note, item.dur, (currentBgmTrack === 'battle' ? 'sawtooth' : 'square'));
+        
+        // Add subtle bass arpeggio
+        if (currentBgmStep % 2 === 0) {
+          playChiptuneTone(item.note / 2, item.dur * 1.5, 'triangle', 0.04);
+        }
+        currentBgmStep++;
+      }, 320);
+    }
+
+    btnBgmToggle.addEventListener('click', () => {
+      bgmEnabled = !bgmEnabled;
+      if (bgmEnabled) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        bgmLabel.innerText = "BGM: ON 🎵";
+        bgmIcon.className = "w-3.5 h-3.5 text-emerald-400 animate-spin";
+        btnBgmToggle.className = "pixel-box px-3 py-1.5 bg-slate-900 border-amber-400 text-amber-300 font-pixel text-[9px]";
+        startBgmEngine();
+        logTerminal("AUDIO", "🎵 Musik latar 16-Bit Chiptune RPG diaktifkan!", "text-emerald-400 font-bold");
+      } else {
+        bgmLabel.innerText = "BGM: OFF";
+        bgmIcon.className = "w-3.5 h-3.5 text-slate-500";
+        btnBgmToggle.className = "pixel-box px-3 py-1.5 hover:bg-slate-800 text-slate-400 font-pixel text-[9px]";
+        if (bgmInterval) clearInterval(bgmInterval);
+      }
+    });
 
     const partyData = {
       architect: { level: 1, exp: 0, mp: 100 },
@@ -577,7 +666,6 @@
       `).reverse().join('');
     }
 
-    // Direct Guild Master Intervention
     async function sendQuickIntervention(instruction) {
       if (!currentCompletedQuestId) return;
       play8BitSFX('chat');
@@ -599,7 +687,6 @@
       }
     });
 
-    // Joystick D-Pad State Vector
     const joystickState = { up: false, down: false, left: false, right: false };
 
     function bindJoystickButton(btnId, direction) {
@@ -636,9 +723,6 @@
       play8BitSFX('chat');
     }
 
-    // 8-Bit Web Audio Synthesizer
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    
     function play8BitSFX(type) {
       if (!sfxEnabled || !audioCtx) return;
       if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -846,7 +930,6 @@
         const width = this.cameras.main.width;
         const height = this.cameras.main.height;
 
-        // Tilemap Grid
         for (let x = 0; x < width; x += 32) {
           for (let y = 0; y < height; y += 32) {
             const isBorder = (y === 0 || y === height - 32 || x === 0 || x === width - 32 || y === 224 || x === 256 || (y < 224 && x === 544));
@@ -866,7 +949,6 @@
           }
         }
 
-        // Room Labels
         this.add.text(128, 16, '🔮 WAR ROOM (MEETING)', { font: '7px "Press Start 2P"', fill: '#818cf8' }).setOrigin(0.5);
         this.add.text(400, 16, '☕ BREAK ROOM / PANTRY', { font: '7px "Press Start 2P"', fill: '#38bdf8' }).setOrigin(0.5);
         this.add.text(700, 16, '📚 ARCHIVE & DOCS', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5);
@@ -876,7 +958,6 @@
         [32, 224, 288, 512, 576, 800].forEach(tx => this.add.image(tx, 32, 'prop_torch'));
         [32, 224, 288, 800].forEach(tx => this.add.image(tx, 256, 'prop_torch'));
 
-        // War Room Table
         const g = this.add.graphics();
         g.fillStyle(0x1e1b4b, 0.9);
         g.fillRect(78, 80, 100, 80);
@@ -885,12 +966,10 @@
         const warTableText = this.add.text(128, 120, 'PLANNING\nTABLE 🔮', { font: '7px "Press Start 2P"', fill: '#a5b4fc', align: 'center' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
         warTableText.on('pointerdown', () => this.interactFacility('table'));
 
-        // Watercooler
         const cooler = this.add.image(400, 80, 'prop_watercooler').setScale(1.5).setInteractive({ cursor: 'pointer' });
         this.add.text(400, 110, 'WATERCOOLER ☕', { font: '6px "Press Start 2P"', fill: '#bae6fd' }).setOrigin(0.5);
         cooler.on('pointerdown', () => this.interactFacility('coffee'));
 
-        // Bookshelves
         const b1 = this.add.image(620, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
         const b2 = this.add.image(670, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
         const b3 = this.add.image(720, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
@@ -898,7 +977,6 @@
         const vaultText = this.add.text(695, 120, 'KNOWLEDGE VAULT 📜', { font: '6px "Press Start 2P"', fill: '#fed7aa' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
         [b1, b2, b3, b4, vaultText].forEach(b => b.on('pointerdown', () => this.interactFacility('bookshelf')));
 
-        // Forge Anvil
         const anvil = this.add.image(128, 330, 'prop_anvil').setScale(1.6).setInteractive({ cursor: 'pointer' });
         g.fillStyle(0x7c2d12, 0.9);
         g.fillRect(68, 380, 120, 40);
@@ -907,7 +985,6 @@
         const forgeText = this.add.text(128, 400, 'FORGE TERMINAL 💻', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
         [anvil, forgeText].forEach(f => f.on('pointerdown', () => this.interactFacility('anvil')));
 
-        // Server Lab & Pytest Testing Altar
         this.add.image(420, 310, 'prop_server_rack').setScale(1.5);
         this.add.image(470, 310, 'prop_server_rack').setScale(1.5);
         this.add.image(520, 310, 'prop_server_rack').setScale(1.5);
@@ -917,10 +994,8 @@
         g.strokeRect(620, 310, 150, 90);
         this.add.text(695, 330, 'SANDBOX ALTAIR ⚖️', { font: '7px "Press Start 2P"', fill: '#6ee7b7', align: 'center' }).setOrigin(0.5);
 
-        // Boss Monster Sprite
         this.bossMonster = this.add.sprite(695, 375, 'boss_bug_beast').setScale(1.2).setVisible(false);
 
-        // Spawn Characters
         this.agents['architect'] = this.add.sprite(128, 120, 'chibi_sage').setScale(1.4).setInteractive({ cursor: 'pointer' });
         this.agents['craftsman'] = this.add.sprite(128, 330, 'chibi_forge').setScale(1.4).setInteractive({ cursor: 'pointer' });
         this.agents['sentinel'] = this.add.sprite(640, 330, 'chibi_sentinel').setScale(1.4).setInteractive({ cursor: 'pointer' });
@@ -940,7 +1015,6 @@
           }
         });
 
-        // Speech Bubbles Container
         ['architect', 'craftsman', 'sentinel'].forEach(key => {
           const container = this.add.container(0, 0).setVisible(false).setDepth(200);
           
@@ -999,6 +1073,7 @@
         bossHud.classList.remove('hidden');
         bossHpFill.style.width = "100%";
         bossHpText.innerText = "100 HP";
+        currentBgmTrack = 'battle'; // Switch BGM to intense Battle theme
         
         this.tweens.add({
           targets: this.bossMonster,
@@ -1029,6 +1104,7 @@
         bossHpText.innerText = `${remainingHp} HP`;
 
         if (remainingHp <= 0) {
+          currentBgmTrack = 'peaceful'; // Return BGM to peaceful theme
           this.tweens.add({
             targets: this.bossMonster,
             alpha: 0,
@@ -1144,7 +1220,6 @@
     };
     const game = new Phaser.Game(phaserConfig);
 
-    // WebSocket Realtime Connection
     const host = window.location.hostname || "127.0.0.1";
     const port = window.location.port ? `:${window.location.port}` : "";
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
