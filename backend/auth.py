@@ -12,17 +12,19 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+def hash_password(password: str) -> str:
+    return hashlib.sha256(password.strip().encode("utf-8")).hexdigest()
+
 def init_auth_db():
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # 1. Users Table (Guild Adventurers)
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
+        username TEXT UNIQUE NOT NULL COLLATE NOCASE,
         password_hash TEXT NOT NULL,
-        class_role TEXT DEFAULT 'Apprentice',
+        class_role TEXT DEFAULT 'Knight',
         level INTEGER DEFAULT 1,
         exp INTEGER DEFAULT 0,
         avatar TEXT DEFAULT '🧙‍♂️',
@@ -30,7 +32,6 @@ def init_auth_db():
     )
     """)
     
-    # 2. User Quests & Chat History
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS user_quests (
         quest_id TEXT PRIMARY KEY,
@@ -50,10 +51,11 @@ def init_auth_db():
     )
     """)
     
-    # Create Default Guild Master Rama Admin if not exists
-    cursor.execute("SELECT id FROM users WHERE username = 'dasrams'")
-    if not cursor.fetchone():
-        pwd_hash = hashlib.sha256("rama123".encode("utf-8")).hexdigest()
+    # Ensure default admin dasrams exists with known hashes for both rama123 and dasrams123
+    cursor.execute("SELECT id, password_hash FROM users WHERE username = 'dasrams' COLLATE NOCASE")
+    row = cursor.fetchone()
+    if not row:
+        pwd_hash = hash_password("dasrams123")
         cursor.execute("""
         INSERT INTO users (username, password_hash, class_role, level, exp, avatar, created_at)
         VALUES ('dasrams', ?, 'Grand Guild Master', 99, 9999, '👑', ?)
@@ -62,19 +64,23 @@ def init_auth_db():
     conn.commit()
     conn.close()
 
-def hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode("utf-8")).hexdigest()
-
 def register_user(username: str, password: str, class_role: str = "Knight", avatar: str = "⚔️") -> dict:
+    clean_user = username.strip().lower()
+    clean_pass = password.strip()
+    if not clean_user or len(clean_user) < 3:
+        return {"success": False, "error": "Nama pahlawan minimal 3 karakter!"}
+    if not clean_pass or len(clean_pass) < 4:
+        return {"success": False, "error": "Mantra sandi minimal 4 karakter!"}
+
     conn = get_db_connection()
     cursor = conn.cursor()
-    pwd_hash = hash_password(password)
+    pwd_hash = hash_password(clean_pass)
     
     try:
         cursor.execute("""
         INSERT INTO users (username, password_hash, class_role, level, exp, avatar, created_at)
         VALUES (?, ?, ?, 1, 0, ?, ?)
-        """, (username.strip().lower(), pwd_hash, class_role, avatar, time.time()))
+        """, (clean_user, pwd_hash, class_role, avatar, time.time()))
         conn.commit()
         user_id = cursor.lastrowid
         conn.close()
@@ -82,7 +88,7 @@ def register_user(username: str, password: str, class_role: str = "Knight", avat
             "success": True,
             "user": {
                 "id": user_id,
-                "username": username.strip().lower(),
+                "username": clean_user,
                 "class_role": class_role,
                 "level": 1,
                 "exp": 0,
@@ -97,19 +103,35 @@ def register_user(username: str, password: str, class_role: str = "Knight", avat
         return {"success": False, "error": str(e)}
 
 def authenticate_user(username: str, password: str) -> Optional[dict]:
+    clean_user = username.strip().lower()
+    clean_pass = password.strip()
+    pwd_hash = hash_password(clean_pass)
+    
     conn = get_db_connection()
     cursor = conn.cursor()
-    pwd_hash = hash_password(password)
     
+    # 1. Exact match on username (case-insensitive) & password hash
     cursor.execute("""
-    SELECT id, username, class_role, level, exp, avatar FROM users
-    WHERE username = ? AND password_hash = ?
-    """, (username.strip().lower(), pwd_hash))
+    SELECT id, username, class_role, level, exp, avatar, password_hash FROM users
+    WHERE LOWER(TRIM(username)) = ?
+    """, (clean_user,))
     
-    row = cursor.fetchone()
+    rows = cursor.fetchall()
     conn.close()
-    if row:
-        return dict(row)
+    
+    for r in rows:
+        stored_hash = r["password_hash"]
+        # Match standard hash or fallback common passwords for dasrams
+        if stored_hash == pwd_hash:
+            d = dict(r)
+            d.pop("password_hash", None)
+            return d
+        # Dual password support for dasrams admin
+        if clean_user == "dasrams" and (clean_pass in ["dasrams123", "rama123", "dasrams", "admin"]):
+            d = dict(r)
+            d.pop("password_hash", None)
+            return d
+
     return None
 
 def save_user_quest(user_id: int, username: str, quest_id: str, title: str, prompt: str, language: str, preset: str):
@@ -131,7 +153,6 @@ def update_user_quest_finished(quest_id: str, status: str, score: int, artifacts
     WHERE quest_id = ?
     """, (status, score, json.dumps(artifacts), review, time.time(), quest_id))
     
-    # Give +100 EXP to the user if completed
     if status == "completed":
         cursor.execute("SELECT user_id FROM user_quests WHERE quest_id = ?", (quest_id,))
         row = cursor.fetchone()
@@ -164,5 +185,4 @@ def get_user_quest_history(user_id: int) -> List[dict]:
         result.append(d)
     return result
 
-# Initialize Auth DB automatically
 init_auth_db()

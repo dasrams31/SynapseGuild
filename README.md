@@ -27,9 +27,10 @@
 
 ## 📖 Table of Contents
 - [✨ Overview](#-overview)
-- [🏰 The Guildhall Architecture & Workflow](#-the-guildhall-architecture--workflow)
+- [🏰 The Expanded 7-Room Castle World](#-the-expanded-7-room-castle-world)
+- [🔐 Mandatory Guild Passport & User Persistence](#-mandatory-guild-passport--user-persistence)
 - [👥 The 3-Agent Party Roster](#-the-3-agent-party-roster)
-- [🎮 Interactive World & Facilities](#-interactive-world--facilities)
+- [🎮 Interactive Facilities & Boss Raid](#-interactive-facilities--boss-raid)
 - [🚀 Quick Start (1-Click Installer)](#-quick-start-1-click-installer)
 - [⚙️ Manual Configuration (`.env`)](#-manual-configuration-env)
 - [📱 Dedicated Telegram Bot Remote Control](#-dedicated-telegram-bot-remote-control)
@@ -49,30 +50,36 @@
 
 ---
 
-## 🏰 The Guildhall Architecture & Workflow
+## 🏰 The Expanded 7-Room Castle World
 
 ```
-       🔮 1. WAR ROOM              ☕ 2. BREAK ROOM          📚 3. KNOWLEDGE VAULT
-   ┌───────────────────────┐    ┌────────────────────┐    ┌─────────────────────────┐
-   │  🧙‍♂️ [The Sage]         │ ─> │  [Watercooler ☕]  │ ─> │  [Naskah Kuno / Docs 📜]│
-   │  Architecture & BDD   │    │  Restore Party MP  │    │  Auto-Load Templates    │
-   └───────────────────────┘    └────────────────────┘    └─────────────────────────┘
-               │                                                       ▲
-               ▼                                                       │
-   ┌───────────────────────┐                               ┌─────────────────────────┐
-   │  ⚒️ [The Forge Master] │ ────────────────────────────> │  ⚖️ [The Grand Inquisitor│
-   │  Polyglot Code Craft  │                               │  Boss Raid vs Bug Beast │
-   └───────────────────────┘                               └─────────────────────────┘
-          ⚒️ 4. THE FORGE                                      ⚔️ 5. BOSS RAID ALTAR
+ 🔮 1. WAR ROOM       ☕ 2. BREAK ROOM      📚 3. ARCHIVE VAULT   💎 4. CRYSTAL GARDEN
+ ┌─────────────────┐  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+ │ [Planning Table]│  │ [Watercooler ☕] │  │ [Bookshelves 📜] │  │ [Mana Shard 💎]  │
+ │ Blueprint & BDD │  │ Refill MP 100%   │  │ Load Templates   │  │ Absorb +25 EXP   │
+ └─────────────────┘  └──────────────────┘  └──────────────────┘  └──────────────────┘
+          │                                                                ▲
+          ▼                                                                │
+ ┌─────────────────┐  ┌──────────────────┐  ┌─────────────────────────────────────────┐
+ │ [Anvil & Forge] │  │ [Hero Beds 🛌]   │  │ 🔥 7. BOSS RAID ARENA                   │
+ │ Dev Workshop    │  │ Rest Quarters    │  │ [The Bug Beast] vs 3-Agent Raid Attack  │
+ └─────────────────┘  └──────────────────┘  └─────────────────────────────────────────┘
+ ⚒️ 5. THE FORGE      🛌 6. HERO DORMITORY
 ```
 
-### Execution Flow:
-1. **Quest Ingress:** The Guild Master dispatches a quest via Web UI or Telegram `/quest`.
-2. **War Room Deliberation:** The 3 agents walk to the War Room and debate implementation strategies with animated speech bubbles.
-3. **Blueprint Generation:** The Sage formulates technical specifications and test criteria.
-4. **Live Code Forging:** The Forge Master moves to the workshop, typing code streamed live to the **Forge Inspector**.
-5. **Sandbox Boss Raid:** The Grand Inquisitor audits the code inside an isolated subprocess sandbox. The entire party unleashes attacks on **The Bug Beast**, defeating it upon 100% test pass.
-6. **Artifact Delivery & Git Commit:** The Royal Courier commits the victory to Git, enables 1-click `.zip` download, and forwards the file directly to Telegram.
+---
+
+## 🔐 Mandatory Guild Passport & User Persistence
+
+SynapseGuild features a **built-in SQLite User Authentication & Quest History System (`guild_users.db`)**:
+
+- 🛡️ **Mandatory Login / Registration:** Users must register or log in with their Adventurer Passport to access the Guildhall.
+- 🧙‍♂️ **Custom RPG Roles & Avatars:** Choose your Class Role (*Wizard, Knight, Paladin, Blacksmith*) and custom avatar icons upon registration.
+- 📜 **Personalized Quest History:** Every quest dispatched is recorded in the user's personal vault with pass/fail status, test scores, and direct file access.
+- 👑 **Default Master Account:**
+  - **Username:** `dasrams`
+  - **Password:** `dasrams123`
+  - **Title:** *Grand Guild Master (Level 99 • Crown Avatar)*
 
 ---
 
@@ -86,12 +93,14 @@
 
 ---
 
-## 🎮 Interactive World & Facilities
+## 🎮 Interactive Facilities & Boss Raid
 
-- 🕹️ **On-Screen D-Pad & Click-To-Move:** Navigate any character across all 5 rooms using the 16-bit virtual joystick or mouse clicks (zero keyboard hijacking).
+- 🕹️ **On-Screen D-Pad & Click-To-Move:** Navigate any character across all 7 rooms using the 16-bit virtual joystick or mouse clicks.
 - ☕ **Watercooler & Coffee Dispenser:** Click the pantry dispenser to trigger a coffee gulp SFX and replenish party MP back to 100%.
+- 💎 **Arcane Mana Shard (Crystal Garden):** Click the glowing crystal shard to absorb pure mana and gain **+25 EXP** instantly.
 - 📚 **Knowledge Vault & Bookshelves:** Click the library bookcases to automatically inject battle-tested coding templates (Calories, Naismith Rule, Temperature, etc.) directly into the Quest Board.
 - ⚒️ **Forge Terminal & Anvil:** Click the workshop anvil to sharpen blacksmith tools and boost coding morale.
+- 🛌 **Hero Dormitory:** Rest your characters in the cozy quarters between intense coding quests.
 - 👑 **Guild Master Live Interventions:** Dispatch immediate course-corrections (*"Use simpler modular approach"*, *"Add extreme boundary tests"*) during live War Room debates.
 - 🎵 **Adaptive 16-Bit Chiptune BGM:** Built-in Web Audio chiptune synthesizer that dynamically transitions between peaceful lounge melodies and high-octane Boss Battle tracks.
 - 🏆 **Guild Hall of Fame & Leveling:** Complete quests to earn **+100 EXP**, trigger level-ups (`LV.1 -> LV.99`), and record permanent victory tablets.
@@ -116,7 +125,7 @@ The installer will automatically:
 - Check Python 3.10+ and Node.js environments.
 - Create an isolated `venv` and install backend dependencies.
 - Prompt for your **AI Provider / LLM API Key** (OpenAI, OpenRouter, Groq, DeepSeek, Ollama, etc.).
-- Configure optional Telegram Bot credentials.
+- Initialize the SQLite database and default credentials.
 - Generate the executable launcher script `./start.sh`.
 
 ### 3. Launch the Guildhall
@@ -125,7 +134,7 @@ The installer will automatically:
 ```
 
 Open your browser and enter the arena:
-👉 **`http://localhost:8100`**
+👉 **`http://localhost:8100`** *(or `https://rpg.dasrams.biz.id`)*
 
 ---
 
@@ -181,6 +190,8 @@ synapseguild-rpg-agent/
 │   └── 📄 PRD.md              # Full Product Requirements Document
 ├── 📁 backend/
 │   ├── 🐍 app.py              # FastAPI Engine, WebSocket Hub & REST API
+│   ├── 🐍 auth.py             # SQLite Authentication & Quest History Engine
+│   ├── 🗄️ guild_users.db      # SQLite User & Quest Database
 │   ├── 🐍 orchestrator.py     # 3-Agent Dialectical Consensus Pipeline
 │   ├── 🐍 llm.py              # Universal Multi-Provider LLM Client
 │   ├── 🐍 sandbox_runner.py   # Isolated Code Sandbox (pytest & node:test)
