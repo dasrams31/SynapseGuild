@@ -1,24 +1,27 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/Python-Dark.svg" width="48" height="48" alt="Python" />
-  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/JavaScript.svg" width="48" height="48" alt="JavaScript" />
-  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/FastAPI-Dark.svg" width="48" height="48" alt="FastAPI" />
-  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/Phaser-Dark.svg" width="48" height="48" alt="Phaser" />
-  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/GitLab-Dark.svg" width="48" height="48" alt="GitLab" />
-</p>
+<div align="center">
 
-<h1 align="center">🏰 SYNAPSEGUILD</h1>
-<h3 align="center">⚔️ Autonomous Multi-Agent AI RPG Guildhall Arena ⚔️</h3>
+  <a href="https://gitlab.com/RamsNotes31/synapseguild-rpg-agent">
+    <img src="assets/logo.svg" alt="SynapseGuild Logo" width="220" height="220" />
+  </a>
 
-<p align="center">
-  <em>A 16-bit retro medieval cyber-office where autonomous AI agents deliberate in the War Room, forge production-ready code in the Workshop, and cooperatively battle "The Bug Beast" in the Sandbox Judgment Altar.</em>
-</p>
+  <h1>⚔️ SYNAPSEGUILD 🏰</h1>
+  <h3>Autonomous AI Multi-Agent RPG Guildhall Arena</h3>
 
-<p align="center">
-  <a href="https://gitlab.com/RamsNotes31/synapseguild-rpg-agent"><img src="https://img.shields.io/badge/Release-v1.0.0--Stable-amber?style=for-the-badge&logo=gitlab" alt="GitLab Release" /></a>
-  <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/Backend-FastAPI%20%7C%20WebSockets-059669?style=for-the-badge&logo=fastapi" alt="Backend" /></a>
-  <a href="https://phaser.io/"><img src="https://img.shields.io/badge/Frontend-Phaser.js%203%20%7C%20Tailwind-38bdf8?style=for-the-badge&logo=phaser" alt="Frontend" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" alt="License" /></a>
-</p>
+  <p>
+    <em>A 16-bit retro medieval cyber-office where autonomous AI agents deliberate in the War Room, forge production-ready code in the Workshop, and cooperatively battle "The Bug Beast" in the Sandbox Judgment Altar.</em>
+  </p>
+
+  <p>
+    <a href="https://gitlab.com/RamsNotes31/synapseguild-rpg-agent"><img src="https://img.shields.io/badge/GitLab-Repository-fc6d26?style=for-the-badge&logo=gitlab&logoColor=white" alt="GitLab" /></a>
+    <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" /></a>
+    <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" /></a>
+    <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-0.110+-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" /></a>
+    <a href="https://phaser.io/"><img src="https://img.shields.io/badge/Phaser.js-3.80+-8B5CF6?style=for-the-badge&logo=javascript&logoColor=white" alt="Phaser.js 3" /></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-v3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-amber?style=for-the-badge" alt="License" /></a>
+  </p>
+
+</div>
 
 ---
 
@@ -77,9 +80,9 @@
 
 | Agent Avatar | Character Title | RPG Class | Core Responsibility |
 |:---:|:---|:---:|:---|
-| <img src="https://api.iconify.design/game-icons:wizard-face.svg" width="36"/> | **The Sage** | *High Wizard / Architect* | Decomposes raw prompts into modular file plans, interface definitions, and strict BDD acceptance criteria. |
-| <img src="https://api.iconify.design/game-icons:anvil-impact.svg" width="36"/> | **The Forge Master** | *Blacksmith / Craftsman* | Implements clean, dependency-free, production-grade Python or JavaScript code with matching unit tests. |
-| <img src="https://api.iconify.design/game-icons:templar-shield.svg" width="36"/> | **The Grand Inquisitor** | *Paladin / Sentinel* | Executes zero-trust automated test runners (`pytest` / `node:test`) in isolated sandboxes and deals the final blow to bugs. |
+| 🧙‍♂️ | **The Sage** | *High Wizard / Architect* | Decomposes raw prompts into modular file plans, interface definitions, and strict BDD acceptance criteria. |
+| ⚒️ | **The Forge Master** | *Blacksmith / Craftsman* | Implements clean, dependency-free, production-grade Python or JavaScript code with matching unit tests. |
+| ⚖️ | **The Grand Inquisitor** | *Paladin / Sentinel* | Executes zero-trust automated test runners (`pytest` / `node:test`) in isolated sandboxes and deals the final blow to bugs. |
 
 ---
 
@@ -172,6 +175,8 @@ synapseguild-rpg-agent/
 ├── 📄 requirements.txt        # Python Backend Dependencies
 ├── ⚙️ .env.example            # Environment Blueprint
 ├── 📜 QUEST_LOGS.md           # The Royal Courier Automated Git Victory Tablet
+├── 📁 assets/
+│   └── 🎨 logo.svg            # 16-Bit Pixel RPG Castle Logo
 ├── 📁 docs/
 │   └── 📄 PRD.md              # Full Product Requirements Document
 ├── 📁 backend/
