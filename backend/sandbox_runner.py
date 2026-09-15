@@ -7,13 +7,14 @@ import sys
 SANDBOX_BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "sandbox"))
 os.makedirs(SANDBOX_BASE_DIR, exist_ok=True)
 
-# Use dedicated SynapseGuild virtual environment python with pytest
+# Python runner venv
 SYNAPSE_VENV_PYTHON = "/home/ubuntu/SynapseGuild/venv/bin/python"
 PYTHON_EXEC = SYNAPSE_VENV_PYTHON if os.path.exists(SYNAPSE_VENV_PYTHON) else sys.executable
 
 class CodeSandbox:
-    def __init__(self, quest_id: str):
+    def __init__(self, quest_id: str, language: str = "python"):
         self.quest_id = quest_id
+        self.language = language.lower() # python | nodejs
         self.quest_dir = os.path.join(SANDBOX_BASE_DIR, quest_id)
         os.makedirs(self.quest_dir, exist_ok=True)
 
@@ -40,9 +41,16 @@ class CodeSandbox:
         return file_list
 
     def run_tests(self) -> dict:
-        """Runs pytest or python -m unittest inside the isolated quest directory."""
-        cmd = [PYTHON_EXEC, "-m", "pytest", "-v", "--tb=short"]
+        """Runs language-specific test runners (pytest for Python, node --test for JavaScript/TypeScript)."""
         start_time = time.time()
+        
+        if self.language in ["javascript", "typescript", "nodejs", "node"]:
+            # Native Node.js test runner (Node >= 18 has built-in node --test)
+            cmd = ["node", "--test"]
+        else:
+            # Default Python pytest runner
+            cmd = [PYTHON_EXEC, "-m", "pytest", "-v", "--tb=short"]
+            
         try:
             res = subprocess.run(
                 cmd,
@@ -51,51 +59,34 @@ class CodeSandbox:
                 text=True,
                 timeout=25
             )
-            duration = round(time.time() - start_time, 2)
-            passed = (res.returncode == 0)
-            
-            # Fallback to unittest if pytest collected 0 items
-            if not passed and "collected 0 items" in res.stdout:
-                res_u = subprocess.run(
-                    [PYTHON_EXEC, "-m", "unittest", "discover"],
-                    cwd=self.quest_dir,
-                    capture_output=True,
-                    text=True,
-                    timeout=20
-                )
-                passed = (res_u.returncode == 0)
-                res.stdout += "\n" + res_u.stdout
-                res.stderr += "\n" + res_u.stderr
-
-            score = 100 if passed else max(0, 70 - (res.stdout.count("FAILED") * 20))
-            
+            duration = time.time() - start_time
             return {
-                "passed": passed,
-                "score": score,
-                "duration_seconds": duration,
+                "passed": res.returncode == 0,
+                "return_code": res.returncode,
                 "stdout": res.stdout,
                 "stderr": res.stderr,
-                "return_code": res.returncode
+                "duration_seconds": round(duration, 3),
+                "runner": "node:test" if "node" in self.language else "pytest"
             }
         except subprocess.TimeoutExpired:
             return {
                 "passed": False,
-                "score": 0,
-                "duration_seconds": 25.0,
+                "return_code": -1,
                 "stdout": "",
-                "stderr": "Test execution timed out",
-                "return_code": -1
+                "stderr": "Execution timed out (Limit 25s exceeded in sandbox)",
+                "duration_seconds": 25.0,
+                "runner": self.language
             }
         except Exception as e:
             return {
                 "passed": False,
-                "score": 0,
-                "duration_seconds": 0.0,
+                "return_code": -1,
                 "stdout": "",
-                "stderr": str(e),
-                "return_code": -1
+                "stderr": f"Runner failure: {str(e)}",
+                "duration_seconds": 0.0,
+                "runner": self.language
             }
 
-    def cleanup(self):
+    def wipe(self):
         if os.path.exists(self.quest_dir):
             shutil.rmtree(self.quest_dir, ignore_errors=True)

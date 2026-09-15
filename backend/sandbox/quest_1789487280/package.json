@@ -1,0 +1,17 @@
+{
+  "name": "synapse-guild-starter",
+  "version": "1.0.0",
+  "description": "SynapseGuild readiness starter baseline",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "guild-ready": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test test/index.test.js"
+  },
+  "keywords": ["synapse-guild", "readiness", "cli"],
+  "author": "The Craftsman",
+  "license": "MIT"
+}

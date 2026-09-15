@@ -8,14 +8,16 @@ from agents.craftsman import run_craftsman
 from agents.sentinel import run_sentinel
 from agents.dialogue_engine import generate_party_discussion
 from sandbox_runner import CodeSandbox
+from git_courier import push_artifacts_to_git
 
 class GuildOrchestrator:
-    def __init__(self, quest_id: str, quest_prompt: str, preset: str = "classic", event_callback: Optional[Callable] = None):
+    def __init__(self, quest_id: str, quest_prompt: str, language: str = "python", preset: str = "classic", event_callback: Optional[Callable] = None):
         self.quest_id = quest_id
         self.quest_prompt = quest_prompt
+        self.language = language.lower() # python | javascript
         self.preset = preset # classic | speedrun | security
         self.event_callback = event_callback
-        self.sandbox = CodeSandbox(quest_id)
+        self.sandbox = CodeSandbox(quest_id, language=self.language)
         self.iteration = 1
         self.max_iterations = 3
         self.party_stats = {
@@ -35,6 +37,7 @@ class GuildOrchestrator:
             "quest_id": self.quest_id,
             "timestamp": time.time(),
             "iteration": self.iteration,
+            "language": self.language,
             "actor": {
                 "id": actor_id,
                 "name": actor_names.get(actor_id, actor_id.capitalize()),
@@ -54,12 +57,12 @@ class GuildOrchestrator:
                 self.event_callback(payload)
 
     async def run(self) -> dict:
-        await self.emit("QUEST_INITIALIZED", "architect", f"Misi diterima: '{self.quest_prompt}'. Party berkumpul!", "ready")
+        await self.emit("QUEST_INITIALIZED", "architect", f"Misi [{self.language.upper()}] diterima: '{self.quest_prompt}'. Party berkumpul!", "ready")
         
         # ── 1. REALTIME TEAM BRAINSTORMING & DEBATE (WAR ROOM) ────────────────
         if self.preset != "speedrun":
-            await self.emit("AGENT_PHASE_START", "architect", "Memulai sesi diskusi dan debat strategi di War Room...", "meeting")
-            discussion = generate_party_discussion(self.quest_prompt, phase="PLANNING_AND_DESIGN")
+            await self.emit("AGENT_PHASE_START", "architect", f"Memulai sesi diskusi strategi {self.language.upper()} di War Room...", "meeting")
+            discussion = generate_party_discussion(f"[{self.language.upper()}] {self.quest_prompt}", phase="PLANNING_AND_DESIGN")
             for turn in discussion:
                 actor = turn.get("actor", "architect")
                 speech = turn.get("speech", "")
@@ -69,10 +72,10 @@ class GuildOrchestrator:
         feedback = None
         while self.iteration <= self.max_iterations:
             # ── 2. ARCHITECT BLUEPRINT ─────────────────────────────────────────
-            await self.emit("AGENT_PHASE_START", "architect", f"Menyusun blueprint teknis (Iterasi {self.iteration})...", "thinking")
+            await self.emit("AGENT_PHASE_START", "architect", f"Menyusun blueprint teknis {self.language.upper()} (Iterasi {self.iteration})...", "thinking")
             self.party_stats["architect"]["mp"] -= 30
             
-            architect_res = run_architect(self.quest_prompt, iteration=self.iteration, feedback=feedback)
+            architect_res = run_architect(self.quest_prompt, language=self.language, iteration=self.iteration, feedback=feedback)
             spec = architect_res.get("technical_spec", "")
             files_plan = architect_res.get("files_plan", [])
             test_criteria = architect_res.get("test_criteria", "")
@@ -84,10 +87,10 @@ class GuildOrchestrator:
             await asyncio.sleep(1.8)
 
             # ── 3. CRAFTSMAN AT THE FORGE (WITH LIVE CODE STREAMING) ───────────
-            await self.emit("AGENT_PHASE_START", "craftsman", "Forge Master bergerak ke workshop untuk menempa kode & unit test...", "crafting")
+            await self.emit("AGENT_PHASE_START", "craftsman", f"Forge Master bergerak ke workshop untuk menempa kode {self.language.upper()} & unit test...", "crafting")
             self.party_stats["craftsman"]["mp"] -= 40
             
-            craftsman_res = run_craftsman(spec, files_plan, test_criteria, feedback=feedback)
+            craftsman_res = run_craftsman(spec, files_plan, test_criteria, language=self.language, feedback=feedback)
             generated_files = craftsman_res.get("files", {})
             
             # Write files to Sandbox & Stream live code to frontend inspector
@@ -95,17 +98,18 @@ class GuildOrchestrator:
                 self.sandbox.write_file(fname, content)
                 await self.emit("CODE_FILE_FORGED", "craftsman", f"File '{fname}' selesai ditempa.", "hammer", {
                     "file_name": fname,
-                    "code_content": content
+                    "code_content": content,
+                    "language": self.language
                 })
                 
-            await self.emit("AGENT_SPEECH", "craftsman", craftsman_res.get("dialogue", "Kode berhasil ditempa. Menyerahkan ke Sentinel!"), "hammer", {
+            await self.emit("AGENT_SPEECH", "craftsman", craftsman_res.get("dialogue", f"Kode {self.language.upper()} berhasil ditempa. Menyerahkan ke Sentinel!"), "hammer", {
                 "files_generated": list(generated_files.keys()),
                 "files_dict": generated_files
             })
             await asyncio.sleep(1.8)
 
             # ── 4. SENTINEL AUDIT & SANDBOX BOSS BATTLE ────────────────────────
-            await self.emit("AGENT_PHASE_START", "sentinel", "The Grand Inquisitor menguji kode di Chamber of Judgment Altar...", "inspecting")
+            await self.emit("AGENT_PHASE_START", "sentinel", f"The Grand Inquisitor menguji kode {self.language.upper()} di Altar...", "inspecting")
             self.party_stats["sentinel"]["mp"] -= 35
             
             sandbox_result = self.sandbox.run_tests()
@@ -115,17 +119,24 @@ class GuildOrchestrator:
             score = sentinel_res.get("score", 0)
             
             if approved:
+                # ── 5. THE ROYAL COURIER: AUTO GIT COMMIT & HALL OF FAME LOGGING ───
+                git_res = push_artifacts_to_git(self.quest_id, self.quest_prompt, generated_files)
+                
                 await self.emit("QUEST_SUCCESS", "sentinel", sentinel_res.get("dialogue", "Semua pengujian lolos sempurna!"), "victory", {
                     "score": score,
+                    "language": self.language,
                     "artifacts": self.sandbox.list_files(),
-                    "review": sentinel_res.get("review_summary", "")
+                    "review": sentinel_res.get("review_summary", ""),
+                    "git_status": git_res
                 })
                 return {
                     "status": "completed",
                     "score": score,
+                    "language": self.language,
                     "files": generated_files,
                     "iterations": self.iteration,
-                    "review": sentinel_res.get("review_summary", "")
+                    "review": sentinel_res.get("review_summary", ""),
+                    "git": git_res
                 }
             else:
                 feedback = sentinel_res.get("review_summary", "Unit test gagal. Perbaiki logika kode.")
@@ -141,6 +152,7 @@ class GuildOrchestrator:
         return {
             "status": "failed",
             "score": 40,
+            "language": self.language,
             "files": generated_files if 'generated_files' in locals() else {},
             "iterations": self.iteration
         }

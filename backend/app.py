@@ -54,6 +54,7 @@ manager = ConnectionManager()
 class QuestDispatchPayload(BaseModel):
     title: str
     prompt: str
+    language: str = "python" # python | javascript
     difficulty: str = "normal"
     preset: str = "classic"
     author: str = "Guild Master Rama"
@@ -95,7 +96,7 @@ def read_root():
 
 @app.get("/api/health")
 def health_check():
-    return {"status": "online", "service": "SynapseGuild AI Engine", "timestamp": time.time(), "auto_cleanup_ttl": "15m"}
+    return {"status": "online", "service": "SynapseGuild AI Engine", "timestamp": time.time(), "auto_cleanup_ttl": "15m", "languages": ["python", "javascript"]}
 
 @app.get("/api/quests")
 def list_quests():
@@ -141,11 +142,11 @@ def download_single_file(quest_id: str, file_name: str):
         raise HTTPException(status_code=410, detail="Berkas sudah dihapus (Masa simpan 15 menit habis).")
     return FileResponse(file_path, filename=file_name)
 
-async def run_quest_task(quest_id: str, prompt: str, title: str, preset: str = "classic"):
+async def run_quest_task(quest_id: str, prompt: str, title: str, language: str = "python", preset: str = "classic"):
     async def ws_event_broadcaster(event_payload: dict):
         await manager.broadcast(event_payload)
 
-    orchestrator = GuildOrchestrator(quest_id, prompt, preset=preset, event_callback=ws_event_broadcaster)
+    orchestrator = GuildOrchestrator(quest_id, prompt, language=language, preset=preset, event_callback=ws_event_broadcaster)
     result = await orchestrator.run()
     
     QUEST_HISTORY[quest_id]["status"] = result.get("status")
@@ -159,8 +160,10 @@ async def run_quest_task(quest_id: str, prompt: str, title: str, preset: str = "
         "event_type": "QUEST_ARCHIVED",
         "quest_id": quest_id,
         "title": title,
+        "language": language,
         "status": result.get("status"),
         "score": result.get("score"),
+        "git_status": result.get("git"),
         "expires_in_seconds": CLEANUP_TTL_SECONDS
     })
 
@@ -172,6 +175,7 @@ async def dispatch_quest(payload: QuestDispatchPayload, background_tasks: Backgr
         "id": quest_id,
         "title": payload.title,
         "prompt": payload.prompt,
+        "language": payload.language,
         "difficulty": payload.difficulty,
         "preset": payload.preset,
         "author": payload.author,
@@ -188,15 +192,15 @@ async def dispatch_quest(payload: QuestDispatchPayload, background_tasks: Backgr
         "quest_id": quest_id,
         "title": payload.title,
         "prompt": payload.prompt,
+        "language": payload.language,
         "preset": payload.preset,
         "author": payload.author
     })
     
-    background_tasks.add_task(run_quest_task, quest_id, payload.prompt, payload.title, payload.preset)
+    background_tasks.add_task(run_quest_task, quest_id, payload.prompt, payload.title, payload.language, payload.preset)
     
     return {"status": "dispatched", "quest_id": quest_id, "title": payload.title}
 
-# 🪓 FITUR 2: GUILD MASTER DIRECT INTERVENTION ENDPOINT
 @app.post("/api/quest/intervene")
 async def intervene_quest(payload: GuildMasterInterventionPayload):
     await manager.broadcast({

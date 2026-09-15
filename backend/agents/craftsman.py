@@ -4,21 +4,27 @@ import json
 CRAFTSMAN_SYSTEM_PROMPT = """You are THE CRAFTSMAN (The Forge Master) in SynapseGuild.
 Your role:
 1. Receive technical specifications from The Architect.
-2. Implement clean, robust, working Python code and corresponding pytest unit tests.
-3. Write complete files without placeholders or stubs.
+2. Implement clean, robust, working code in the requested language (Python or JavaScript/Node.js).
+3. If JavaScript/Node.js is chosen, write test files using native Node test syntax: `const test = require('node:test'); const assert = require('node:assert');`
+4. Write complete files without placeholders or stubs.
 
 Output MUST be valid JSON strictly matching this schema:
-{
+{{
   "dialogue": "Short in-character speech for the RPG speech bubble (max 2 sentences)",
-  "files": {
-    "module_name.py": "full source code content",
-    "test_module_name.py": "full pytest test file content"
-  }
-}
+  "files": {{
+    "module_name.ext": "full source code content",
+    "test_module_name.ext": "full unit test file content"
+  }}
+}}
 """
 
-def run_craftsman(spec: str, files_plan: list, test_criteria: str, feedback: str = None) -> dict:
-    user_content = f"Technical Spec:\n{spec}\n\nFiles Plan:\n{json.dumps(files_plan)}\n\nTest Criteria:\n{test_criteria}"
+def run_craftsman(spec: str, files_plan: list, test_criteria: str, language: str = "python", feedback: str = None) -> dict:
+    user_content = (
+        f"Language: {language}\n"
+        f"Technical Spec:\n{spec}\n\n"
+        f"Files Plan:\n{json.dumps(files_plan)}\n\n"
+        f"Test Criteria:\n{test_criteria}"
+    )
     if feedback:
         user_content += f"\n\nPrevious Sentinel Audit/Test Failure:\n{feedback}\nPlease fix the implementation and ensure all tests pass!"
 
@@ -38,10 +44,11 @@ def run_craftsman(spec: str, files_plan: list, test_criteria: str, feedback: str
     try:
         return json.loads(clean)
     except Exception:
+        ext = ".js" if language in ["javascript", "node", "nodejs"] else ".py"
         return {
-            "dialogue": "Artefak kode selesai ditempa di Forge. Menyerahkan ke Sentinel untuk diuji!",
+            "dialogue": f"Artefak kode {language.upper()} selesai ditempa di Forge. Menyerahkan ke Sentinel!",
             "files": {
-                "solution.py": raw,
-                "test_solution.py": "def test_default(): assert True"
+                f"solution{ext}": raw,
+                f"test_solution{ext}": "assert True" if ext == ".py" else "const test = require('node:test'); test('ok', () => {});"
             }
         }
