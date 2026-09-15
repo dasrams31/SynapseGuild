@@ -462,7 +462,6 @@
   <script>
     lucide.createIcons();
 
-    const terminal = document.getElementById('tab-content-logs');
     const questForm = document.getElementById('quest-form');
     const activeQuestBadge = document.getElementById('active-quest-badge');
     const activeQuestTitle = document.getElementById('active-quest-title');
@@ -828,6 +827,17 @@
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
         osc.start(now);
         osc.stop(now + 0.35);
+      }
+    }
+
+    function logTerminal(prefix, text, colorClass = "text-slate-300") {
+      const time = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = `${colorClass} leading-relaxed p-1.5 bg-slate-900 border border-slate-800`;
+      div.innerHTML = `<span class="text-slate-500 font-mono">[${time}]</span> <span class="font-pixel text-[9px] text-amber-300">${prefix}:</span> ${text}`;
+      if (tabContentLogs) {
+        tabContentLogs.appendChild(div);
+        tabContentLogs.scrollTop = tabContentLogs.scrollHeight;
       }
     }
 
@@ -1534,7 +1544,7 @@
     });
 
     document.getElementById('btn-clear-logs').addEventListener('click', () => {
-      terminal.innerHTML = '';
+      if (tabContentLogs) tabContentLogs.innerHTML = '';
     });
   </script>
 </body>
