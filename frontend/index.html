@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SynapseGuild — 16-Bit Autonomous AI RPG Multi-Agent Guildhall</title>
   
   <!-- 🏰 16-BIT RETRO SWORD & CASTLE FAVICON -->
@@ -27,7 +27,10 @@
       font-family: 'Inter', sans-serif;
       background-color: #040711;
       background-image: radial-gradient(#121c33 1px, transparent 1px);
-      background-size: 24px 24px;
+      background-size: 20px 20px;
+      overflow-x: hidden;
+      touch-action: pan-y;
+      -webkit-tap-highlight-color: transparent;
     }
     .font-pixel {
       font-family: 'Press Start 2P', monospace;
@@ -41,36 +44,39 @@
       image-rendering: pixelated;
       image-rendering: crisp-edges;
       cursor: crosshair;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
     }
     .pixel-border-amber {
-      border: 4px solid #f59e0b;
-      box-shadow: inset -4px -4px 0px 0px #b45309, inset 4px 4px 0px 0px #fde68a, 0 10px 25px -5px rgba(0, 0, 0, 0.8);
+      border: 3px solid #f59e0b;
+      box-shadow: inset -3px -3px 0px 0px #b45309, inset 3px 3px 0px 0px #fde68a, 0 8px 20px -4px rgba(0, 0, 0, 0.8);
     }
     .pixel-border-dark {
-      border: 4px solid #334155;
-      box-shadow: inset -4px -4px 0px 0px #0f172a, inset 4px 4px 0px 0px #64748b;
+      border: 3px solid #334155;
+      box-shadow: inset -3px -3px 0px 0px #0f172a, inset 3px 3px 0px 0px #64748b;
     }
     .pixel-box {
       background: #0f172a;
-      border: 3px solid #475569;
-      box-shadow: 0 4px 0 #1e293b;
+      border: 2px solid #475569;
+      box-shadow: 0 3px 0 #1e293b;
     }
     .pixel-btn {
       position: relative;
-      border-bottom: 4px solid #b45309;
+      border-bottom: 3px solid #b45309;
       transition: all 0.05s ease;
     }
     .pixel-btn:active {
-      transform: translateY(3px);
+      transform: translateY(2px);
       border-bottom: 1px solid #b45309;
     }
     .dpad-btn {
       background: #0f172a;
       border: 2px solid #475569;
-      box-shadow: 0 3px 0 #020617;
+      box-shadow: 0 2px 0 #020617;
       color: #f59e0b;
       font-family: 'Press Start 2P', monospace;
-      font-size: 10px;
+      font-size: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -80,12 +86,12 @@
     }
     .dpad-btn:active {
       transform: translateY(2px);
-      box-shadow: 0 1px 0 #020617;
+      box-shadow: 0 0 0 #020617;
       background: #1e293b;
     }
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 4px;
+      height: 4px;
     }
     ::-webkit-scrollbar-track {
       background: #070b14;
@@ -96,66 +102,66 @@
     }
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      height: 18px;
-      width: 14px;
+      height: 16px;
+      width: 12px;
       border-radius: 2px;
       background: #f59e0b;
-      border: 2px solid #fff;
+      border: 1px solid #fff;
       cursor: pointer;
-      box-shadow: 0 0 8px #f59e0b;
+      box-shadow: 0 0 6px #f59e0b;
     }
   </style>
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950">
 
   <!-- 🏰 MANDATORY RPG LOGIN & REGISTRATION MODAL OVERLAY -->
-  <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="pixel-border-amber bg-slate-900 max-w-md w-full p-6 shadow-2xl relative">
-      <div class="text-center mb-6">
-        <div class="w-14 h-14 bg-amber-500 border-2 border-yellow-200 mx-auto flex items-center justify-center shadow-lg shadow-amber-500/40 mb-3">
-          <i data-lucide="shield" class="w-8 h-8 text-slate-950"></i>
+  <div id="auth-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div class="pixel-border-amber bg-slate-900 max-w-sm sm:max-w-md w-full p-4 sm:p-6 shadow-2xl relative">
+      <div class="text-center mb-4 sm:mb-6">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 bg-amber-500 border-2 border-yellow-200 mx-auto flex items-center justify-center shadow-lg shadow-amber-500/40 mb-2 sm:mb-3">
+          <i data-lucide="shield" class="w-6 h-6 sm:w-8 sm:h-8 text-slate-950"></i>
         </div>
-        <h2 class="font-pixel text-sm text-amber-400">GUILD PASSPORT</h2>
-        <p class="font-pixel text-[8px] text-slate-400 mt-1">MASUKKAN IDENTITAS PETUALANG ANDA</p>
+        <h2 class="font-pixel text-xs sm:text-sm text-amber-400">GUILD PASSPORT</h2>
+        <p class="font-pixel text-[7px] sm:text-[8px] text-slate-400 mt-1">MASUKKAN IDENTITAS PETUALANG ANDA</p>
       </div>
 
       <!-- Tab Switcher -->
-      <div class="flex border-b-2 border-slate-800 mb-4 font-pixel text-[9px]">
-        <button id="tab-auth-login" class="flex-1 py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950">LOGIN</button>
-        <button id="tab-auth-register" class="flex-1 py-2 text-slate-400 hover:text-slate-200 bg-slate-900">REGISTER</button>
+      <div class="flex border-b-2 border-slate-800 mb-3 sm:mb-4 font-pixel text-[8px] sm:text-[9px]">
+        <button id="tab-auth-login" class="flex-1 py-1.5 sm:py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950">LOGIN</button>
+        <button id="tab-auth-register" class="flex-1 py-1.5 sm:py-2 text-slate-400 hover:text-slate-200 bg-slate-900">REGISTER</button>
       </div>
 
-      <div id="auth-error-msg" class="p-2 mb-4 bg-rose-950/80 border border-rose-500 text-rose-300 text-xs font-mono hidden"></div>
+      <div id="auth-error-msg" class="p-2 mb-3 bg-rose-950/80 border border-rose-500 text-rose-300 text-[10px] sm:text-xs font-mono hidden"></div>
 
       <!-- Login Form -->
-      <form id="form-auth-login" class="space-y-4">
+      <form id="form-auth-login" class="space-y-3 sm:space-y-4">
         <div>
-          <label class="block font-pixel text-[8px] text-amber-200 mb-1">NAMA PETUALANG (USERNAME)</label>
-          <input type="text" id="login-username" required placeholder="dasrams" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
+          <label class="block font-pixel text-[7px] sm:text-[8px] text-amber-200 mb-1">NAMA PETUALANG (USERNAME)</label>
+          <input type="text" id="login-username" required placeholder="dasrams" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-1.5 sm:py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
         </div>
         <div>
-          <label class="block font-pixel text-[8px] text-amber-200 mb-1">MANTRA SANDI (PASSWORD)</label>
-          <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
+          <label class="block font-pixel text-[7px] sm:text-[8px] text-amber-200 mb-1">MANTRA SANDI (PASSWORD)</label>
+          <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-1.5 sm:py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
         </div>
-        <button type="submit" class="pixel-btn w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-pixel text-[10px] py-3 transition">
+        <button type="submit" class="pixel-btn w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-pixel text-[9px] sm:text-[10px] py-2.5 sm:py-3 transition">
           ENTER GUILDHALL ⚔️
         </button>
       </form>
 
       <!-- Register Form -->
-      <form id="form-auth-register" class="space-y-3.5 hidden">
+      <form id="form-auth-register" class="space-y-3 hidden">
         <div>
-          <label class="block font-pixel text-[8px] text-amber-200 mb-1">NAMA PETUALANG (USERNAME)</label>
-          <input type="text" id="reg-username" required placeholder="Contoh: arjuna_dev" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
+          <label class="block font-pixel text-[7px] sm:text-[8px] text-amber-200 mb-1">NAMA PETUALANG (USERNAME)</label>
+          <input type="text" id="reg-username" required placeholder="Contoh: arjuna_dev" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-1.5 sm:py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
         </div>
         <div>
-          <label class="block font-pixel text-[8px] text-amber-200 mb-1">MANTRA SANDI (PASSWORD)</label>
-          <input type="password" id="reg-password" required placeholder="Minimal 4 karakter" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
+          <label class="block font-pixel text-[7px] sm:text-[8px] text-amber-200 mb-1">MANTRA SANDI (PASSWORD)</label>
+          <input type="password" id="reg-password" required placeholder="Minimal 4 karakter" class="w-full bg-slate-950 border-2 border-slate-700 px-3 py-1.5 sm:py-2 text-xs text-slate-100 focus:outline-none focus:border-amber-400 font-mono">
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block font-pixel text-[8px] text-amber-200 mb-1">CLASS ROLE</label>
-            <select id="reg-class" class="w-full bg-slate-950 border-2 border-slate-700 p-1.5 text-xs text-amber-300 font-pixel">
+            <label class="block font-pixel text-[7px] sm:text-[8px] text-amber-200 mb-1">CLASS ROLE</label>
+            <select id="reg-class" class="w-full bg-slate-950 border-2 border-slate-700 p-1.5 text-[10px] text-amber-300 font-pixel">
               <option value="Wizard">🧙‍♂️ Wizard</option>
               <option value="Knight">⚔️ Knight</option>
               <option value="Paladin">🛡️ Paladin</option>
@@ -163,8 +169,8 @@
             </select>
           </div>
           <div>
-            <label class="block font-pixel text-[8px] text-amber-200 mb-1">AVATAR</label>
-            <select id="reg-avatar" class="w-full bg-slate-950 border-2 border-slate-700 p-1.5 text-xs text-slate-200 font-pixel">
+            <label class="block font-pixel text-[7px] sm:text-[8px] text-amber-200 mb-1">AVATAR</label>
+            <select id="reg-avatar" class="w-full bg-slate-950 border-2 border-slate-700 p-1.5 text-[10px] text-slate-200 font-pixel">
               <option value="⚔️">⚔️ Swords</option>
               <option value="🧙‍♂️">🧙‍♂️ Sage</option>
               <option value="⚒️">⚒️ Forge</option>
@@ -173,40 +179,40 @@
             </select>
           </div>
         </div>
-        <button type="submit" class="pixel-btn w-full bg-emerald-600 hover:bg-emerald-500 text-white font-pixel text-[10px] py-3 transition">
+        <button type="submit" class="pixel-btn w-full bg-emerald-600 hover:bg-emerald-500 text-white font-pixel text-[9px] sm:text-[10px] py-2.5 sm:py-3 transition">
           CREATE HERO PASSPORT ⭐
         </button>
       </form>
     </div>
   </div>
 
-  <!-- TOP 16-BIT HUD BAR -->
-  <header class="border-b-4 border-slate-800 bg-slate-950/95 px-6 py-3 sticky top-0 z-40 flex items-center justify-between shadow-2xl">
-    <div class="flex items-center space-x-3.5">
-      <div class="w-11 h-11 bg-amber-500 border-2 border-yellow-200 flex items-center justify-center shadow-lg shadow-amber-500/30">
-        <i data-lucide="swords" class="w-6 h-6 text-slate-950"></i>
+  <!-- TOP 16-BIT HUD BAR (RESPONSIVE WRAP) -->
+  <header class="border-b-4 border-slate-800 bg-slate-950/95 px-3 sm:px-6 py-2.5 sm:py-3 sticky top-0 z-40 flex flex-wrap items-center justify-between gap-2 shadow-2xl">
+    <div class="flex items-center space-x-2.5 sm:space-x-3.5">
+      <div class="w-9 h-9 sm:w-11 sm:h-11 bg-amber-500 border-2 border-yellow-200 flex items-center justify-center shadow-md shadow-amber-500/30">
+        <i data-lucide="swords" class="w-5 h-5 sm:w-6 sm:h-6 text-slate-950"></i>
       </div>
       <div>
-        <h1 class="font-pixel text-xs sm:text-sm tracking-wider text-amber-400 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+        <h1 class="font-pixel text-[11px] sm:text-sm tracking-wider text-amber-400 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
           SYNAPSE<span class="text-yellow-200">GUILD</span>
         </h1>
-        <p class="text-[9px] text-amber-500/90 font-pixel tracking-tight flex items-center space-x-1.5 mt-1">
-          <span class="w-2 h-2 bg-emerald-400 animate-pulse"></span>
-          <span>EXPANDED MEDIEVAL CYBER-CASTLE ARENA</span>
+        <p class="text-[7.5px] sm:text-[9px] text-amber-500/90 font-pixel tracking-tight flex items-center space-x-1 sm:space-x-1.5 mt-0.5 sm:mt-1 truncate max-w-[200px] sm:max-w-none">
+          <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-emerald-400 animate-pulse shrink-0"></span>
+          <span class="truncate">AI MULTI-AGENT RPG ARENA</span>
         </p>
       </div>
     </div>
 
-    <!-- Active Party Status -->
-    <div class="hidden lg:flex items-center space-x-4 font-pixel text-[9px]">
-      <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-indigo-400 transition" onclick="selectPlayableCharacter('architect')">
-        <div class="w-6 h-6 bg-indigo-600 border border-indigo-300 flex items-center justify-center text-[10px] text-white">S</div>
+    <!-- Active Party Status (Visible on Large Screens) -->
+    <div class="hidden xl:flex items-center space-x-3 font-pixel text-[9px]">
+      <div class="pixel-box px-2.5 py-1.5 flex items-center space-x-2 cursor-pointer hover:border-indigo-400 transition" onclick="selectPlayableCharacter('architect')">
+        <div class="w-5 h-5 bg-indigo-600 border border-indigo-300 flex items-center justify-center text-[9px] text-white">S</div>
         <div>
           <div class="flex justify-between text-indigo-300 mb-0.5">
             <span>SAGE</span>
             <span id="level-val-architect" class="text-yellow-300 text-[8px]">LV.1</span>
           </div>
-          <div class="w-24 bg-slate-900 h-2 border border-slate-700">
+          <div class="w-20 bg-slate-900 h-1.5 border border-slate-700">
             <div id="mp-bar-architect" class="bg-indigo-400 h-full w-full transition-all duration-300"></div>
           </div>
           <div class="text-[7px] text-slate-400 mt-0.5 flex justify-between">
@@ -215,14 +221,14 @@
         </div>
       </div>
 
-      <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-amber-400 transition" onclick="selectPlayableCharacter('craftsman')">
-        <div class="w-6 h-6 bg-amber-600 border border-amber-300 flex items-center justify-center text-[10px] text-white">F</div>
+      <div class="pixel-box px-2.5 py-1.5 flex items-center space-x-2 cursor-pointer hover:border-amber-400 transition" onclick="selectPlayableCharacter('craftsman')">
+        <div class="w-5 h-5 bg-amber-600 border border-amber-300 flex items-center justify-center text-[9px] text-white">F</div>
         <div>
           <div class="flex justify-between text-amber-300 mb-0.5">
             <span>FORGE</span>
             <span id="level-val-craftsman" class="text-yellow-300 text-[8px]">LV.1</span>
           </div>
-          <div class="w-24 bg-slate-900 h-2 border border-slate-700">
+          <div class="w-20 bg-slate-900 h-1.5 border border-slate-700">
             <div id="mp-bar-craftsman" class="bg-amber-400 h-full w-full transition-all duration-300"></div>
           </div>
           <div class="text-[7px] text-slate-400 mt-0.5 flex justify-between">
@@ -231,14 +237,14 @@
         </div>
       </div>
 
-      <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-emerald-400 transition" onclick="selectPlayableCharacter('sentinel')">
-        <div class="w-6 h-6 bg-emerald-600 border border-emerald-300 flex items-center justify-center text-[10px] text-white">I</div>
+      <div class="pixel-box px-2.5 py-1.5 flex items-center space-x-2 cursor-pointer hover:border-emerald-400 transition" onclick="selectPlayableCharacter('sentinel')">
+        <div class="w-5 h-5 bg-emerald-600 border border-emerald-300 flex items-center justify-center text-[9px] text-white">I</div>
         <div>
           <div class="flex justify-between text-emerald-300 mb-0.5">
             <span>INQUISITOR</span>
             <span id="level-val-sentinel" class="text-yellow-300 text-[8px]">LV.1</span>
           </div>
-          <div class="w-24 bg-slate-900 h-2 border border-slate-700">
+          <div class="w-20 bg-slate-900 h-1.5 border border-slate-700">
             <div id="mp-bar-sentinel" class="bg-emerald-400 h-full w-full transition-all duration-300"></div>
           </div>
           <div class="text-[7px] text-slate-400 mt-0.5 flex justify-between">
@@ -249,273 +255,268 @@
     </div>
 
     <!-- User Profile Badge & BGM / Logout -->
-    <div class="flex items-center space-x-2.5">
-      <div id="user-badge" class="pixel-box px-2.5 py-1.5 flex items-center space-x-1.5 font-pixel text-[9px] text-amber-300">
+    <div class="flex items-center space-x-1.5 sm:space-x-2.5">
+      <div id="user-badge" class="pixel-box px-2 sm:px-2.5 py-1 sm:py-1.5 flex items-center space-x-1 sm:space-x-1.5 font-pixel text-[8px] sm:text-[9px] text-amber-300">
         <span id="user-avatar">🧙‍♂️</span>
-        <span id="user-name">GUEST</span>
-        <span id="user-lvl" class="text-yellow-400 ml-1">LV.1</span>
+        <span id="user-name" class="max-w-[70px] sm:max-w-none truncate">GUEST</span>
+        <span id="user-lvl" class="text-yellow-400 ml-0.5">LV.1</span>
       </div>
 
-      <button id="btn-bgm-toggle" class="pixel-box px-2.5 py-1.5 bg-slate-900 border-amber-400 text-amber-300 font-pixel text-[9px] transition flex items-center space-x-1">
-        <i data-lucide="music" id="bgm-icon" class="w-3.5 h-3.5 text-emerald-400 animate-spin"></i>
-        <span id="bgm-label" class="hidden sm:inline">BGM: ON</span>
+      <button id="btn-bgm-toggle" class="pixel-box px-2 sm:px-2.5 py-1 sm:py-1.5 bg-slate-900 border-amber-400 text-amber-300 font-pixel text-[8px] sm:text-[9px] transition flex items-center space-x-1">
+        <i data-lucide="music" id="bgm-icon" class="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400 animate-spin"></i>
+        <span id="bgm-label" class="hidden sm:inline">BGM</span>
       </button>
 
-      <button id="btn-logout" title="Logout dari Guild" class="pixel-box px-2 py-1.5 hover:bg-rose-950/80 text-rose-400 border-rose-500/50 transition flex items-center font-pixel text-[9px]">
+      <button id="btn-logout" title="Logout dari Guild" class="pixel-box px-2 py-1 sm:py-1.5 hover:bg-rose-950/80 text-rose-400 border-rose-500/50 transition flex items-center font-pixel text-[8px] sm:text-[9px]">
         <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
       </button>
     </div>
   </header>
 
-  <!-- MAIN VIEWPORT GRID -->
-  <main class="flex-1 max-w-[1780px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+  <!-- MAIN VIEWPORT GRID (MOBILE STACKED, DESKTOP SIDE-BY-SIDE) -->
+  <main class="flex-1 max-w-[1780px] w-full mx-auto p-3 sm:p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
 
-    <!-- LEFT COLUMN: RETRO QUEST BOARD & INTERVENTIONS (4 COLS) -->
-    <div class="lg:col-span-4 flex flex-col space-y-6">
+    <!-- LEFT COLUMN: QUEST BOARD & INTERVENTIONS (MOBILE ORDER 2, DESKTOP 4 COLS) -->
+    <div class="order-2 lg:order-1 lg:col-span-4 flex flex-col space-y-4 sm:space-y-6">
       
       <!-- QUEST DISPATCH PANEL -->
-      <div class="pixel-border-dark bg-slate-950 p-5 shadow-2xl relative">
-        <div class="flex items-center justify-between mb-4 border-b-2 border-slate-800 pb-2.5">
+      <div class="pixel-border-dark bg-slate-950 p-3.5 sm:p-5 shadow-2xl relative">
+        <div class="flex items-center justify-between mb-3 border-b-2 border-slate-800 pb-2">
           <div class="flex items-center space-x-2">
             <i data-lucide="scroll" class="w-4 h-4 text-amber-400"></i>
-            <h2 class="font-pixel text-[11px] text-amber-300 tracking-wide">QUEST DISPATCH BOARD</h2>
+            <h2 class="font-pixel text-[10px] sm:text-[11px] text-amber-300 tracking-wide">QUEST BOARD</h2>
           </div>
-          <span class="text-[8px] font-pixel bg-amber-500 text-slate-950 px-1.5 py-0.5 font-bold">PAPAN MISI</span>
+          <span class="text-[7.5px] sm:text-[8px] font-pixel bg-amber-500 text-slate-950 px-1.5 py-0.5 font-bold">DISPATCH</span>
         </div>
 
-        <form id="quest-form" class="space-y-4 font-sans text-xs">
-          <div class="grid grid-cols-2 gap-3">
+        <form id="quest-form" class="space-y-3 font-sans text-xs">
+          <div class="grid grid-cols-2 gap-2">
             <div>
-              <label class="block font-pixel text-[8px] text-amber-200 mb-1">LANGUAGE / RUNNER</label>
-              <select id="quest-language" class="w-full bg-slate-900 border-2 border-slate-700 p-1.5 text-amber-300 text-xs focus:outline-none focus:border-amber-400 font-pixel">
-                <option value="python">🐍 Python (pytest)</option>
-                <option value="javascript">⚡ JavaScript (node:test)</option>
+              <label class="block font-pixel text-[7.5px] sm:text-[8px] text-amber-200 mb-1">LANGUAGE</label>
+              <select id="quest-language" class="w-full bg-slate-900 border-2 border-slate-700 p-1.5 text-amber-300 text-[11px] focus:outline-none focus:border-amber-400 font-pixel">
+                <option value="python">🐍 Python</option>
+                <option value="javascript">⚡ JS / Node</option>
               </select>
             </div>
             <div>
-              <label class="block font-pixel text-[8px] text-slate-400 mb-1">FORMATION</label>
-              <select id="party-preset" class="w-full bg-slate-900 border-2 border-slate-700 p-1.5 text-slate-200 text-xs focus:outline-none focus:border-amber-400 font-pixel">
-                <option value="classic">⚔️ Classic Trio</option>
-                <option value="speedrun">⚡ Speedrun Duo</option>
+              <label class="block font-pixel text-[7.5px] sm:text-[8px] text-slate-400 mb-1">PARTY</label>
+              <select id="party-preset" class="w-full bg-slate-900 border-2 border-slate-700 p-1.5 text-slate-200 text-[11px] focus:outline-none focus:border-amber-400 font-pixel">
+                <option value="classic">⚔️ Trio</option>
+                <option value="speedrun">⚡ Duo</option>
                 <option value="security">🛡️ Zero-Trust</option>
               </select>
             </div>
           </div>
 
           <div>
-            <label class="block font-pixel text-[9px] text-amber-200 mb-1.5">NAMA MISI / QUEST TITLE</label>
-            <input type="text" id="quest-title" required placeholder="Contoh: Modul Kalkulator Kalori Pendaki" 
-                   class="w-full bg-slate-900 border-2 border-slate-700 px-3 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 transition font-mono">
+            <label class="block font-pixel text-[7.5px] sm:text-[8px] text-amber-200 mb-1">NAMA MISI / TITLE</label>
+            <input type="text" id="quest-title" required placeholder="Contoh: Modul Kalkulator Kalori" 
+                   class="w-full bg-slate-900 border-2 border-slate-700 px-3 py-1.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 font-mono">
           </div>
 
           <div>
-            <label class="block font-pixel text-[9px] text-amber-200 mb-1.5">DESKRIPSI TUGAS (PROMPT)</label>
-            <textarea id="quest-prompt" required rows="3" placeholder="Jelaskan kebutuhan fitur atau modul yang ingin dikerjakan bersama oleh party..."
-                      class="w-full bg-slate-900 border-2 border-slate-700 p-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 transition font-mono resize-none"></textarea>
+            <label class="block font-pixel text-[7.5px] sm:text-[8px] text-amber-200 mb-1">DESKRIPSI (PROMPT)</label>
+            <textarea id="quest-prompt" required rows="3" placeholder="Jelaskan kebutuhan modul/fitur yang ingin dikerjakan bersama..."
+                      class="w-full bg-slate-900 border-2 border-slate-700 p-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 font-mono resize-none"></textarea>
           </div>
 
           <button type="submit" id="btn-dispatch" 
-                  class="pixel-btn w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-pixel text-[10px] py-3 rounded-none shadow-lg transition flex items-center justify-center space-x-2">
+                  class="pixel-btn w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-pixel text-[9px] sm:text-[10px] py-2.5 sm:py-3 transition flex items-center justify-center space-x-2">
             <i data-lucide="sword" class="w-4 h-4"></i>
-            <span>START QUEST (LEMPAR MISI)</span>
+            <span>START QUEST ⚔️</span>
           </button>
         </form>
       </div>
 
       <!-- GUILD MASTER DIRECT INTERVENTIONS -->
-      <div id="intervention-panel" class="pixel-border-dark bg-slate-950 p-4 shadow-2xl hidden">
-        <div class="flex items-center justify-between mb-2 pb-1.5 border-b border-amber-500/40">
-          <span class="font-pixel text-[9px] text-amber-400 flex items-center space-x-1.5">
-            <span>👑</span><span>GUILD MASTER DIRECT INTERVENTION</span>
+      <div id="intervention-panel" class="pixel-border-dark bg-slate-950 p-3.5 sm:p-4 shadow-2xl hidden">
+        <div class="flex items-center justify-between mb-2 pb-1 border-b border-amber-500/40">
+          <span class="font-pixel text-[8px] sm:text-[9px] text-amber-400 flex items-center space-x-1.5">
+            <span>👑</span><span>WAR ROOM INTERVENTION</span>
           </span>
-          <span class="font-pixel text-[7px] text-amber-300 animate-pulse">WAR ROOM LIVE</span>
+          <span class="font-pixel text-[7px] text-amber-300 animate-pulse">LIVE</span>
         </div>
-        <p class="text-[9px] font-mono text-slate-400 mb-2.5">Kirim arahan darurat saat party sedang berdiskusi:</p>
         
-        <div class="grid grid-cols-2 gap-2 mb-2">
-          <button onclick="sendQuickIntervention('Gunakan pendekatan kode yang paling simpel dan modular!')" class="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-[9px] font-mono text-left truncate">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mb-2">
+          <button onclick="sendQuickIntervention('Gunakan pendekatan kode yang paling simpel dan modular!')" class="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-[8.5px] font-mono text-left truncate">
             ⚡ "Solusi simpel & modular"
           </button>
-          <button onclick="sendQuickIntervention('Tambahkan edge-case pengujian batas ekstrem (zero/negative)!')" class="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-[9px] font-mono text-left truncate">
+          <button onclick="sendQuickIntervention('Tambahkan edge-case pengujian batas ekstrem (zero/negative)!')" class="p-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 text-[8.5px] font-mono text-left truncate">
             🛡️ "Tambah edge-case batas"
           </button>
         </div>
 
-        <div class="flex space-x-2">
-          <input type="text" id="custom-intervention-input" placeholder="Ketik arahan kustom..." class="flex-1 bg-slate-900 border border-slate-700 px-2 py-1 text-xs text-slate-100 font-mono focus:outline-none focus:border-amber-400">
-          <button id="btn-send-intervention" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-pixel text-[8px] px-3 py-1 font-bold">
+        <div class="flex space-x-1.5">
+          <input type="text" id="custom-intervention-input" placeholder="Arahan darurat..." class="flex-1 bg-slate-900 border border-slate-700 px-2 py-1 text-xs text-slate-100 font-mono focus:outline-none">
+          <button id="btn-send-intervention" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-pixel text-[8px] px-2.5 py-1 font-bold">
             KIRIM
           </button>
         </div>
       </div>
 
       <!-- ACTIVE STATUS, LOOT DROP & PERSONAL QUEST HISTORY -->
-      <div class="pixel-border-dark bg-slate-950 p-5 shadow-2xl flex-1 flex flex-col justify-between space-y-4">
+      <div class="pixel-border-dark bg-slate-950 p-3.5 sm:p-5 shadow-2xl flex flex-col space-y-3 sm:space-y-4">
         <div>
-          <div class="flex items-center justify-between mb-3 border-b-2 border-slate-800 pb-2">
-            <div class="flex items-center space-x-2">
-              <i data-lucide="crosshair" class="w-4 h-4 text-indigo-400"></i>
-              <h3 class="font-pixel text-[10px] text-slate-200">OFFICE TASK TRACKER</h3>
+          <div class="flex items-center justify-between mb-2 border-b-2 border-slate-800 pb-1.5">
+            <div class="flex items-center space-x-1.5">
+              <i data-lucide="crosshair" class="w-3.5 h-3.5 text-indigo-400"></i>
+              <h3 class="font-pixel text-[9px] sm:text-[10px] text-slate-200">ACTIVE TRACKER</h3>
             </div>
-            <span id="active-quest-badge" class="font-pixel text-[8px] text-slate-500 bg-slate-900 px-2 py-0.5 border border-slate-800">IDLE</span>
+            <span id="active-quest-badge" class="font-pixel text-[7.5px] text-slate-500 bg-slate-900 px-1.5 py-0.5 border border-slate-800">IDLE</span>
           </div>
 
-          <div class="space-y-3">
-            <div class="p-3 bg-slate-900 border-2 border-slate-800">
-              <h4 id="active-quest-title" class="font-pixel text-[10px] text-amber-300 mb-1.5">Waiting for Quest...</h4>
-              <p id="active-quest-desc" class="text-xs text-slate-400 line-clamp-2 font-mono">Masukkan tugas di papan quest atau dispatch lewat bot Telegram @synapseguild_bot.</p>
+          <div class="space-y-2">
+            <div class="p-2.5 bg-slate-900 border-2 border-slate-800">
+              <h4 id="active-quest-title" class="font-pixel text-[9px] sm:text-[10px] text-amber-300 mb-1">Waiting for Quest...</h4>
+              <p id="active-quest-desc" class="text-[11px] text-slate-400 line-clamp-2 font-mono">Masukkan tugas di form atau via Telegram @synapseguild_bot.</p>
             </div>
 
-            <div class="space-y-2 text-xs font-mono">
-              <div class="flex items-center justify-between text-slate-400">
-                <span class="font-pixel text-[8px]">LOCATION:</span>
-                <span id="active-phase" class="text-amber-300 font-bold font-pixel text-[8px]">OFFICE LOBBY</span>
+            <div class="space-y-1 text-xs font-mono">
+              <div class="flex items-center justify-between text-slate-400 text-[11px]">
+                <span class="font-pixel text-[7px]">LOCATION:</span>
+                <span id="active-phase" class="text-amber-300 font-bold font-pixel text-[7px] truncate max-w-[150px]">LOBBY</span>
               </div>
-              <div class="flex items-center justify-between text-slate-400">
-                <span class="font-pixel text-[8px]">SANDBOX:</span>
-                <span id="active-sandbox-status" class="text-emerald-400 font-bold">STANDBY</span>
+              <div class="flex items-center justify-between text-slate-400 text-[11px]">
+                <span class="font-pixel text-[7px]">SANDBOX:</span>
+                <span id="active-sandbox-status" class="text-emerald-400 font-bold text-[10px]">STANDBY</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 📜 PERSONAL QUEST HISTORY (DATABASE BACKED) -->
-        <div class="p-3 bg-slate-900/90 border-2 border-amber-500/40">
-          <div class="flex items-center justify-between mb-2">
-            <span class="font-pixel text-[8px] text-amber-300 flex items-center space-x-1">
-              <span>📜</span><span>RIWAYAT QUEST ANDA</span>
+        <!-- 📜 PERSONAL QUEST HISTORY -->
+        <div class="p-2.5 bg-slate-900/90 border-2 border-amber-500/40">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="font-pixel text-[7.5px] sm:text-[8px] text-amber-300 flex items-center space-x-1">
+              <span>📜</span><span>RIWAYAT QUEST</span>
             </span>
-            <span id="user-quest-count" class="font-pixel text-[8px] text-yellow-400">0 QUESTS</span>
+            <span id="user-quest-count" class="font-pixel text-[7.5px] text-yellow-400">0 QUESTS</span>
           </div>
-          <div id="user-quest-history-list" class="space-y-1.5 max-h-24 overflow-y-auto text-[10px] font-mono text-slate-300 pr-1">
+          <div id="user-quest-history-list" class="space-y-1 max-h-24 overflow-y-auto text-[10px] font-mono text-slate-300 pr-1">
             <div class="text-slate-500 italic">Memuat riwayat quest...</div>
           </div>
         </div>
 
-        <!-- 16-BIT LOOT BOX DROP & DIRECT DOWNLOAD -->
-        <div id="loot-box" class="p-3.5 bg-emerald-950/70 border-2 border-emerald-500 shadow-xl hidden">
-          <div class="flex items-center justify-between text-xs text-emerald-300 font-bold mb-2">
-            <div class="flex items-center space-x-2">
+        <!-- 16-BIT LOOT BOX DROP -->
+        <div id="loot-box" class="p-3 bg-emerald-950/70 border-2 border-emerald-500 shadow-xl hidden">
+          <div class="flex items-center justify-between text-xs text-emerald-300 font-bold mb-1.5">
+            <div class="flex items-center space-x-1.5">
               <i data-lucide="package-check" class="w-4 h-4 text-amber-400"></i>
-              <span class="font-pixel text-[9px] text-amber-300">LOOT DROPPED! (+100 EXP)</span>
+              <span class="font-pixel text-[8px] text-amber-300">LOOT DROPPED! (+100 EXP)</span>
             </div>
-            <span class="font-pixel text-[7px] text-amber-300 bg-amber-950 border border-amber-500 px-1.5 py-0.5">TTL: 15 MENIT</span>
+            <span class="font-pixel text-[6.5px] text-amber-300 bg-amber-950 border border-amber-500 px-1 py-0.5">TTL: 15M</span>
           </div>
           
-          <div id="loot-files" class="text-xs font-mono-code text-slate-200 space-y-1.5 mb-2 bg-slate-950 p-2 border border-slate-800"></div>
+          <div id="loot-files" class="text-[11px] font-mono-code text-slate-200 space-y-1 mb-2 bg-slate-950 p-2 border border-slate-800"></div>
 
-          <p class="text-[9px] font-mono text-amber-200/90 mb-2.5 flex items-start space-x-1">
-            <span class="text-amber-400">⚠️</span>
-            <span>Tersimpan di riwayat & server selama 15 menit. Langsung hilang saat diunduh.</span>
-          </p>
-
-          <button id="btn-download-zip" class="pixel-btn w-full bg-emerald-600 hover:bg-emerald-500 text-white font-pixel text-[9px] py-2 px-3 flex items-center justify-center space-x-2 transition">
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>DOWNLOAD ZIP (LANGSUNG HAPUS DARI SERVER)</span>
+          <button id="btn-download-zip" class="pixel-btn w-full bg-emerald-600 hover:bg-emerald-500 text-white font-pixel text-[8.5px] py-2 px-2 flex items-center justify-center space-x-1.5 transition">
+            <i data-lucide="download" class="w-3 h-3"></i>
+            <span>DOWNLOAD ZIP</span>
           </button>
         </div>
       </div>
 
     </div>
 
-    <!-- CENTER & RIGHT: 16-BIT EXPANDED CASTLE ARENA & DUAL TAB (8 COLS) -->
-    <div class="lg:col-span-8 flex flex-col space-y-6">
+    <!-- CENTER & RIGHT: 16-BIT EXPANDED CASTLE ARENA & DUAL TAB (MOBILE ORDER 1, DESKTOP 8 COLS) -->
+    <div class="order-1 lg:order-2 lg:col-span-8 flex flex-col space-y-4 sm:space-y-6">
 
-      <!-- RETRO PIXEL GUILDHALL CANVAS (EXPANDED 920x520 WORLD) -->
+      <!-- RETRO PIXEL GUILDHALL CANVAS (RESPONSIVE RATIO) -->
       <div class="pixel-border-amber bg-slate-950 overflow-hidden shadow-2xl relative flex flex-col">
         
-        <div class="bg-slate-900 px-4 py-2 border-b-2 border-slate-800 flex items-center justify-between font-pixel text-[9px]">
-          <div class="flex items-center space-x-2 text-amber-300">
-            <i data-lucide="gamepad-2" class="w-4 h-4 text-amber-400"></i>
-            <span>CASTLE WORLD ARENA (7 ROOMS EXPANDED)</span>
+        <div class="bg-slate-900 px-3 sm:px-4 py-1.5 sm:py-2 border-b-2 border-slate-800 flex items-center justify-between font-pixel text-[8px] sm:text-[9px]">
+          <div class="flex items-center space-x-1.5 text-amber-300">
+            <i data-lucide="gamepad-2" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span class="hidden sm:inline">ARENA (7 ROOMS EXPANDED)</span>
+            <span class="sm:hidden">7-ROOM ARENA</span>
           </div>
 
           <!-- 🐉 BOSS BATTLE HP BAR (THE BUG BEAST) -->
-          <div id="boss-hud" class="flex items-center space-x-2 bg-rose-950/90 border border-rose-500/60 px-2.5 py-1 rounded">
-            <span class="text-rose-300 font-pixel text-[8px] flex items-center space-x-1">
-              <span>👾</span><span>BUG BEAST:</span>
+          <div id="boss-hud" class="flex items-center space-x-1.5 bg-rose-950/90 border border-rose-500/60 px-2 py-0.5 rounded">
+            <span class="text-rose-300 font-pixel text-[7px] flex items-center space-x-0.5">
+              <span>👾</span><span class="hidden sm:inline">BUG BEAST:</span>
             </span>
-            <div class="w-28 bg-slate-950 h-2 border border-rose-500/80 overflow-hidden">
-              <div id="boss-hp-fill" class="bg-rose-500 h-full w-full transition-all duration-500"></div>
+            <div class="w-16 sm:w-24 bg-slate-950 h-1.5 sm:h-2 border border-rose-500/80 overflow-hidden">
+              <div id="boss-hp-fill" class="bg-rose-500 h-full w-full transition-all duration-300"></div>
             </div>
-            <span id="boss-hp-text" class="text-rose-400 font-mono text-[9px] font-bold">100 HP</span>
+            <span id="boss-hp-text" class="text-rose-400 font-mono text-[8px] sm:text-[9px] font-bold">100 HP</span>
           </div>
 
-          <div class="hidden sm:flex items-center space-x-3 text-[8px] text-slate-300">
-            <span id="player-control-badge" class="bg-amber-500 text-slate-950 px-2 py-0.5 font-bold">CONTROL: SAGE</span>
+          <div class="flex items-center space-x-2 text-[7px] sm:text-[8px] text-slate-300">
+            <span id="player-control-badge" class="bg-amber-500 text-slate-950 px-1.5 py-0.5 font-bold truncate max-w-[100px] sm:max-w-none">SAGE</span>
           </div>
         </div>
 
-        <div class="relative w-full h-[510px] bg-[#0c1424] flex items-center justify-center">
-          <div id="phaser-container" class="w-full h-full"></div>
+        <!-- Flexible Canvas Container with 16:9 Aspect Ratio on Mobile -->
+        <div class="relative w-full aspect-[16/10] sm:aspect-auto sm:h-[480px] bg-[#0c1424] flex items-center justify-center overflow-hidden">
+          <div id="phaser-container" class="w-full h-full flex items-center justify-center"></div>
 
-          <!-- 🕹️ FLOATING RETRO ARCADE D-PAD CONTROLLER -->
-          <div class="absolute bottom-4 right-4 z-40 bg-slate-950/85 p-2.5 rounded-xl border-2 border-amber-500/60 shadow-2xl backdrop-blur-sm select-none">
-            <div class="text-[8px] font-pixel text-amber-400 text-center mb-1">D-PAD</div>
-            <div class="grid grid-cols-3 gap-1 w-28 h-28">
+          <!-- 🕹️ FLOATING RETRO ARCADE D-PAD CONTROLLER (OPTIMIZED FOR THUMB ON MOBILE) -->
+          <div class="absolute bottom-2.5 right-2.5 z-30 bg-slate-950/85 p-1.5 sm:p-2.5 rounded-xl border border-amber-500/60 shadow-2xl backdrop-blur-sm select-none">
+            <div class="grid grid-cols-3 gap-1 w-20 h-20 sm:w-28 sm:h-28">
               <div></div>
-              <button id="btn-dpad-up" class="dpad-btn rounded-t">▲</button>
+              <button id="btn-dpad-up" class="dpad-btn rounded-t text-[9px] sm:text-xs">▲</button>
               <div></div>
               
-              <button id="btn-dpad-left" class="dpad-btn rounded-l">◀</button>
+              <button id="btn-dpad-left" class="dpad-btn rounded-l text-[9px] sm:text-xs">◀</button>
               <div class="bg-slate-900/60 border border-slate-800 flex items-center justify-center text-[7px] text-slate-500 font-pixel">●</div>
-              <button id="btn-dpad-right" class="dpad-btn rounded-r">▶</button>
+              <button id="btn-dpad-right" class="dpad-btn rounded-r text-[9px] sm:text-xs">▶</button>
               
               <div></div>
-              <button id="btn-dpad-down" class="dpad-btn rounded-b">▼</button>
+              <button id="btn-dpad-down" class="dpad-btn rounded-b text-[9px] sm:text-xs">▼</button>
               <div></div>
             </div>
           </div>
         </div>
 
         <!-- ⏳ TIME-TRAVEL REPLAY SCRUBBER BAR -->
-        <div class="bg-slate-900 px-4 py-2 border-t-2 border-slate-800 flex items-center space-x-4 text-xs font-mono">
-          <div class="flex items-center space-x-2 text-amber-400 shrink-0 font-pixel text-[8px]">
-            <i data-lucide="history" class="w-3.5 h-3.5"></i>
-            <span>TIME-TRAVEL:</span>
+        <div class="bg-slate-900 px-3 py-1.5 sm:py-2 border-t-2 border-slate-800 flex items-center space-x-2 sm:space-x-3 text-xs font-mono">
+          <div class="flex items-center space-x-1 text-amber-400 shrink-0 font-pixel text-[7px] sm:text-[8px]">
+            <i data-lucide="history" class="w-3 h-3"></i>
+            <span class="hidden sm:inline">TIME-TRAVEL:</span>
           </div>
 
-          <button id="btn-replay-play" class="p-1.5 bg-slate-950 border border-slate-700 hover:border-amber-400 text-slate-200 transition flex items-center">
+          <button id="btn-replay-play" class="p-1 bg-slate-950 border border-slate-700 hover:border-amber-400 text-slate-200 transition flex items-center">
             <i data-lucide="play" id="replay-icon" class="w-3 h-3"></i>
           </button>
 
           <input type="range" id="replay-slider" min="0" max="0" value="0" step="1" 
-                 class="flex-1 h-2 bg-slate-950 border border-slate-700 rounded-none appearance-none cursor-pointer accent-amber-500">
+                 class="flex-1 h-1.5 bg-slate-950 border border-slate-700 rounded-none appearance-none cursor-pointer accent-amber-500">
 
-          <span id="replay-counter" class="text-slate-400 text-[10px] font-pixel shrink-0 min-w-[70px] text-right">0/0</span>
+          <span id="replay-counter" class="text-slate-400 text-[8.5px] sm:text-[10px] font-pixel shrink-0 min-w-[50px] sm:min-w-[70px] text-right">0/0</span>
 
-          <button id="btn-live-return" class="px-2 py-1 font-pixel text-[8px] bg-emerald-950 border border-emerald-500 text-emerald-400 transition shrink-0">
+          <button id="btn-live-return" class="px-1.5 py-0.5 font-pixel text-[7px] sm:text-[8px] bg-emerald-950 border border-emerald-500 text-emerald-400 transition shrink-0">
             LIVE 🔴
           </button>
         </div>
       </div>
 
       <!-- DUAL-TAB PANEL (LOGS & LIVE CODE FORGE INSPECTOR) -->
-      <div class="pixel-border-dark bg-slate-950 p-4 shadow-2xl flex-1 flex flex-col">
-        <div class="flex items-center justify-between border-b-2 border-slate-800 pb-2 mb-3">
-          <div class="flex items-center space-x-2">
-            <button id="tab-btn-logs" class="font-pixel text-[9px] px-3 py-1 bg-amber-500 text-slate-950 font-bold transition flex items-center space-x-1.5">
-              <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+      <div class="pixel-border-dark bg-slate-950 p-3 sm:p-4 shadow-2xl flex flex-col">
+        <div class="flex items-center justify-between border-b-2 border-slate-800 pb-2 mb-2.5">
+          <div class="flex items-center space-x-1.5">
+            <button id="tab-btn-logs" class="font-pixel text-[8px] sm:text-[9px] px-2.5 py-1 bg-amber-500 text-slate-950 font-bold transition flex items-center space-x-1">
+              <i data-lucide="terminal" class="w-3 h-3"></i>
               <span>CONSENSUS LOGS</span>
             </button>
-            <button id="tab-btn-code" class="font-pixel text-[9px] px-3 py-1 bg-slate-900 border border-slate-800 text-slate-400 hover:text-amber-300 transition flex items-center space-x-1.5">
-              <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
-              <span>LIVE FORGE INSPECTOR 💻</span>
+            <button id="tab-btn-code" class="font-pixel text-[8px] sm:text-[9px] px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-400 hover:text-amber-300 transition flex items-center space-x-1">
+              <i data-lucide="code-2" class="w-3 h-3"></i>
+              <span>FORGE INSPECTOR 💻</span>
             </button>
           </div>
-          <button id="btn-clear-logs" class="text-[9px] font-pixel text-slate-500 hover:text-slate-300 transition">CLEAR</button>
+          <button id="btn-clear-logs" class="text-[8px] font-pixel text-slate-500 hover:text-slate-300 transition">CLEAR</button>
         </div>
 
-        <div id="tab-content-logs" class="h-44 overflow-y-auto space-y-2 text-xs font-mono-code text-slate-300 pr-2">
-          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild Expanded 7-Room Castle World online. Click facilities to interact.</div>
+        <div id="tab-content-logs" class="h-36 sm:h-44 overflow-y-auto space-y-1.5 text-xs font-mono-code text-slate-300 pr-1">
+          <div class="text-slate-600 font-mono text-[11px]">[00:00:00] SynapseGuild Mobile & Desktop Responsive Grid online. Ready for quest battle.</div>
         </div>
 
-        <div id="tab-content-code" class="h-44 overflow-y-auto space-y-2 text-xs font-mono-code text-slate-300 pr-2 hidden">
-          <div class="flex items-center justify-between bg-slate-900 p-1.5 border border-slate-800 mb-2">
-            <span id="forge-file-title" class="text-amber-400 font-bold font-mono text-[11px]">📄 forge_output.py</span>
-            <span class="text-[8px] font-pixel text-emerald-400 bg-emerald-950 px-2 py-0.5 border border-emerald-500">FORGED IN REALTIME</span>
+        <div id="tab-content-code" class="h-36 sm:h-44 overflow-y-auto space-y-1.5 text-xs font-mono-code text-slate-300 pr-1 hidden">
+          <div class="flex items-center justify-between bg-slate-900 p-1 border border-slate-800 mb-1.5">
+            <span id="forge-file-title" class="text-amber-400 font-bold font-mono text-[10px] sm:text-[11px]">📄 forge_output.py</span>
+            <span class="text-[7px] font-pixel text-emerald-400 bg-emerald-950 px-1.5 py-0.5 border border-emerald-500">FORGED</span>
           </div>
-          <pre id="forge-code-stream" class="bg-[#050813] p-3 border border-slate-800 rounded text-emerald-400 text-[11px] leading-relaxed overflow-x-auto whitespace-pre font-mono-code"># Menunggu Forge Master menempa kode...</pre>
+          <pre id="forge-code-stream" class="bg-[#050813] p-2.5 border border-slate-800 rounded text-emerald-400 text-[10px] sm:text-[11px] leading-relaxed overflow-x-auto whitespace-pre font-mono-code"># Menunggu Forge Master menempa kode...</pre>
         </div>
       </div>
 
@@ -524,7 +525,7 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="border-t-2 border-slate-800 bg-slate-950 py-2.5 text-center text-[9px] text-slate-500 font-pixel">
+  <footer class="border-t-2 border-slate-800 bg-slate-950 py-2 sm:py-2.5 text-center text-[7.5px] sm:text-[9px] text-slate-500 font-pixel">
     SYNAPSEGUILD v1.0 • AUTONOMOUS AI MULTI-AGENT RPG ARENA • RAMA DANADIPA
   </footer>
 
@@ -557,16 +558,16 @@
     } catch(e) {}
 
     tabAuthLogin.addEventListener('click', () => {
-      tabAuthLogin.className = "flex-1 py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950";
-      tabAuthRegister.className = "flex-1 py-2 text-slate-400 hover:text-slate-200 bg-slate-900";
+      tabAuthLogin.className = "flex-1 py-1.5 sm:py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950";
+      tabAuthRegister.className = "flex-1 py-1.5 sm:py-2 text-slate-400 hover:text-slate-200 bg-slate-900";
       formAuthLogin.classList.remove('hidden');
       formAuthRegister.classList.add('hidden');
       authErrorMsg.classList.add('hidden');
     });
 
     tabAuthRegister.addEventListener('click', () => {
-      tabAuthRegister.className = "flex-1 py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950";
-      tabAuthLogin.className = "flex-1 py-2 text-slate-400 hover:text-slate-200 bg-slate-900";
+      tabAuthRegister.className = "flex-1 py-1.5 sm:py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950";
+      tabAuthLogin.className = "flex-1 py-1.5 sm:py-2 text-slate-400 hover:text-slate-200 bg-slate-900";
       formAuthRegister.classList.remove('hidden');
       formAuthLogin.classList.add('hidden');
       authErrorMsg.classList.add('hidden');
@@ -662,7 +663,7 @@
             <span class="text-amber-400 font-bold">${q.language === 'javascript' ? '⚡' : '🐍'}</span>
             <span class="text-slate-200 font-bold ml-1">${q.title}</span>
           </div>
-          <span class="text-[8px] font-pixel ${q.status === 'completed' ? 'text-emerald-400' : 'text-amber-400'} shrink-0">${q.score || 100} PTS</span>
+          <span class="text-[7.5px] font-pixel ${q.status === 'completed' ? 'text-emerald-400' : 'text-amber-400'} shrink-0">${q.score || 100} PTS</span>
         </div>
       `).join('');
     }
@@ -693,16 +694,16 @@
     const forgeCodeStream = document.getElementById('forge-code-stream');
 
     tabBtnLogs.addEventListener('click', () => {
-      tabBtnLogs.className = "font-pixel text-[9px] px-3 py-1 bg-amber-500 text-slate-950 font-bold transition flex items-center space-x-1.5";
-      tabBtnCode.className = "font-pixel text-[9px] px-3 py-1 bg-slate-900 border border-slate-800 text-slate-400 hover:text-amber-300 transition flex items-center space-x-1.5";
+      tabBtnLogs.className = "font-pixel text-[8px] sm:text-[9px] px-2.5 py-1 bg-amber-500 text-slate-950 font-bold transition flex items-center space-x-1";
+      tabBtnCode.className = "font-pixel text-[8px] sm:text-[9px] px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-400 hover:text-amber-300 transition flex items-center space-x-1";
       tabContentLogs.classList.remove('hidden');
       tabContentCode.classList.add('hidden');
       play8BitSFX('chat');
     });
 
     tabBtnCode.addEventListener('click', () => {
-      tabBtnCode.className = "font-pixel text-[9px] px-3 py-1 bg-amber-500 text-slate-950 font-bold transition flex items-center space-x-1.5";
-      tabBtnLogs.className = "font-pixel text-[9px] px-3 py-1 bg-slate-900 border border-slate-800 text-slate-400 hover:text-amber-300 transition flex items-center space-x-1.5";
+      tabBtnCode.className = "font-pixel text-[8px] sm:text-[9px] px-2.5 py-1 bg-amber-500 text-slate-950 font-bold transition flex items-center space-x-1";
+      tabBtnLogs.className = "font-pixel text-[8px] sm:text-[9px] px-2.5 py-1 bg-slate-900 border border-slate-800 text-slate-400 hover:text-amber-300 transition flex items-center space-x-1";
       tabContentCode.classList.remove('hidden');
       tabContentLogs.classList.add('hidden');
       play8BitSFX('chat');
@@ -800,14 +801,14 @@
       if (bgmEnabled) {
         if (audioCtx.state === 'suspended') audioCtx.resume();
         bgmLabel.innerText = "BGM: ON 🎵";
-        bgmIcon.className = "w-3.5 h-3.5 text-emerald-400 animate-spin";
-        btnBgmToggle.className = "pixel-box px-2.5 py-1.5 bg-slate-900 border-amber-400 text-amber-300 font-pixel text-[9px]";
+        bgmIcon.className = "w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400 animate-spin";
+        btnBgmToggle.className = "pixel-box px-2 sm:px-2.5 py-1 sm:py-1.5 bg-slate-900 border-amber-400 text-amber-300 font-pixel text-[8px] sm:text-[9px]";
         startBgmEngine();
         logTerminal("AUDIO", "🎵 Musik latar 16-Bit Chiptune RPG diaktifkan!", "text-emerald-400 font-bold");
       } else {
         bgmLabel.innerText = "BGM: OFF";
-        bgmIcon.className = "w-3.5 h-3.5 text-slate-500";
-        btnBgmToggle.className = "pixel-box px-2.5 py-1.5 hover:bg-slate-800 text-slate-400 font-pixel text-[9px]";
+        bgmIcon.className = "w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-500";
+        btnBgmToggle.className = "pixel-box px-2 sm:px-2.5 py-1 sm:py-1.5 hover:bg-slate-800 text-slate-400 font-pixel text-[8px] sm:text-[9px]";
         if (bgmInterval) clearInterval(bgmInterval);
       }
     });
@@ -1025,15 +1026,15 @@
     function logTerminal(prefix, text, colorClass = "text-slate-300") {
       const time = new Date().toLocaleTimeString();
       const div = document.createElement('div');
-      div.className = `${colorClass} leading-relaxed p-1.5 bg-slate-900 border border-slate-800`;
-      div.innerHTML = `<span class="text-slate-500 font-mono">[${time}]</span> <span class="font-pixel text-[9px] text-amber-300">${prefix}:</span> ${text}`;
+      div.className = `${colorClass} leading-relaxed p-1.5 bg-slate-900 border border-slate-800 text-[11px]`;
+      div.innerHTML = `<span class="text-slate-500 font-mono">[${time}]</span> <span class="font-pixel text-[8px] text-amber-300">${prefix}:</span> ${text}`;
       if (tabContentLogs) {
         tabContentLogs.appendChild(div);
         tabContentLogs.scrollTop = tabContentLogs.scrollHeight;
       }
     }
 
-    // ── PHASER 3 EXPANDED 7-ROOM CASTLE WORLD WITH CRYSTAL GARDEN & DORMITORY ──
+    // ── PHASER 3 EXPANDED 7-ROOM CASTLE WORLD (RESPONSIVE SCALE MANAGER) ─────
     let phaserScene = null;
 
     class MedievalOfficeScene extends Phaser.Scene {
@@ -1051,7 +1052,6 @@
       preload() {
         const g = this.make.graphics();
         
-        // Tiles
         g.fillStyle(0x334155); g.fillRect(0, 0, 32, 32);
         g.fillStyle(0x1e293b); g.fillRect(0, 15, 32, 2); g.fillRect(15, 0, 2, 15); g.fillRect(7, 17, 2, 15);
         g.fillStyle(0x475569); g.fillRect(0, 0, 32, 2); g.fillRect(0, 0, 2, 32);
@@ -1066,32 +1066,27 @@
         g.fillStyle(0xf59e0b); g.fillRect(0, 0, 32, 2); g.fillRect(0, 30, 32, 2);
         g.generateTexture('tile_carpet', 32, 32); g.clear();
 
-        // 🌿 Grass / Courtyard Tile
         g.fillStyle(0x064e3b); g.fillRect(0, 0, 32, 32);
         g.fillStyle(0x047857); g.fillRect(4, 4, 8, 8); g.fillRect(18, 18, 10, 10);
         g.fillStyle(0x10b981); g.fillRect(6, 6, 2, 2); g.fillRect(20, 20, 2, 2);
         g.generateTexture('tile_grass', 32, 32); g.clear();
 
-        // 🛌 Dormitory Bed Tile
         g.fillStyle(0x1e1b4b); g.fillRect(0, 0, 32, 32);
         g.fillStyle(0x38bdf8); g.fillRect(4, 6, 24, 20);
-        g.fillStyle(0xffffff); g.fillRect(6, 8, 8, 8); // Pillow
+        g.fillStyle(0xffffff); g.fillRect(6, 8, 8, 8);
         g.generateTexture('prop_bed', 32, 32); g.clear();
 
-        // 💎 Glowing Mana Crystal Shard
         g.fillStyle(0x0284c7); g.fillRect(6, 0, 20, 32);
         g.fillStyle(0x38bdf8); g.fillRect(10, 4, 12, 24);
         g.fillStyle(0xe0f2fe); g.fillRect(12, 8, 8, 16);
         g.generateTexture('prop_crystal', 32, 32); g.clear();
 
-        // ⛲ Water Fountain
         g.fillStyle(0x1e293b); g.fillRect(2, 6, 28, 20);
         g.fillStyle(0x0284c7); g.fillRect(4, 8, 24, 16);
         g.fillStyle(0x38bdf8); g.fillRect(10, 12, 12, 8);
         g.fillStyle(0xffffff); g.fillRect(14, 2, 4, 12);
         g.generateTexture('prop_fountain', 32, 32); g.clear();
 
-        // Characters
         g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
         g.fillStyle(0x4f46e5); g.fillRect(6, 16, 20, 20);
         g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
@@ -1130,7 +1125,6 @@
         g.fillStyle(0xffffff); g.fillRect(4, 4, 4, 4);
         g.generateTexture('slash_fx', 16, 16); g.clear();
 
-        // Props
         g.fillStyle(0x0284c7); g.fillRect(6, 0, 20, 16);
         g.fillStyle(0xe0f2fe); g.fillRect(8, 2, 16, 12);
         g.fillStyle(0x334155); g.fillRect(4, 16, 24, 16);
@@ -1165,15 +1159,6 @@
         const width = this.cameras.main.width;
         const height = this.cameras.main.height;
 
-        // 🏰 EXPANDED 7-ROOM CASTLE MAP (900x510):
-        // 1. (0-240, 0-200)   : 🔮 War Room (Planning Table)
-        // 2. (250-480, 0-200) : ☕ Break Room & Pantry (Watercooler & Couches)
-        // 3. (490-670, 0-200) : 📚 Knowledge Vault & Archives
-        // 4. (680-890, 0-200) : 💎 Arcane Crystal Garden (Mana Core & Fountain)
-        // 5. (0-260, 210-500) : ⚒️ The Forge (Workshop, Anvil & Terminal)
-        // 6. (270-520, 210-500) : 🛌 Hero Dormitory & Rest Quarters
-        // 7. (530-890, 210-500) : ⚔️ Boss Raid Arena & QA Judgment Altar
-
         for (let x = 0; x < width; x += 32) {
           for (let y = 0; y < height; y += 32) {
             const isBorder = (
@@ -1195,16 +1180,15 @@
             if (isBorder && !isDoorway) {
               this.add.image(x + 16, y + 16, 'tile_stone');
             } else if (x > 240 && x < 480 && y < 208) {
-              this.add.image(x + 16, y + 16, 'tile_carpet'); // Break Room Red Carpet
+              this.add.image(x + 16, y + 16, 'tile_carpet');
             } else if (x > 672 && y < 208) {
-              this.add.image(x + 16, y + 16, 'tile_grass'); // Crystal Garden Courtyard
+              this.add.image(x + 16, y + 16, 'tile_grass');
             } else {
-              this.add.image(x + 16, y + 16, 'tile_wood'); // Classic Hardwood Floor
+              this.add.image(x + 16, y + 16, 'tile_wood');
             }
           }
         }
 
-        // Room Labels (7 Rooms)
         this.add.text(120, 16, '🔮 WAR ROOM', { font: '7px "Press Start 2P"', fill: '#818cf8' }).setOrigin(0.5);
         this.add.text(360, 16, '☕ BREAK ROOM', { font: '7px "Press Start 2P"', fill: '#38bdf8' }).setOrigin(0.5);
         this.add.text(576, 16, '📚 ARCHIVE VAULT', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5);
@@ -1213,11 +1197,9 @@
         this.add.text(390, 224, '🛌 HERO DORMITORY', { font: '7px "Press Start 2P"', fill: '#c084fc' }).setOrigin(0.5);
         this.add.text(710, 224, '⚔️ BOSS RAID ARENA', { font: '7px "Press Start 2P"', fill: '#f43f5e' }).setOrigin(0.5);
 
-        // Torches along walls
         [32, 208, 272, 448, 512, 640, 704, 864].forEach(tx => this.add.image(tx, 32, 'prop_torch'));
         [32, 224, 288, 496, 560, 864].forEach(tx => this.add.image(tx, 240, 'prop_torch'));
 
-        // 🔮 Room 1: War Room Planning Table
         const g = this.add.graphics();
         g.fillStyle(0x1e1b4b, 0.9);
         g.fillRect(70, 75, 100, 80);
@@ -1226,7 +1208,6 @@
         const warTableText = this.add.text(120, 115, 'PLANNING\nTABLE 🔮', { font: '7px "Press Start 2P"', fill: '#a5b4fc', align: 'center' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
         warTableText.on('pointerdown', () => this.interactFacility('table'));
 
-        // ☕ Room 2: Pantry & Watercooler
         const cooler = this.add.image(360, 75, 'prop_watercooler').setScale(1.5).setInteractive({ cursor: 'pointer' });
         this.add.text(360, 105, 'WATERCOOLER ☕', { font: '6px "Press Start 2P"', fill: '#bae6fd' }).setOrigin(0.5);
         cooler.on('pointerdown', () => this.interactFacility('coffee'));
@@ -1236,21 +1217,18 @@
         this.add.text(317, 147, 'SOFA', { font: '6px "Press Start 2P"', fill: '#e0f2fe' }).setOrigin(0.5);
         this.add.text(402, 147, 'SOFA', { font: '6px "Press Start 2P"', fill: '#e0f2fe' }).setOrigin(0.5);
 
-        // 📚 Room 3: Knowledge Archive Bookshelves
         const b1 = this.add.image(530, 75, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
         const b2 = this.add.image(575, 75, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
         const b3 = this.add.image(620, 75, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
         const vaultText = this.add.text(575, 115, 'KNOWLEDGE VAULT 📜', { font: '6px "Press Start 2P"', fill: '#fed7aa' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
         [b1, b2, b3, vaultText].forEach(b => b.on('pointerdown', () => this.interactFacility('bookshelf')));
 
-        // 💎 Room 4 (NEW): Arcane Crystal Garden & Fountain
         this.manaCrystal = this.add.image(780, 80, 'prop_crystal').setScale(1.6).setInteractive({ cursor: 'pointer' });
         const fountain = this.add.image(780, 140, 'prop_fountain').setScale(1.4).setInteractive({ cursor: 'pointer' });
         this.add.text(780, 48, 'MANA SHARD 💎', { font: '6px "Press Start 2P"', fill: '#67e8f9' }).setOrigin(0.5);
         this.manaCrystal.on('pointerdown', () => this.interactFacility('crystal'));
         fountain.on('pointerdown', () => this.interactFacility('fountain'));
 
-        // Crystal Pulsing Glow Tween
         this.tweens.add({
           targets: this.manaCrystal,
           scaleX: 1.8,
@@ -1261,7 +1239,6 @@
           ease: 'Sine.easeInOut'
         });
 
-        // ⚒️ Room 5: The Forge Workshop
         const anvil = this.add.image(128, 320, 'prop_anvil').setScale(1.6).setInteractive({ cursor: 'pointer' });
         g.fillStyle(0x7c2d12, 0.9);
         g.fillRect(68, 375, 120, 40);
@@ -1270,14 +1247,12 @@
         const forgeText = this.add.text(128, 395, 'FORGE TERMINAL 💻', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
         [anvil, forgeText].forEach(f => f.on('pointerdown', () => this.interactFacility('anvil')));
 
-        // 🛌 Room 6 (NEW): Hero Dormitory & Quarters
         const bed1 = this.add.image(320, 310, 'prop_bed').setScale(1.5).setInteractive({ cursor: 'pointer' });
         const bed2 = this.add.image(390, 310, 'prop_bed').setScale(1.5).setInteractive({ cursor: 'pointer' });
         const bed3 = this.add.image(460, 310, 'prop_bed').setScale(1.5).setInteractive({ cursor: 'pointer' });
         this.add.text(390, 370, 'REST QUARTERS 🛌', { font: '6px "Press Start 2P"', fill: '#e9d5ff' }).setOrigin(0.5);
         [bed1, bed2, bed3].forEach(b => b.on('pointerdown', () => this.interactFacility('bed')));
 
-        // 👹 Room 7: Boss Raid Altar & Server Racks
         this.add.image(570, 300, 'prop_server_rack').setScale(1.3);
         this.add.image(570, 345, 'prop_server_rack').setScale(1.3);
         this.add.image(570, 390, 'prop_server_rack').setScale(1.3);
@@ -1301,7 +1276,6 @@
           ease: 'Sine.easeInOut'
         });
 
-        // Spawn Characters
         this.agents['architect'] = this.add.sprite(120, 115, 'chibi_sage').setScale(1.4).setInteractive({ cursor: 'pointer' });
         this.agents['craftsman'] = this.add.sprite(128, 320, 'chibi_forge').setScale(1.4).setInteractive({ cursor: 'pointer' });
         this.agents['sentinel'] = this.add.sprite(390, 310, 'chibi_sentinel').setScale(1.4).setInteractive({ cursor: 'pointer' });
@@ -1539,11 +1513,16 @@
       }
     }
 
+    // Responsive Phaser Scale Configuration (FIT mode for Mobile, Tablet & Desktop)
     const phaserConfig = {
       type: Phaser.AUTO,
       parent: 'phaser-container',
       width: 900,
       height: 500,
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+      },
       pixelArt: true,
       roundPixels: true,
       scene: MedievalOfficeScene,
