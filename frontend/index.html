@@ -723,6 +723,8 @@
     bindJoystickButton('btn-dpad-right', 'right');
 
     function selectPlayableCharacter(actorId) {
+      // Release joystick movement if switching
+      joystickState.up = false; joystickState.down = false; joystickState.left = false; joystickState.right = false;
       activePlayerActor = actorId;
       tryUnlockAudio();
       const names = { architect: 'THE SAGE (PLANNER)', craftsman: 'FORGE MASTER (CODER)', sentinel: 'INQUISITOR (AUDITOR)' };
@@ -1213,6 +1215,7 @@
         const bubbleObj = this.bubbleContainers[actorId];
         if (!sprite) return;
 
+        this.tweens.killTweensOf([sprite, nameTag]);
         sprite.flipX = targetX < sprite.x;
 
         this.tweens.add({
@@ -1221,6 +1224,12 @@
           y: targetY,
           duration: speed,
           ease: 'Power1',
+          onUpdate: () => {
+            if (nameTag) nameTag.setPosition(sprite.x, sprite.y + 26);
+            if (bubbleObj && bubbleObj.container.visible) {
+              bubbleObj.container.setPosition(sprite.x, sprite.y - 45);
+            }
+          },
           onComplete: () => {
             if (nameTag) nameTag.setPosition(sprite.x, sprite.y + 26);
             if (dialogue) {
@@ -1339,6 +1348,10 @@
             phaserScene.gatherInWarRoom(actorId, dialogue);
           }
         } else {
+          if (actorId === "architect") {
+            targetX = 128; targetY = 120;
+            activePhase.innerText = "WAR ROOM (BLUEPRINT)";
+          }
           if (actorId === "craftsman") {
             if (!isFastReplay) play8BitSFX('hammer');
             color = "text-amber-300"; 
