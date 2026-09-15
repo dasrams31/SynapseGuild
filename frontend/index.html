@@ -117,12 +117,12 @@
         </h1>
         <p class="text-[9px] text-amber-500/90 font-pixel tracking-tight flex items-center space-x-1.5 mt-1">
           <span class="w-2 h-2 bg-emerald-400 animate-pulse"></span>
-          <span>MEDIEVAL CYBER-OFFICE & BOSS BATTLE</span>
+          <span>MEDIEVAL CYBER-OFFICE • LEVEL & EXP HUB</span>
         </p>
       </div>
     </div>
 
-    <!-- Active Party 16-Bit Status Bars (HP & MP) -->
+    <!-- Active Party 16-Bit Status Bars with Live EXP & Levels -->
     <div class="hidden lg:flex items-center space-x-4 font-pixel text-[9px]">
       <!-- Architect Status -->
       <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-indigo-400 transition" onclick="selectPlayableCharacter('architect')">
@@ -130,10 +130,13 @@
         <div>
           <div class="flex justify-between text-indigo-300 mb-0.5">
             <span>SAGE</span>
-            <span id="mp-val-architect" class="text-indigo-400 text-[8px]">MP: 100%</span>
+            <span id="level-val-architect" class="text-yellow-300 text-[8px]">LV.1</span>
           </div>
           <div class="w-24 bg-slate-900 h-2 border border-slate-700">
             <div id="mp-bar-architect" class="bg-indigo-400 h-full w-full transition-all duration-300"></div>
+          </div>
+          <div class="text-[7px] text-slate-400 mt-0.5 flex justify-between">
+            <span>EXP:</span><span id="exp-val-architect">0/100</span>
           </div>
         </div>
       </div>
@@ -144,10 +147,13 @@
         <div>
           <div class="flex justify-between text-amber-300 mb-0.5">
             <span>FORGE</span>
-            <span id="mp-val-craftsman" class="text-amber-400 text-[8px]">MP: 100%</span>
+            <span id="level-val-craftsman" class="text-yellow-300 text-[8px]">LV.1</span>
           </div>
           <div class="w-24 bg-slate-900 h-2 border border-slate-700">
             <div id="mp-bar-craftsman" class="bg-amber-400 h-full w-full transition-all duration-300"></div>
+          </div>
+          <div class="text-[7px] text-slate-400 mt-0.5 flex justify-between">
+            <span>EXP:</span><span id="exp-val-craftsman">0/100</span>
           </div>
         </div>
       </div>
@@ -158,10 +164,13 @@
         <div>
           <div class="flex justify-between text-emerald-300 mb-0.5">
             <span>INQUISITOR</span>
-            <span id="mp-val-sentinel" class="text-emerald-400 text-[8px]">MP: 100%</span>
+            <span id="level-val-sentinel" class="text-yellow-300 text-[8px]">LV.1</span>
           </div>
           <div class="w-24 bg-slate-900 h-2 border border-slate-700">
             <div id="mp-bar-sentinel" class="bg-emerald-400 h-full w-full transition-all duration-300"></div>
+          </div>
+          <div class="text-[7px] text-slate-400 mt-0.5 flex justify-between">
+            <span>EXP:</span><span id="exp-val-sentinel">0/100</span>
           </div>
         </div>
       </div>
@@ -187,7 +196,7 @@
     <!-- LEFT COLUMN: RETRO QUEST BOARD & ACTIVE CARD (4 COLS) -->
     <div class="lg:col-span-4 flex flex-col space-y-6">
       
-      <!-- QUEST DISPATCH PANEL -->
+      <!-- QUEST DISPATCH PANEL WITH PARTY PRESET SELECTOR (FITUR 3) -->
       <div class="pixel-border-dark bg-slate-950 p-5 shadow-2xl relative">
         <div class="flex items-center justify-between mb-4 border-b-2 border-slate-800 pb-2.5">
           <div class="flex items-center space-x-2">
@@ -198,6 +207,17 @@
         </div>
 
         <form id="quest-form" class="space-y-4 font-sans text-xs">
+          <!-- 🛡️ FITUR 3: PARTY PRESET SELECTOR -->
+          <div>
+            <label class="block font-pixel text-[9px] text-amber-200 mb-1.5">PARTY FORMATION (KOMPOSISI TIM)</label>
+            <select id="party-preset" class="w-full bg-slate-900 border-2 border-slate-700 px-3 py-2 text-xs text-amber-300 focus:outline-none focus:border-amber-400 font-pixel">
+              <option value="classic">⚔️ CLASSIC TRIO (Sage + Forge + Sentinel)</option>
+              <option value="speedrun">⚡ SPEEDRUN DUO (Forge + Sentinel)</option>
+              <option value="security">🛡️ ZERO-TRUST SQUAD (Sage + Strict Sentinel)</option>
+            </select>
+            <p id="preset-desc" class="text-[9px] font-mono text-slate-400 mt-1">Full Auto: Blueprint arsitektur, koding tempaan & audit pengujian lengkap.</p>
+          </div>
+
           <div>
             <label class="block font-pixel text-[9px] text-amber-200 mb-1.5">NAMA MISI / QUEST TITLE</label>
             <input type="text" id="quest-title" required placeholder="Contoh: Modul Kalkulator Kalori Pendaki" 
@@ -206,7 +226,7 @@
 
           <div>
             <label class="block font-pixel text-[9px] text-amber-200 mb-1.5">DESKRIPSI TUGAS (PROMPT)</label>
-            <textarea id="quest-prompt" required rows="4" placeholder="Jelaskan kebutuhan fitur atau modul yang ingin dikerjakan bersama oleh Sage, Forge Master, dan Sentinel..."
+            <textarea id="quest-prompt" required rows="4" placeholder="Jelaskan kebutuhan fitur atau modul yang ingin dikerjakan bersama oleh party..."
                       class="w-full bg-slate-900 border-2 border-slate-700 p-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-400 transition font-mono resize-none"></textarea>
           </div>
 
@@ -234,8 +254,8 @@
         </form>
       </div>
 
-      <!-- ACTIVE STATUS & LOOT DROP BOX -->
-      <div class="pixel-border-dark bg-slate-950 p-5 shadow-2xl flex-1 flex flex-col justify-between">
+      <!-- ACTIVE STATUS, LOOT DROP & 🏆 HALL OF FAME (FITUR 4) -->
+      <div class="pixel-border-dark bg-slate-950 p-5 shadow-2xl flex-1 flex flex-col justify-between space-y-4">
         <div>
           <div class="flex items-center justify-between mb-3 border-b-2 border-slate-800 pb-2">
             <div class="flex items-center space-x-2">
@@ -264,12 +284,25 @@
           </div>
         </div>
 
+        <!-- 🏆 FITUR 4: GUILD HALL OF FAME (RIWAYAT PRESTASI QUEST) -->
+        <div class="p-3 bg-slate-900/90 border-2 border-amber-500/40">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-pixel text-[8px] text-amber-300 flex items-center space-x-1">
+              <span>🏆</span><span>GUILD HALL OF FAME</span>
+            </span>
+            <span id="total-quests-count" class="font-pixel text-[8px] text-yellow-400">0 VICTORIES</span>
+          </div>
+          <div id="hall-of-fame-list" class="space-y-1.5 max-h-24 overflow-y-auto text-[10px] font-mono text-slate-300 pr-1">
+            <div class="text-slate-500 italic">Belum ada misi tercatat di prasasti.</div>
+          </div>
+        </div>
+
         <!-- 16-BIT LOOT BOX DROP & DIRECT DOWNLOAD -->
-        <div id="loot-box" class="mt-4 p-3.5 bg-emerald-950/70 border-2 border-emerald-500 shadow-xl hidden">
+        <div id="loot-box" class="p-3.5 bg-emerald-950/70 border-2 border-emerald-500 shadow-xl hidden">
           <div class="flex items-center justify-between text-xs text-emerald-300 font-bold mb-2">
             <div class="flex items-center space-x-2">
               <i data-lucide="package-check" class="w-4 h-4 text-amber-400"></i>
-              <span class="font-pixel text-[9px] text-amber-300">LOOT DROPPED!</span>
+              <span class="font-pixel text-[9px] text-amber-300">LOOT DROPPED! (+100 EXP)</span>
             </div>
             <span class="font-pixel text-[7px] text-amber-300 bg-amber-950 border border-amber-500 px-1.5 py-0.5">TTL: 15 MENIT</span>
           </div>
@@ -376,7 +409,7 @@
 
         <!-- Dialogue & Terminal Output Window -->
         <div id="terminal-stream" class="h-44 overflow-y-auto space-y-2 text-xs font-mono-code text-slate-300 pr-2">
-          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild Medieval Office Grid online. Click facilities (Coffee, Vault, Anvil) to interact.</div>
+          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild Medieval Office Grid online. Hall of Fame & Leveling system ready.</div>
         </div>
       </div>
 
@@ -404,6 +437,10 @@
     const lootFiles = document.getElementById('loot-files');
     const btnDownloadZip = document.getElementById('btn-download-zip');
     const playerControlBadge = document.getElementById('player-control-badge');
+    const partyPresetSelect = document.getElementById('party-preset');
+    const presetDesc = document.getElementById('preset-desc');
+    const hallOfFameList = document.getElementById('hall-of-fame-list');
+    const totalQuestsCount = document.getElementById('total-quests-count');
 
     // Boss Battle HUD Elements
     const bossHud = document.getElementById('boss-hud');
@@ -424,22 +461,81 @@
     let sfxEnabled = true;
     let activePlayerActor = 'architect';
 
-    // Party MP Stats
-    const partyStats = {
-      architect: 100,
-      craftsman: 100,
-      sentinel: 100
+    // ── FITUR 4: EXP, LEVELS & HALL OF FAME PROGRESSION SYSTEM ──────────────
+    const partyData = {
+      architect: { level: 1, exp: 0, mp: 100 },
+      craftsman: { level: 1, exp: 0, mp: 100 },
+      sentinel: { level: 1, exp: 0, mp: 100 }
     };
 
-    function updatePartyMPUI() {
+    let hallOfFameHistory = [];
+
+    // Load persisted EXP / Hall of Fame from localStorage if available
+    try {
+      const savedParty = localStorage.getItem('synapse_party_data');
+      if (savedParty) Object.assign(partyData, JSON.parse(savedParty));
+      const savedHall = localStorage.getItem('synapse_hall_fame');
+      if (savedHall) hallOfFameHistory = JSON.parse(savedHall);
+    } catch(e) {}
+
+    function updatePartyStatsUI() {
       ['architect', 'craftsman', 'sentinel'].forEach(key => {
-        const val = partyStats[key];
+        const d = partyData[key];
         const bar = document.getElementById(`mp-bar-${key}`);
-        const text = document.getElementById(`mp-val-${key}`);
-        if (bar) bar.style.width = `${val}%`;
-        if (text) text.innerText = `MP: ${val}%`;
+        const lvlText = document.getElementById(`level-val-${key}`);
+        const expText = document.getElementById(`exp-val-${key}`);
+        if (bar) bar.style.width = `${d.mp}%`;
+        if (lvlText) lvlText.innerText = `LV.${d.level}`;
+        if (expText) expText.innerText = `${d.exp}/100`;
       });
+      renderHallOfFame();
+      try {
+        localStorage.setItem('synapse_party_data', JSON.stringify(partyData));
+        localStorage.setItem('synapse_hall_fame', JSON.stringify(hallOfFameHistory));
+      } catch(e) {}
     }
+
+    function awardPartyExp(expAmount = 100) {
+      ['architect', 'craftsman', 'sentinel'].forEach(key => {
+        partyData[key].exp += expAmount;
+        if (partyData[key].exp >= 100) {
+          partyData[key].level += Math.floor(partyData[key].exp / 100);
+          partyData[key].exp = partyData[key].exp % 100;
+          logTerminal("LEVEL UP!", `⭐ Karakter ${key.toUpperCase()} naik ke LEVEL ${partyData[key].level}!`, "text-yellow-300 font-bold");
+        }
+      });
+      updatePartyStatsUI();
+    }
+
+    function renderHallOfFame() {
+      totalQuestsCount.innerText = `${hallOfFameHistory.length} VICTORIES`;
+      if (hallOfFameHistory.length === 0) {
+        hallOfFameList.innerHTML = `<div class="text-slate-500 italic">Belum ada misi tercatat di prasasti.</div>`;
+        return;
+      }
+      hallOfFameList.innerHTML = hallOfFameHistory.map((q, idx) => `
+        <div class="p-1.5 bg-slate-950 border border-slate-800 rounded flex items-center justify-between">
+          <div class="truncate mr-2">
+            <span class="text-amber-400 font-bold">#${idx+1}</span>
+            <span class="text-slate-200 font-bold ml-1">${q.title}</span>
+          </div>
+          <span class="text-[8px] font-pixel text-emerald-400 shrink-0">100 PTS ⭐</span>
+        </div>
+      `).reverse().join('');
+    }
+
+    // ── FITUR 3: PARTY PRESET DESCRIPTION TOGGLE ────────────────────────────
+    partyPresetSelect.addEventListener('change', (e) => {
+      const val = e.target.value;
+      if (val === 'classic') {
+        presetDesc.innerText = "Classic Trio: Full Auto! Sage merumuskan arsitektur, Forge Master mengoding, dan Sentinel mengaudit.";
+      } else if (val === 'speedrun') {
+        presetDesc.innerText = "Speedrun Duo: Melewati perdebatan panjang, langsung koding cepat di Forge dan dieksekusi di Sandbox.";
+      } else if (val === 'security') {
+        presetDesc.innerText = "Zero-Trust Squad: Blueprint ketat dari Sage dan pengujian ekstrim berlapis dari Sentinel.";
+      }
+      play8BitSFX('chat');
+    });
 
     // Joystick D-Pad State Vector
     const joystickState = { up: false, down: false, left: false, right: false };
@@ -510,7 +606,6 @@
         osc.start(now);
         osc.stop(now + 0.05);
       } else if (type === 'coffee') {
-        // Coffee Gulp / Steam Slurp Chime
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(440, now);
         osc.frequency.setValueAtTime(660, now + 0.1);
@@ -520,7 +615,6 @@
         osc.start(now);
         osc.stop(now + 0.35);
       } else if (type === 'book') {
-        // Page Flip Whisper
         osc.type = 'sine';
         osc.frequency.setValueAtTime(700, now);
         osc.frequency.exponentialRampToValueAtTime(300, now + 0.15);
@@ -529,7 +623,6 @@
         osc.start(now);
         osc.stop(now + 0.15);
       } else if (type === 'attack') {
-        // Slash / Laser Hit
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(900, now);
         osc.frequency.exponentialRampToValueAtTime(120, now + 0.2);
@@ -605,7 +698,6 @@
       preload() {
         const g = this.make.graphics();
         
-        // Tiles
         g.fillStyle(0x334155); g.fillRect(0, 0, 32, 32);
         g.fillStyle(0x1e293b); g.fillRect(0, 15, 32, 2); g.fillRect(15, 0, 2, 15); g.fillRect(7, 17, 2, 15);
         g.fillStyle(0x475569); g.fillRect(0, 0, 32, 2); g.fillRect(0, 0, 2, 32);
@@ -648,13 +740,13 @@
         g.fillStyle(0x34d399); g.fillRect(2, 16, 6, 16);
         g.generateTexture('chibi_sentinel', 32, 40); g.clear();
 
-        // 👾 16-Bit Bug Beast / Glitch Boss Monster Sprite (48x48)
+        // Boss Monster (Bug Beast 48x48)
         g.fillStyle(0x000000); g.fillRect(4, 4, 40, 40);
-        g.fillStyle(0xe11d48); g.fillRect(8, 8, 32, 32); // Red Glitch Body
-        g.fillStyle(0xffffff); g.fillRect(12, 16, 8, 8); g.fillRect(28, 16, 8, 8); // White Glowing Eyes
-        g.fillStyle(0x000000); g.fillRect(16, 18, 4, 4); g.fillRect(32, 18, 4, 4); // Slit Pupils
-        g.fillStyle(0xfbbf24); g.fillRect(16, 30, 16, 4); g.fillRect(18, 34, 12, 4); // Sharp Teeth
-        g.fillStyle(0x881337); g.fillRect(4, 0, 8, 8); g.fillRect(36, 0, 8, 8); // Monster Horns
+        g.fillStyle(0xe11d48); g.fillRect(8, 8, 32, 32);
+        g.fillStyle(0xffffff); g.fillRect(12, 16, 8, 8); g.fillRect(28, 16, 8, 8);
+        g.fillStyle(0x000000); g.fillRect(16, 18, 4, 4); g.fillRect(32, 18, 4, 4);
+        g.fillStyle(0xfbbf24); g.fillRect(16, 30, 16, 4); g.fillRect(18, 34, 12, 4);
+        g.fillStyle(0x881337); g.fillRect(4, 0, 8, 8); g.fillRect(36, 0, 8, 8);
         g.generateTexture('boss_bug_beast', 48, 48); g.clear();
 
         // Props
@@ -763,7 +855,7 @@
         g.strokeRect(620, 310, 150, 90);
         this.add.text(695, 330, 'PYTEST SANDBOX ⚖️', { font: '7px "Press Start 2P"', fill: '#6ee7b7', align: 'center' }).setOrigin(0.5);
 
-        // 👾 Boss Monster (The Bug Beast) inside QA Altar (Hidden until test phase)
+        // Boss Monster Sprite inside Altar
         this.bossMonster = this.add.sprite(695, 375, 'boss_bug_beast').setScale(1.2).setVisible(false);
 
         // Spawn Characters
@@ -779,7 +871,6 @@
         this.agents['craftsman'].on('pointerdown', () => selectPlayableCharacter('craftsman'));
         this.agents['sentinel'].on('pointerdown', () => selectPlayableCharacter('sentinel'));
 
-        // Point and Click Navigation
         this.input.on('pointerdown', (pointer) => {
           if (pointer.y > 35 && pointer.y < height - 35 && pointer.x > 35 && pointer.x < width - 35) {
             this.moveAndSpeak(activePlayerActor, pointer.x, pointer.y, '', 600);
@@ -802,22 +893,23 @@
           container.add([bubbleBg, bubbleText]);
           this.bubbleContainers[key] = { container, bubbleBg, bubbleText };
         });
+
+        updatePartyStatsUI();
       }
 
-      // Facility Interactions (Coffee Refill, Archive Read, Anvil Polish)
       interactFacility(type) {
         if (type === 'coffee') {
-          partyStats.architect = 100;
-          partyStats.craftsman = 100;
-          partyStats.sentinel = 100;
-          updatePartyMPUI();
+          partyData.architect.mp = 100;
+          partyData.craftsman.mp = 100;
+          partyData.sentinel.mp = 100;
+          updatePartyStatsUI();
           play8BitSFX('coffee');
           this.showBubble(activePlayerActor, "☕ *Gulp!* Menikmati kopi segar di pantry. Mana & stamina party pulih 100%!");
           logTerminal("PANTRY", "☕ Seluruh anggota party meminum kopi! MP & Stamina terisi penuh 100%!", "text-sky-300 font-bold");
         } else if (type === 'bookshelf') {
           play8BitSFX('book');
           const templates = [
-            { title: "Kalkulator Kalori", prompt: "Buatkan modul perhitungan kalori pendakian berdasarkan berat badan, carrier (kg), dan elevasi (m) beserta unit test pytest lengkap." },
+            { title: "Kalkulator Kalori Pendakian", prompt: "Buatkan modul perhitungan kalori pendakian berdasarkan berat badan, carrier (kg), dan elevasi (m) beserta unit test pytest lengkap." },
             { title: "Estimasi Waktu Naismith", prompt: "Buatkan kalkulator estimasi waktu tempuh rute gunung menggunakan Naismith Rule dan unit test pytest-nya." },
             { title: "Kalkulator Konversi Suhu", prompt: "Buatkan fungsi konversi suhu Celsius, Fahrenheit, dan Kelvin lengkap dengan unit test pytest." }
           ];
@@ -843,7 +935,6 @@
         bossHpFill.style.width = "100%";
         bossHpText.innerText = "100 HP";
         
-        // Monster Spawn Jitter Animation
         this.tweens.add({
           targets: this.bossMonster,
           scaleX: 1.4,
@@ -858,7 +949,6 @@
         if (!this.bossMonster) return;
         play8BitSFX('attack');
         
-        // Flash boss red/white on hit
         this.tweens.add({
           targets: this.bossMonster,
           alpha: 0.2,
@@ -874,7 +964,6 @@
         bossHpText.innerText = `${remainingHp} HP`;
 
         if (remainingHp <= 0) {
-          // Boss Defeated Animation
           this.tweens.add({
             targets: this.bossMonster,
             alpha: 0,
@@ -1062,16 +1151,16 @@
             color = "text-amber-300"; 
             targetX = 128; targetY = 330;
             activePhase.innerText = "THE FORGE (DEV WORKSHOP)"; 
-            partyStats.craftsman = Math.max(20, partyStats.craftsman - 30);
-            updatePartyMPUI();
+            partyData.craftsman.mp = Math.max(20, partyData.craftsman.mp - 30);
+            updatePartyStatsUI();
           }
           if (actorId === "sentinel") { 
             if (!isFastReplay) play8BitSFX('chat');
             color = "text-emerald-300"; 
             targetX = 640; targetY = 330;
             activePhase.innerText = "BOSS BATTLE (BUG BEAST AUDIT)"; 
-            partyStats.sentinel = Math.max(20, partyStats.sentinel - 35);
-            updatePartyMPUI();
+            partyData.sentinel.mp = Math.max(20, partyData.sentinel.mp - 35);
+            updatePartyStatsUI();
             if (phaserScene) {
               phaserScene.spawnBossBattle();
               phaserScene.hitBossMonster(50, 45);
@@ -1092,6 +1181,16 @@
         activePhase.innerText = "VICTORY (BOSS DEFEATED)";
         activeSandboxStatus.innerText = `Score: ${data.extra.score}/100`;
         
+        // Award EXP & record victory to Hall of Fame
+        awardPartyExp(100);
+        hallOfFameHistory.push({
+          id: data.quest_id,
+          title: data.title || activeQuestTitle.innerText,
+          score: data.extra.score,
+          time: new Date().toLocaleTimeString()
+        });
+        updatePartyStatsUI();
+
         if (!isFastReplay) {
           logTerminal("SENTINEL", `🏆 VICTORY: The Bug Beast berhasil dikalahkan! Pengujian 100% lolos (${data.extra.score}/100)!`, "text-emerald-400 font-bold");
           play8BitSFX('victory');
@@ -1209,12 +1308,18 @@
       const title = document.getElementById('quest-title').value;
       const prompt = document.getElementById('quest-prompt').value;
       const difficulty = document.getElementById('quest-diff').value;
+      const preset = partyPresetSelect.value;
 
       try {
         const res = await fetch('/api/quest/dispatch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title, prompt, difficulty, author: 'Guild Master Rama' })
+          body: JSON.stringify({ 
+            title, 
+            prompt: `[FORMATION: ${preset.toUpperCase()}] ${prompt}`, 
+            difficulty, 
+            author: 'Guild Master Rama' 
+          })
         });
         if (res.ok) {
           questForm.reset();
