@@ -32,12 +32,12 @@
     .font-mono-code {
       font-family: 'Fira Code', monospace;
     }
-    /* Pixel art crisp rendering */
     canvas {
       image-rendering: -moz-crisp-edges;
       image-rendering: -webkit-crisp-edges;
       image-rendering: pixelated;
       image-rendering: crisp-edges;
+      cursor: crosshair;
     }
     .pixel-border-amber {
       border: 4px solid #f59e0b;
@@ -72,7 +72,6 @@
       background: #334155;
       border-radius: 2px;
     }
-    /* Custom Slider */
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       height: 18px;
@@ -99,50 +98,47 @@
         </h1>
         <p class="text-[9px] text-amber-500/90 font-pixel tracking-tight flex items-center space-x-1.5 mt-1">
           <span class="w-2 h-2 bg-emerald-400 animate-pulse"></span>
-          <span>PIXEL RPG MULTI-AGENT ARENA</span>
+          <span>16-BIT PIXEL MULTI-AGENT ARENA</span>
         </p>
       </div>
     </div>
 
     <!-- Active Party 16-Bit Status Bars -->
     <div class="hidden lg:flex items-center space-x-4 font-pixel text-[9px]">
-      <!-- Architect Status -->
-      <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5">
+      <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-indigo-400 transition" onclick="selectPlayableCharacter('architect')">
         <div class="w-6 h-6 bg-indigo-600 border border-indigo-300 flex items-center justify-center text-[10px] text-white">S</div>
         <div>
           <div class="flex justify-between text-indigo-300 mb-0.5">
-            <span>SAGE</span>
+            <span>SAGE (WIZARD)</span>
             <span class="text-slate-400 text-[8px]">LV.99</span>
           </div>
-          <div class="w-20 bg-slate-900 h-2 border border-slate-700">
+          <div class="w-24 bg-slate-900 h-2 border border-slate-700">
             <div id="hp-bar-architect" class="bg-indigo-400 h-full w-full"></div>
           </div>
         </div>
       </div>
 
-      <!-- Craftsman Status -->
-      <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5">
+      <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-amber-400 transition" onclick="selectPlayableCharacter('craftsman')">
         <div class="w-6 h-6 bg-amber-600 border border-amber-300 flex items-center justify-center text-[10px] text-white">F</div>
         <div>
           <div class="flex justify-between text-amber-300 mb-0.5">
-            <span>FORGE</span>
+            <span>FORGE (SMITH)</span>
             <span class="text-slate-400 text-[8px]">LV.99</span>
           </div>
-          <div class="w-20 bg-slate-900 h-2 border border-slate-700">
+          <div class="w-24 bg-slate-900 h-2 border border-slate-700">
             <div id="hp-bar-craftsman" class="bg-amber-400 h-full w-full"></div>
           </div>
         </div>
       </div>
 
-      <!-- Sentinel Status -->
-      <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5">
+      <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-emerald-400 transition" onclick="selectPlayableCharacter('sentinel')">
         <div class="w-6 h-6 bg-emerald-600 border border-emerald-300 flex items-center justify-center text-[10px] text-white">I</div>
         <div>
           <div class="flex justify-between text-emerald-300 mb-0.5">
             <span>INQUISITOR</span>
             <span class="text-slate-400 text-[8px]">LV.99</span>
           </div>
-          <div class="w-20 bg-slate-900 h-2 border border-slate-700">
+          <div class="w-24 bg-slate-900 h-2 border border-slate-700">
             <div id="hp-bar-sentinel" class="bg-emerald-400 h-full w-full"></div>
           </div>
         </div>
@@ -201,9 +197,9 @@
               </select>
             </div>
             <div>
-              <label class="block font-pixel text-[8px] text-slate-400 mb-1">PARTY</label>
-              <div class="bg-slate-900 border-2 border-slate-700 p-1.5 text-slate-400 text-[10px] truncate font-mono">
-                Sage+Forge+Sentinel
+              <label class="block font-pixel text-[8px] text-slate-400 mb-1">CONTROLS</label>
+              <div class="bg-slate-900 border-2 border-slate-700 p-1.5 text-amber-400 text-[9px] truncate font-pixel">
+                WASD / Arrow Keys
               </div>
             </div>
           </div>
@@ -269,17 +265,15 @@
     <!-- CENTER & RIGHT: 16-BIT PIXEL ARENA & RETRO TERMINAL LOGS (8 COLS) -->
     <div class="lg:col-span-8 flex flex-col space-y-6">
 
-      <!-- RETRO PIXEL GUILDHALL (GROWTOPIA / 16-BIT STYLE CANVAS) -->
+      <!-- RETRO PIXEL GUILDHALL CANVAS -->
       <div class="pixel-border-amber bg-slate-950 overflow-hidden shadow-2xl relative flex flex-col">
         <div class="bg-slate-900 px-4 py-2 border-b-2 border-slate-800 flex items-center justify-between font-pixel text-[9px]">
           <div class="flex items-center space-x-2 text-amber-300">
             <i data-lucide="gamepad-2" class="w-4 h-4 text-amber-400"></i>
-            <span>GUILDHALL WORLD VIEW (16-BIT RETRO)</span>
+            <span>GUILDHALL WORLD (USE WASD / ARROWS / MOUSE CLICK)</span>
           </div>
           <div class="hidden sm:flex items-center space-x-3 text-[8px] text-slate-300">
-            <span class="flex items-center space-x-1"><span class="w-2 h-2 bg-indigo-500 border border-white"></span><span>WAR ROOM</span></span>
-            <span class="flex items-center space-x-1"><span class="w-2 h-2 bg-amber-500 border border-white"></span><span>THE FORGE</span></span>
-            <span class="flex items-center space-x-1"><span class="w-2 h-2 bg-emerald-500 border border-white"></span><span>JUDGMENT</span></span>
+            <span id="player-control-badge" class="bg-amber-500 text-slate-950 px-2 py-0.5 font-bold">CONTROL: THE SAGE</span>
           </div>
         </div>
 
@@ -333,7 +327,7 @@
     SYNAPSEGUILD v1.0 • MULTI-AGENT RPG ENGINE • RAMA DANADIPA
   </footer>
 
-  <!-- CORE SCRIPT & RETRO PIXEL GRAPHICS GENERATOR -->
+  <!-- CORE SCRIPT & GAME ENGINE -->
   <script>
     lucide.createIcons();
 
@@ -347,6 +341,7 @@
     const lootBox = document.getElementById('loot-box');
     const lootFiles = document.getElementById('loot-files');
     const btnDownloadZip = document.getElementById('btn-download-zip');
+    const playerControlBadge = document.getElementById('player-control-badge');
 
     // Time-Travel Replay Elements
     const replaySlider = document.getElementById('replay-slider');
@@ -360,6 +355,15 @@
     let replayInterval = null;
     let currentCompletedQuestId = null;
     let sfxEnabled = true;
+    let activePlayerActor = 'architect'; // Player controls The Sage by default
+
+    function selectPlayableCharacter(actorId) {
+      activePlayerActor = actorId;
+      const names = { architect: 'THE SAGE (WIZARD)', craftsman: 'FORGE MASTER (SMITH)', sentinel: 'SENTINEL (KNIGHT)' };
+      playerControlBadge.innerText = 'CONTROL: ' + names[actorId];
+      logTerminal("SYSTEM", `🎮 Anda sekarang mengontrol karakter: ${names[actorId]} (Gunakan tombol WASD / Panah / Klik Mouse di canvas)`, "text-amber-300");
+      play8BitSFX('chat');
+    }
 
     // 8-Bit Web Audio Synthesizer
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -384,6 +388,14 @@
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
         osc.start(now);
         osc.stop(now + 0.6);
+      } else if (type === 'step') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(160, now);
+        osc.frequency.exponentialRampToValueAtTime(80, now + 0.05);
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+        osc.start(now);
+        osc.stop(now + 0.05);
       } else if (type === 'hammer') {
         osc.type = 'square';
         osc.frequency.setValueAtTime(800, now);
@@ -436,7 +448,7 @@
       terminal.scrollTop = terminal.scrollHeight;
     }
 
-    // ── RETRO PIXEL SPRITE GENERATOR (GROWTOPIA / 16-BIT THEME) ─────────────
+    // ── PHASER 3 GAME SCENE WITH PLAYER CONTROLS ─────────────────────────────
     let phaserScene = null;
 
     class PixelGuildhallScene extends Phaser.Scene {
@@ -444,13 +456,15 @@
         super({ key: 'PixelGuildhallScene' });
         this.agents = {};
         this.speechBubbles = {};
-        this.particles = [];
+        this.nameTags = {};
+        this.cursors = null;
+        this.wasd = null;
+        this.stepTimer = 0;
       }
 
       preload() {
         const g = this.make.graphics();
         
-        // 🧱 1. Retro Block Tiles (Brick, Wood Plank, Cobblestone)
         // Stone Brick Tile (32x32)
         g.fillStyle(0x334155); g.fillRect(0, 0, 32, 32);
         g.fillStyle(0x1e293b); g.fillRect(0, 15, 32, 2); g.fillRect(15, 0, 2, 15); g.fillRect(7, 17, 2, 15);
@@ -465,46 +479,43 @@
         g.generateTexture('tile_wood', 32, 32);
         g.clear();
 
-        // 🧙 2. The Sage Sprite (Growtopia-style Chibi Wizard)
-        // Hat & Robe (32x40)
-        g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38); // Outline
-        g.fillStyle(0x4f46e5); g.fillRect(6, 16, 20, 20); // Blue Robe
-        g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8); // Chibi Head / Face
-        g.fillStyle(0x000000); g.fillRect(10, 12, 3, 4); g.fillRect(18, 12, 3, 4); // Pixel Eyes
-        g.fillStyle(0x3730a3); g.fillRect(6, 2, 20, 10); g.fillRect(12, 0, 8, 4); // Wizard Hat
-        g.fillStyle(0xf59e0b); g.fillRect(4, 8, 24, 3); // Hat Gold Band
-        g.fillStyle(0xca8a04); g.fillRect(24, 12, 3, 24); g.fillStyle(0x38bdf8); g.fillRect(23, 10, 5, 5); // Magic Staff
+        // Sage Chibi
+        g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
+        g.fillStyle(0x4f46e5); g.fillRect(6, 16, 20, 20);
+        g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
+        g.fillStyle(0x000000); g.fillRect(10, 12, 3, 4); g.fillRect(18, 12, 3, 4);
+        g.fillStyle(0x3730a3); g.fillRect(6, 2, 20, 10); g.fillRect(12, 0, 8, 4);
+        g.fillStyle(0xf59e0b); g.fillRect(4, 8, 24, 3);
+        g.fillStyle(0xca8a04); g.fillRect(24, 12, 3, 24); g.fillStyle(0x38bdf8); g.fillRect(23, 10, 5, 5);
         g.generateTexture('chibi_sage', 32, 40);
         g.clear();
 
-        // ⚒️ 3. The Forge Master (Growtopia-style Chibi Blacksmith)
-        g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38); // Outline
-        g.fillStyle(0xd97706); g.fillRect(6, 16, 20, 20); // Forge Apron / Muscle
-        g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8); // Chibi Face
-        g.fillStyle(0x000000); g.fillRect(10, 12, 3, 4); g.fillRect(18, 12, 3, 4); // Eyes
-        g.fillStyle(0x78350f); g.fillRect(6, 4, 20, 8); // Bandana / Hair
-        g.fillStyle(0x94a3b8); g.fillRect(24, 18, 7, 6); g.fillStyle(0x475569); g.fillRect(26, 24, 3, 12); // Heavy Hammer
+        // Forge Chibi
+        g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
+        g.fillStyle(0xd97706); g.fillRect(6, 16, 20, 20);
+        g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
+        g.fillStyle(0x000000); g.fillRect(10, 12, 3, 4); g.fillRect(18, 12, 3, 4);
+        g.fillStyle(0x78350f); g.fillRect(6, 4, 20, 8);
+        g.fillStyle(0x94a3b8); g.fillRect(24, 18, 7, 6); g.fillStyle(0x475569); g.fillRect(26, 24, 3, 12);
         g.generateTexture('chibi_forge', 32, 40);
         g.clear();
 
-        // 🛡️ 4. The Sentinel / Inquisitor (Growtopia-style Chibi Paladin / Knight)
-        g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38); // Outline
-        g.fillStyle(0x059669); g.fillRect(6, 16, 20, 20); // Emerald Armor
-        g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8); // Chibi Face
-        g.fillStyle(0x000000); g.fillRect(10, 12, 3, 4); g.fillRect(18, 12, 3, 4); // Eyes
-        g.fillStyle(0x10b981); g.fillRect(6, 2, 20, 10); g.fillStyle(0xf59e0b); g.fillRect(14, 0, 4, 6); // Knight Plume
-        g.fillStyle(0x34d399); g.fillRect(2, 16, 6, 16); // Paladin Shield
+        // Sentinel Chibi
+        g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
+        g.fillStyle(0x059669); g.fillRect(6, 16, 20, 20);
+        g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
+        g.fillStyle(0x000000); g.fillRect(10, 12, 3, 4); g.fillRect(18, 12, 3, 4);
+        g.fillStyle(0x10b981); g.fillRect(6, 2, 20, 10); g.fillStyle(0xf59e0b); g.fillRect(14, 0, 4, 6);
+        g.fillStyle(0x34d399); g.fillRect(2, 16, 6, 16);
         g.generateTexture('chibi_sentinel', 32, 40);
         g.clear();
 
-        // 🔥 5. Interactive Props (Forge Anvil, Round Table, Altar Torch)
-        // Anvil
+        // Props
         g.fillStyle(0x1e293b); g.fillRect(2, 12, 28, 12); g.fillRect(8, 24, 16, 8);
         g.fillStyle(0x475569); g.fillRect(0, 8, 32, 6);
         g.generateTexture('prop_anvil', 32, 32);
         g.clear();
 
-        // Torch Fire
         g.fillStyle(0x78350f); g.fillRect(6, 10, 4, 14);
         g.fillStyle(0xf59e0b); g.fillRect(4, 2, 8, 8);
         g.fillStyle(0xfef08a); g.fillRect(6, 4, 4, 4);
@@ -517,7 +528,7 @@
         const width = this.cameras.main.width;
         const height = this.cameras.main.height;
 
-        // 🏰 Tilemap Grid Background (Wood Floor & Stone Walls)
+        // Tilemap Grid
         for (let x = 0; x < width; x += 32) {
           for (let y = 0; y < height; y += 32) {
             if (y === 0 || y === height - 32 || x === 0 || x === width - 32 || x === 256 || x === 512) {
@@ -528,12 +539,12 @@
           }
         }
 
-        // Room Labels (Pixel Text)
+        // Labels
         this.add.text(130, 24, '🔮 WAR ROOM', { font: '9px "Press Start 2P"', fill: '#818cf8' }).setOrigin(0.5);
         this.add.text(384, 24, '⚒️ THE FORGE', { font: '9px "Press Start 2P"', fill: '#fbbf24' }).setOrigin(0.5);
         this.add.text(640, 24, '⚖️ JUDGMENT', { font: '9px "Press Start 2P"', fill: '#34d399' }).setOrigin(0.5);
 
-        // Room Props & Torches
+        // Props
         this.add.image(48, 48, 'prop_torch');
         this.add.image(210, 48, 'prop_torch');
         this.add.image(304, 48, 'prop_torch');
@@ -541,7 +552,6 @@
         this.add.image(560, 48, 'prop_torch');
         this.add.image(720, 48, 'prop_torch');
 
-        // War Room Table (Pixel Graphics)
         const g = this.add.graphics();
         g.fillStyle(0x1e1b4b, 0.9);
         g.fillRect(80, 150, 100, 100);
@@ -549,7 +559,6 @@
         g.strokeRect(80, 150, 100, 100);
         this.add.text(130, 200, 'BLUEPRINT\nTABLE', { font: '7px "Press Start 2P"', fill: '#a5b4fc', align: 'center' }).setOrigin(0.5);
 
-        // Forge Anvil & Smelter
         this.add.image(384, 210, 'prop_anvil').setScale(1.5);
         g.fillStyle(0x7c2d12, 0.8);
         g.fillRect(344, 260, 80, 40);
@@ -557,37 +566,35 @@
         g.strokeRect(344, 260, 80, 40);
         this.add.text(384, 280, 'SMELTER 🔥', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5);
 
-        // Chamber of Judgment Altar
         g.fillStyle(0x064e3b, 0.9);
         g.fillRect(590, 160, 100, 90);
         g.lineStyle(3, 0x10b981, 1);
         g.strokeRect(590, 160, 100, 90);
         this.add.text(640, 205, 'PYTEST\nALTAR ⚖️', { font: '7px "Press Start 2P"', fill: '#6ee7b7', align: 'center' }).setOrigin(0.5);
 
-        // 👾 Spawn Chibi Characters (Idle Animation Breathing)
-        this.agents['architect'] = this.add.sprite(130, 200, 'chibi_sage').setScale(1.4);
-        this.agents['craftsman'] = this.add.sprite(384, 200, 'chibi_forge').setScale(1.4);
-        this.agents['sentinel'] = this.add.sprite(640, 200, 'chibi_sentinel').setScale(1.4);
+        // Chibis
+        this.agents['architect'] = this.add.sprite(130, 200, 'chibi_sage').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        this.agents['craftsman'] = this.add.sprite(384, 200, 'chibi_forge').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        this.agents['sentinel'] = this.add.sprite(640, 200, 'chibi_sentinel').setScale(1.4).setInteractive({ cursor: 'pointer' });
 
-        // Character Name Tags (Pixel Style)
-        this.nameTags = {};
         this.nameTags['architect'] = this.add.text(130, 235, 'The Sage', { font: '8px "Press Start 2P"', fill: '#a5b4fc', backgroundColor: '#020617' }).setOrigin(0.5);
         this.nameTags['craftsman'] = this.add.text(384, 235, 'Forge Master', { font: '8px "Press Start 2P"', fill: '#fcd34d', backgroundColor: '#020617' }).setOrigin(0.5);
         this.nameTags['sentinel'] = this.add.text(640, 235, 'Sentinel', { font: '8px "Press Start 2P"', fill: '#6ee7b7', backgroundColor: '#020617' }).setOrigin(0.5);
 
-        // Idle Bobbing Animation for all Chibis
-        Object.values(this.agents).forEach(sprite => {
-          this.tweens.add({
-            targets: sprite,
-            y: sprite.y - 4,
-            duration: 600,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.easeInOut'
-          });
+        // Click on character to switch control
+        this.agents['architect'].on('pointerdown', () => selectPlayableCharacter('architect'));
+        this.agents['craftsman'].on('pointerdown', () => selectPlayableCharacter('craftsman'));
+        this.agents['sentinel'].on('pointerdown', () => selectPlayableCharacter('sentinel'));
+
+        // Click on ground to walk there (Point & Click)
+        this.input.on('pointerdown', (pointer) => {
+          if (pointer.y > 40 && pointer.y < 370 && pointer.x > 35 && pointer.x < 765) {
+            this.moveAndSpeak(activePlayerActor, pointer.x, pointer.y, '', 600);
+            play8BitSFX('step');
+          }
         });
 
-        // Speech Bubbles Container (16-Bit Pixel RPG Balloon)
+        // Speech Bubbles Container
         ['architect', 'craftsman', 'sentinel'].forEach(key => {
           this.speechBubbles[key] = this.add.text(0, 0, '', {
             font: '10px Inter',
@@ -598,6 +605,47 @@
             align: 'center'
           }).setOrigin(0.5, 1.45).setVisible(false).setDepth(100);
         });
+
+        // Keyboard Controls Setup (WASD + Arrow Keys)
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.wasd = this.input.keyboard.addKeys({
+          up: Phaser.Input.Keyboard.KeyCodes.W,
+          down: Phaser.Input.Keyboard.KeyCodes.S,
+          left: Phaser.Input.Keyboard.KeyCodes.A,
+          right: Phaser.Input.Keyboard.KeyCodes.D
+        });
+      }
+
+      update(time, delta) {
+        const sprite = this.agents[activePlayerActor];
+        const nameTag = this.nameTags[activePlayerActor];
+        const bubble = this.speechBubbles[activePlayerActor];
+        if (!sprite) return;
+
+        let vx = 0, vy = 0;
+        const speed = 2.5;
+
+        if (this.cursors.left.isDown || this.wasd.left.isDown) { vx = -speed; sprite.flipX = true; }
+        else if (this.cursors.right.isDown || this.wasd.right.isDown) { vx = speed; sprite.flipX = false; }
+        
+        if (this.cursors.up.isDown || this.wasd.up.isDown) { vy = -speed; }
+        else if (this.cursors.down.isDown || this.wasd.down.isDown) { vy = speed; }
+
+        if (vx !== 0 || vy !== 0) {
+          sprite.x = Phaser.Math.Clamp(sprite.x + vx, 45, 755);
+          sprite.y = Phaser.Math.Clamp(sprite.y + vy, 55, 360);
+          
+          if (nameTag) nameTag.setPosition(sprite.x, sprite.y + 26);
+          if (bubble && bubble.visible) bubble.setPosition(sprite.x, sprite.y);
+
+          // Step walking bounce animation & SFX
+          this.stepTimer += delta;
+          if (this.stepTimer > 180) {
+            this.stepTimer = 0;
+            sprite.y += (sprite.y % 2 === 0 ? 3 : -3);
+            play8BitSFX('step');
+          }
+        }
       }
 
       moveAndSpeak(actorId, targetX, targetY, dialogue, speed = 800) {
@@ -606,7 +654,9 @@
         const bubble = this.speechBubbles[actorId];
         if (!sprite) return;
 
-        // Pixel Step Jump
+        // Flip direction based on target
+        sprite.flipX = targetX < sprite.x;
+
         this.tweens.add({
           targets: [sprite, nameTag],
           x: targetX,
