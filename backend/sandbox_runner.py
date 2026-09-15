@@ -7,8 +7,9 @@ import sys
 SANDBOX_BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "sandbox"))
 os.makedirs(SANDBOX_BASE_DIR, exist_ok=True)
 
-# Use current python executable or venv python
-PYTHON_EXEC = sys.executable
+# Use dedicated SynapseGuild virtual environment python with pytest
+SYNAPSE_VENV_PYTHON = "/home/ubuntu/SynapseGuild/venv/bin/python"
+PYTHON_EXEC = SYNAPSE_VENV_PYTHON if os.path.exists(SYNAPSE_VENV_PYTHON) else sys.executable
 
 class CodeSandbox:
     def __init__(self, quest_id: str):
