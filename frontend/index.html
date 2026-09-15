@@ -119,13 +119,12 @@
         <p class="font-pixel text-[8px] text-slate-400 mt-1">MASUKKAN IDENTITAS PETUALANG ANDA</p>
       </div>
 
-      <!-- Tab Switcher (Login vs Register) -->
+      <!-- Tab Switcher -->
       <div class="flex border-b-2 border-slate-800 mb-4 font-pixel text-[9px]">
         <button id="tab-auth-login" class="flex-1 py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950">LOGIN</button>
         <button id="tab-auth-register" class="flex-1 py-2 text-slate-400 hover:text-slate-200 bg-slate-900">REGISTER</button>
       </div>
 
-      <!-- Auth Error Notification -->
       <div id="auth-error-msg" class="p-2 mb-4 bg-rose-950/80 border border-rose-500 text-rose-300 text-xs font-mono hidden"></div>
 
       <!-- Login Form -->
@@ -193,14 +192,13 @@
         </h1>
         <p class="text-[9px] text-amber-500/90 font-pixel tracking-tight flex items-center space-x-1.5 mt-1">
           <span class="w-2 h-2 bg-emerald-400 animate-pulse"></span>
-          <span>AUTONOMOUS AI MULTI-AGENT RPG ARENA</span>
+          <span>EXPANDED MEDIEVAL CYBER-CASTLE ARENA</span>
         </p>
       </div>
     </div>
 
     <!-- Active Party Status -->
     <div class="hidden lg:flex items-center space-x-4 font-pixel text-[9px]">
-      <!-- Architect Status -->
       <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-indigo-400 transition" onclick="selectPlayableCharacter('architect')">
         <div class="w-6 h-6 bg-indigo-600 border border-indigo-300 flex items-center justify-center text-[10px] text-white">S</div>
         <div>
@@ -217,7 +215,6 @@
         </div>
       </div>
 
-      <!-- Craftsman Status -->
       <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-amber-400 transition" onclick="selectPlayableCharacter('craftsman')">
         <div class="w-6 h-6 bg-amber-600 border border-amber-300 flex items-center justify-center text-[10px] text-white">F</div>
         <div>
@@ -234,7 +231,6 @@
         </div>
       </div>
 
-      <!-- Sentinel Status -->
       <div class="pixel-box px-3 py-1.5 flex items-center space-x-2.5 cursor-pointer hover:border-emerald-400 transition" onclick="selectPlayableCharacter('sentinel')">
         <div class="w-6 h-6 bg-emerald-600 border border-emerald-300 flex items-center justify-center text-[10px] text-white">I</div>
         <div>
@@ -254,7 +250,6 @@
 
     <!-- User Profile Badge & BGM / Logout -->
     <div class="flex items-center space-x-2.5">
-      <!-- Logged User Status -->
       <div id="user-badge" class="pixel-box px-2.5 py-1.5 flex items-center space-x-1.5 font-pixel text-[9px] text-amber-300">
         <span id="user-avatar">🧙‍♂️</span>
         <span id="user-name">GUEST</span>
@@ -273,7 +268,7 @@
   </header>
 
   <!-- MAIN VIEWPORT GRID -->
-  <main class="flex-1 max-w-[1740px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+  <main class="flex-1 max-w-[1780px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
 
     <!-- LEFT COLUMN: RETRO QUEST BOARD & INTERVENTIONS (4 COLS) -->
     <div class="lg:col-span-4 flex flex-col space-y-6">
@@ -423,16 +418,16 @@
 
     </div>
 
-    <!-- CENTER & RIGHT: 16-BIT MEDIEVAL OFFICE ARENA & DUAL TAB (8 COLS) -->
+    <!-- CENTER & RIGHT: 16-BIT EXPANDED CASTLE ARENA & DUAL TAB (8 COLS) -->
     <div class="lg:col-span-8 flex flex-col space-y-6">
 
-      <!-- RETRO PIXEL GUILDHALL CANVAS -->
+      <!-- RETRO PIXEL GUILDHALL CANVAS (EXPANDED 920x520 WORLD) -->
       <div class="pixel-border-amber bg-slate-950 overflow-hidden shadow-2xl relative flex flex-col">
         
         <div class="bg-slate-900 px-4 py-2 border-b-2 border-slate-800 flex items-center justify-between font-pixel text-[9px]">
           <div class="flex items-center space-x-2 text-amber-300">
             <i data-lucide="gamepad-2" class="w-4 h-4 text-amber-400"></i>
-            <span>MEDIEVAL OFFICE ARENA</span>
+            <span>CASTLE WORLD ARENA (7 ROOMS EXPANDED)</span>
           </div>
 
           <!-- 🐉 BOSS BATTLE HP BAR (THE BUG BEAST) -->
@@ -451,9 +446,10 @@
           </div>
         </div>
 
-        <div class="relative w-full h-[460px] bg-[#0c1424] flex items-center justify-center">
+        <div class="relative w-full h-[510px] bg-[#0c1424] flex items-center justify-center">
           <div id="phaser-container" class="w-full h-full"></div>
 
+          <!-- 🕹️ FLOATING RETRO ARCADE D-PAD CONTROLLER -->
           <div class="absolute bottom-4 right-4 z-40 bg-slate-950/85 p-2.5 rounded-xl border-2 border-amber-500/60 shadow-2xl backdrop-blur-sm select-none">
             <div class="text-[8px] font-pixel text-amber-400 text-center mb-1">D-PAD</div>
             <div class="grid grid-cols-3 gap-1 w-28 h-28">
@@ -511,7 +507,7 @@
         </div>
 
         <div id="tab-content-logs" class="h-44 overflow-y-auto space-y-2 text-xs font-mono-code text-slate-300 pr-2">
-          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild 16-Bit Boss Arena online. Ready for quest battle.</div>
+          <div class="text-slate-600 font-mono">[00:00:00] SynapseGuild Expanded 7-Room Castle World online. Click facilities to interact.</div>
         </div>
 
         <div id="tab-content-code" class="h-44 overflow-y-auto space-y-2 text-xs font-mono-code text-slate-300 pr-2 hidden">
@@ -552,7 +548,6 @@
     const userQuestHistoryList = document.getElementById('user-quest-history-list');
     const userQuestCount = document.getElementById('user-quest-count');
 
-    // Check stored user session
     try {
       const stored = localStorage.getItem('synapse_auth_user');
       if (stored) {
@@ -561,7 +556,6 @@
       }
     } catch(e) {}
 
-    // Tab Switcher
     tabAuthLogin.addEventListener('click', () => {
       tabAuthLogin.className = "flex-1 py-2 text-amber-300 border-b-2 border-amber-400 bg-slate-950";
       tabAuthRegister.className = "flex-1 py-2 text-slate-400 hover:text-slate-200 bg-slate-900";
@@ -595,7 +589,6 @@
       authModal.classList.remove('hidden');
     });
 
-    // Login Form Submit
     formAuthLogin.addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = document.getElementById('login-username').value;
@@ -620,7 +613,6 @@
       }
     });
 
-    // Register Form Submit
     formAuthRegister.addEventListener('submit', async (e) => {
       e.preventDefault();
       const username = document.getElementById('reg-username').value;
@@ -675,7 +667,6 @@
       `).join('');
     }
 
-    // Standard DOM Elements
     const questForm = document.getElementById('quest-form');
     const activeQuestBadge = document.getElementById('active-quest-badge');
     const activeQuestTitle = document.getElementById('active-quest-title');
@@ -952,6 +943,24 @@
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
         osc.start(now);
         osc.stop(now + 0.35);
+      } else if (type === 'mana_crystal') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.setValueAtTime(880.00, now + 0.1);
+        osc.frequency.setValueAtTime(1174.66, now + 0.2);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      } else if (type === 'fountain') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.setValueAtTime(500, now + 0.1);
+        osc.frequency.setValueAtTime(600, now + 0.2);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
       } else if (type === 'book') {
         osc.type = 'sine';
         osc.frequency.setValueAtTime(700, now);
@@ -1024,7 +1033,7 @@
       }
     }
 
-    // ── PHASER 3 MEDIEVAL OFFICE GUILDHALL SCENE WITH COOPERATIVE BOSS RAID ──
+    // ── PHASER 3 EXPANDED 7-ROOM CASTLE WORLD WITH CRYSTAL GARDEN & DORMITORY ──
     let phaserScene = null;
 
     class MedievalOfficeScene extends Phaser.Scene {
@@ -1035,13 +1044,14 @@
         this.nameTags = {};
         this.bossMonster = null;
         this.bossHpTag = null;
-        this.slashEffects = [];
+        this.manaCrystal = null;
         this.stepTimer = 0;
       }
 
       preload() {
         const g = this.make.graphics();
         
+        // Tiles
         g.fillStyle(0x334155); g.fillRect(0, 0, 32, 32);
         g.fillStyle(0x1e293b); g.fillRect(0, 15, 32, 2); g.fillRect(15, 0, 2, 15); g.fillRect(7, 17, 2, 15);
         g.fillStyle(0x475569); g.fillRect(0, 0, 32, 2); g.fillRect(0, 0, 2, 32);
@@ -1056,7 +1066,32 @@
         g.fillStyle(0xf59e0b); g.fillRect(0, 0, 32, 2); g.fillRect(0, 30, 32, 2);
         g.generateTexture('tile_carpet', 32, 32); g.clear();
 
-        // Sage Chibi
+        // 🌿 Grass / Courtyard Tile
+        g.fillStyle(0x064e3b); g.fillRect(0, 0, 32, 32);
+        g.fillStyle(0x047857); g.fillRect(4, 4, 8, 8); g.fillRect(18, 18, 10, 10);
+        g.fillStyle(0x10b981); g.fillRect(6, 6, 2, 2); g.fillRect(20, 20, 2, 2);
+        g.generateTexture('tile_grass', 32, 32); g.clear();
+
+        // 🛌 Dormitory Bed Tile
+        g.fillStyle(0x1e1b4b); g.fillRect(0, 0, 32, 32);
+        g.fillStyle(0x38bdf8); g.fillRect(4, 6, 24, 20);
+        g.fillStyle(0xffffff); g.fillRect(6, 8, 8, 8); // Pillow
+        g.generateTexture('prop_bed', 32, 32); g.clear();
+
+        // 💎 Glowing Mana Crystal Shard
+        g.fillStyle(0x0284c7); g.fillRect(6, 0, 20, 32);
+        g.fillStyle(0x38bdf8); g.fillRect(10, 4, 12, 24);
+        g.fillStyle(0xe0f2fe); g.fillRect(12, 8, 8, 16);
+        g.generateTexture('prop_crystal', 32, 32); g.clear();
+
+        // ⛲ Water Fountain
+        g.fillStyle(0x1e293b); g.fillRect(2, 6, 28, 20);
+        g.fillStyle(0x0284c7); g.fillRect(4, 8, 24, 16);
+        g.fillStyle(0x38bdf8); g.fillRect(10, 12, 12, 8);
+        g.fillStyle(0xffffff); g.fillRect(14, 2, 4, 12);
+        g.generateTexture('prop_fountain', 32, 32); g.clear();
+
+        // Characters
         g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
         g.fillStyle(0x4f46e5); g.fillRect(6, 16, 20, 20);
         g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
@@ -1066,7 +1101,6 @@
         g.fillStyle(0xca8a04); g.fillRect(24, 12, 3, 24); g.fillStyle(0x38bdf8); g.fillRect(23, 10, 5, 5);
         g.generateTexture('chibi_sage', 32, 40); g.clear();
 
-        // Forge Chibi
         g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
         g.fillStyle(0xd97706); g.fillRect(6, 16, 20, 20);
         g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
@@ -1075,7 +1109,6 @@
         g.fillStyle(0x94a3b8); g.fillRect(24, 18, 7, 6); g.fillStyle(0x475569); g.fillRect(26, 24, 3, 12);
         g.generateTexture('chibi_forge', 32, 40); g.clear();
 
-        // Sentinel Chibi
         g.fillStyle(0x000000); g.fillRect(4, 0, 24, 38);
         g.fillStyle(0x059669); g.fillRect(6, 16, 20, 20);
         g.fillStyle(0xfde047); g.fillRect(8, 10, 16, 8);
@@ -1084,7 +1117,6 @@
         g.fillStyle(0x34d399); g.fillRect(2, 16, 6, 16);
         g.generateTexture('chibi_sentinel', 32, 40); g.clear();
 
-        // 👾 Bug Beast Monster
         g.fillStyle(0x000000); g.fillRect(4, 4, 48, 48);
         g.fillStyle(0xe11d48); g.fillRect(8, 8, 40, 40);
         g.fillStyle(0x881337); g.fillRect(12, 12, 32, 32);
@@ -1094,7 +1126,6 @@
         g.fillStyle(0x4c0519); g.fillRect(4, 0, 12, 10); g.fillRect(40, 0, 12, 10);
         g.generateTexture('boss_bug_beast', 56, 56); g.clear();
 
-        // Slash Spark FX
         g.fillStyle(0xfef08a); g.fillRect(4, 0, 4, 16); g.fillRect(0, 4, 16, 4);
         g.fillStyle(0xffffff); g.fillRect(4, 4, 4, 4);
         g.generateTexture('slash_fx', 16, 16); g.clear();
@@ -1134,74 +1165,131 @@
         const width = this.cameras.main.width;
         const height = this.cameras.main.height;
 
+        // 🏰 EXPANDED 7-ROOM CASTLE MAP (900x510):
+        // 1. (0-240, 0-200)   : 🔮 War Room (Planning Table)
+        // 2. (250-480, 0-200) : ☕ Break Room & Pantry (Watercooler & Couches)
+        // 3. (490-670, 0-200) : 📚 Knowledge Vault & Archives
+        // 4. (680-890, 0-200) : 💎 Arcane Crystal Garden (Mana Core & Fountain)
+        // 5. (0-260, 210-500) : ⚒️ The Forge (Workshop, Anvil & Terminal)
+        // 6. (270-520, 210-500) : 🛌 Hero Dormitory & Rest Quarters
+        // 7. (530-890, 210-500) : ⚔️ Boss Raid Arena & QA Judgment Altar
+
         for (let x = 0; x < width; x += 32) {
           for (let y = 0; y < height; y += 32) {
-            const isBorder = (y === 0 || y === height - 32 || x === 0 || x === width - 32 || y === 224 || x === 256 || (y < 224 && x === 544));
+            const isBorder = (
+              y === 0 || y === height - 30 || x === 0 || x === width - 32 ||
+              y === 208 ||
+              (y < 208 && (x === 240 || x === 480 || x === 672)) ||
+              (y > 208 && (x === 256 || x === 528))
+            );
+
             const isDoorway = (
-              (y === 224 && (x === 128 || x === 416 || x === 672)) ||
-              (x === 256 && (y === 96 || y === 320)) ||
-              (x === 544 && y === 96)
+              (y === 208 && (x === 112 || x === 368 || x === 576 || x === 768)) ||
+              (x === 240 && y === 96) ||
+              (x === 480 && y === 96) ||
+              (x === 672 && y === 96) ||
+              (x === 256 && y === 352) ||
+              (x === 528 && y === 352)
             );
 
             if (isBorder && !isDoorway) {
               this.add.image(x + 16, y + 16, 'tile_stone');
-            } else if (x > 256 && x < 544 && y < 224) {
-              this.add.image(x + 16, y + 16, 'tile_carpet');
+            } else if (x > 240 && x < 480 && y < 208) {
+              this.add.image(x + 16, y + 16, 'tile_carpet'); // Break Room Red Carpet
+            } else if (x > 672 && y < 208) {
+              this.add.image(x + 16, y + 16, 'tile_grass'); // Crystal Garden Courtyard
             } else {
-              this.add.image(x + 16, y + 16, 'tile_wood');
+              this.add.image(x + 16, y + 16, 'tile_wood'); // Classic Hardwood Floor
             }
           }
         }
 
-        this.add.text(128, 16, '🔮 WAR ROOM (MEETING)', { font: '7px "Press Start 2P"', fill: '#818cf8' }).setOrigin(0.5);
-        this.add.text(400, 16, '☕ BREAK ROOM / PANTRY', { font: '7px "Press Start 2P"', fill: '#38bdf8' }).setOrigin(0.5);
-        this.add.text(700, 16, '📚 ARCHIVE & DOCS', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5);
-        this.add.text(128, 240, '⚒️ THE FORGE (DEV)', { font: '7px "Press Start 2P"', fill: '#fbbf24' }).setOrigin(0.5);
-        this.add.text(560, 240, '⚔️ BOSS RAID ARENA & QA', { font: '7px "Press Start 2P"', fill: '#f43f5e' }).setOrigin(0.5);
+        // Room Labels (7 Rooms)
+        this.add.text(120, 16, '🔮 WAR ROOM', { font: '7px "Press Start 2P"', fill: '#818cf8' }).setOrigin(0.5);
+        this.add.text(360, 16, '☕ BREAK ROOM', { font: '7px "Press Start 2P"', fill: '#38bdf8' }).setOrigin(0.5);
+        this.add.text(576, 16, '📚 ARCHIVE VAULT', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5);
+        this.add.text(780, 16, '💎 CRYSTAL GARDEN', { font: '7px "Press Start 2P"', fill: '#67e8f9' }).setOrigin(0.5);
+        this.add.text(128, 224, '⚒️ THE FORGE (DEV)', { font: '7px "Press Start 2P"', fill: '#fbbf24' }).setOrigin(0.5);
+        this.add.text(390, 224, '🛌 HERO DORMITORY', { font: '7px "Press Start 2P"', fill: '#c084fc' }).setOrigin(0.5);
+        this.add.text(710, 224, '⚔️ BOSS RAID ARENA', { font: '7px "Press Start 2P"', fill: '#f43f5e' }).setOrigin(0.5);
 
-        [32, 224, 288, 512, 576, 800].forEach(tx => this.add.image(tx, 32, 'prop_torch'));
-        [32, 224, 288, 800].forEach(tx => this.add.image(tx, 256, 'prop_torch'));
+        // Torches along walls
+        [32, 208, 272, 448, 512, 640, 704, 864].forEach(tx => this.add.image(tx, 32, 'prop_torch'));
+        [32, 224, 288, 496, 560, 864].forEach(tx => this.add.image(tx, 240, 'prop_torch'));
 
+        // 🔮 Room 1: War Room Planning Table
         const g = this.add.graphics();
         g.fillStyle(0x1e1b4b, 0.9);
-        g.fillRect(78, 80, 100, 80);
+        g.fillRect(70, 75, 100, 80);
         g.lineStyle(2, 0x6366f1, 1);
-        g.strokeRect(78, 80, 100, 80);
-        const warTableText = this.add.text(128, 120, 'PLANNING\nTABLE 🔮', { font: '7px "Press Start 2P"', fill: '#a5b4fc', align: 'center' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
+        g.strokeRect(70, 75, 100, 80);
+        const warTableText = this.add.text(120, 115, 'PLANNING\nTABLE 🔮', { font: '7px "Press Start 2P"', fill: '#a5b4fc', align: 'center' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
         warTableText.on('pointerdown', () => this.interactFacility('table'));
 
-        const cooler = this.add.image(400, 80, 'prop_watercooler').setScale(1.5).setInteractive({ cursor: 'pointer' });
-        this.add.text(400, 110, 'WATERCOOLER ☕', { font: '6px "Press Start 2P"', fill: '#bae6fd' }).setOrigin(0.5);
+        // ☕ Room 2: Pantry & Watercooler
+        const cooler = this.add.image(360, 75, 'prop_watercooler').setScale(1.5).setInteractive({ cursor: 'pointer' });
+        this.add.text(360, 105, 'WATERCOOLER ☕', { font: '6px "Press Start 2P"', fill: '#bae6fd' }).setOrigin(0.5);
         cooler.on('pointerdown', () => this.interactFacility('coffee'));
+        g.fillStyle(0x0369a1, 0.9);
+        g.fillRect(290, 135, 55, 24);
+        g.fillRect(375, 135, 55, 24);
+        this.add.text(317, 147, 'SOFA', { font: '6px "Press Start 2P"', fill: '#e0f2fe' }).setOrigin(0.5);
+        this.add.text(402, 147, 'SOFA', { font: '6px "Press Start 2P"', fill: '#e0f2fe' }).setOrigin(0.5);
 
-        const b1 = this.add.image(620, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
-        const b2 = this.add.image(670, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
-        const b3 = this.add.image(720, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
-        const b4 = this.add.image(770, 80, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
-        const vaultText = this.add.text(695, 120, 'KNOWLEDGE VAULT 📜', { font: '6px "Press Start 2P"', fill: '#fed7aa' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
-        [b1, b2, b3, b4, vaultText].forEach(b => b.on('pointerdown', () => this.interactFacility('bookshelf')));
+        // 📚 Room 3: Knowledge Archive Bookshelves
+        const b1 = this.add.image(530, 75, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        const b2 = this.add.image(575, 75, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        const b3 = this.add.image(620, 75, 'prop_bookshelf').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        const vaultText = this.add.text(575, 115, 'KNOWLEDGE VAULT 📜', { font: '6px "Press Start 2P"', fill: '#fed7aa' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
+        [b1, b2, b3, vaultText].forEach(b => b.on('pointerdown', () => this.interactFacility('bookshelf')));
 
-        const anvil = this.add.image(128, 330, 'prop_anvil').setScale(1.6).setInteractive({ cursor: 'pointer' });
+        // 💎 Room 4 (NEW): Arcane Crystal Garden & Fountain
+        this.manaCrystal = this.add.image(780, 80, 'prop_crystal').setScale(1.6).setInteractive({ cursor: 'pointer' });
+        const fountain = this.add.image(780, 140, 'prop_fountain').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        this.add.text(780, 48, 'MANA SHARD 💎', { font: '6px "Press Start 2P"', fill: '#67e8f9' }).setOrigin(0.5);
+        this.manaCrystal.on('pointerdown', () => this.interactFacility('crystal'));
+        fountain.on('pointerdown', () => this.interactFacility('fountain'));
+
+        // Crystal Pulsing Glow Tween
+        this.tweens.add({
+          targets: this.manaCrystal,
+          scaleX: 1.8,
+          scaleY: 1.8,
+          duration: 900,
+          yoyo: true,
+          repeat: -1,
+          ease: 'Sine.easeInOut'
+        });
+
+        // ⚒️ Room 5: The Forge Workshop
+        const anvil = this.add.image(128, 320, 'prop_anvil').setScale(1.6).setInteractive({ cursor: 'pointer' });
         g.fillStyle(0x7c2d12, 0.9);
-        g.fillRect(68, 380, 120, 40);
+        g.fillRect(68, 375, 120, 40);
         g.lineStyle(2, 0xf97316, 1);
-        g.strokeRect(68, 380, 120, 40);
-        const forgeText = this.add.text(128, 400, 'FORGE TERMINAL 💻', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
+        g.strokeRect(68, 375, 120, 40);
+        const forgeText = this.add.text(128, 395, 'FORGE TERMINAL 💻', { font: '7px "Press Start 2P"', fill: '#fdba74' }).setOrigin(0.5).setInteractive({ cursor: 'pointer' });
         [anvil, forgeText].forEach(f => f.on('pointerdown', () => this.interactFacility('anvil')));
 
-        this.add.image(350, 310, 'prop_server_rack').setScale(1.4);
-        this.add.image(390, 310, 'prop_server_rack').setScale(1.4);
-        this.add.image(430, 310, 'prop_server_rack').setScale(1.4);
+        // 🛌 Room 6 (NEW): Hero Dormitory & Quarters
+        const bed1 = this.add.image(320, 310, 'prop_bed').setScale(1.5).setInteractive({ cursor: 'pointer' });
+        const bed2 = this.add.image(390, 310, 'prop_bed').setScale(1.5).setInteractive({ cursor: 'pointer' });
+        const bed3 = this.add.image(460, 310, 'prop_bed').setScale(1.5).setInteractive({ cursor: 'pointer' });
+        this.add.text(390, 370, 'REST QUARTERS 🛌', { font: '6px "Press Start 2P"', fill: '#e9d5ff' }).setOrigin(0.5);
+        [bed1, bed2, bed3].forEach(b => b.on('pointerdown', () => this.interactFacility('bed')));
 
-        // 👹 Boss Altar
+        // 👹 Room 7: Boss Raid Altar & Server Racks
+        this.add.image(570, 300, 'prop_server_rack').setScale(1.3);
+        this.add.image(570, 345, 'prop_server_rack').setScale(1.3);
+        this.add.image(570, 390, 'prop_server_rack').setScale(1.3);
+
         g.fillStyle(0x3f0713, 0.95);
-        g.fillRect(570, 270, 230, 140);
+        g.fillRect(630, 270, 230, 155);
         g.lineStyle(3, 0xe11d48, 1);
-        g.strokeRect(570, 270, 230, 140);
-        this.add.text(685, 285, '🔥 BOSS ALTAR 🔥', { font: '8px "Press Start 2P"', fill: '#fda4af', align: 'center' }).setOrigin(0.5);
+        g.strokeRect(630, 270, 230, 155);
+        this.add.text(745, 285, '🔥 BOSS ALTAR 🔥', { font: '8px "Press Start 2P"', fill: '#fda4af', align: 'center' }).setOrigin(0.5);
 
-        this.bossMonster = this.add.sprite(685, 345, 'boss_bug_beast').setScale(1.3).setInteractive({ cursor: 'pointer' });
-        this.bossHpTag = this.add.text(685, 395, 'BUG BEAST (LV.99)', { font: '8px "Press Start 2P"', fill: '#f43f5e', backgroundColor: '#020617' }).setOrigin(0.5);
+        this.bossMonster = this.add.sprite(745, 345, 'boss_bug_beast').setScale(1.3).setInteractive({ cursor: 'pointer' });
+        this.bossHpTag = this.add.text(745, 400, 'BUG BEAST (LV.99)', { font: '8px "Press Start 2P"', fill: '#f43f5e', backgroundColor: '#020617' }).setOrigin(0.5);
 
         this.tweens.add({
           targets: this.bossMonster,
@@ -1214,13 +1302,13 @@
         });
 
         // Spawn Characters
-        this.agents['architect'] = this.add.sprite(128, 120, 'chibi_sage').setScale(1.4).setInteractive({ cursor: 'pointer' });
-        this.agents['craftsman'] = this.add.sprite(128, 330, 'chibi_forge').setScale(1.4).setInteractive({ cursor: 'pointer' });
-        this.agents['sentinel'] = this.add.sprite(520, 345, 'chibi_sentinel').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        this.agents['architect'] = this.add.sprite(120, 115, 'chibi_sage').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        this.agents['craftsman'] = this.add.sprite(128, 320, 'chibi_forge').setScale(1.4).setInteractive({ cursor: 'pointer' });
+        this.agents['sentinel'] = this.add.sprite(390, 310, 'chibi_sentinel').setScale(1.4).setInteractive({ cursor: 'pointer' });
 
-        this.nameTags['architect'] = this.add.text(128, 148, 'The Sage', { font: '8px "Press Start 2P"', fill: '#a5b4fc', backgroundColor: '#020617' }).setOrigin(0.5);
-        this.nameTags['craftsman'] = this.add.text(128, 358, 'Forge Master', { font: '8px "Press Start 2P"', fill: '#fcd34d', backgroundColor: '#020617' }).setOrigin(0.5);
-        this.nameTags['sentinel'] = this.add.text(520, 372, 'Sentinel', { font: '8px "Press Start 2P"', fill: '#6ee7b7', backgroundColor: '#020617' }).setOrigin(0.5);
+        this.nameTags['architect'] = this.add.text(120, 143, 'The Sage', { font: '8px "Press Start 2P"', fill: '#a5b4fc', backgroundColor: '#020617' }).setOrigin(0.5);
+        this.nameTags['craftsman'] = this.add.text(128, 348, 'Forge Master', { font: '8px "Press Start 2P"', fill: '#fcd34d', backgroundColor: '#020617' }).setOrigin(0.5);
+        this.nameTags['sentinel'] = this.add.text(390, 338, 'Sentinel', { font: '8px "Press Start 2P"', fill: '#6ee7b7', backgroundColor: '#020617' }).setOrigin(0.5);
 
         this.agents['architect'].on('pointerdown', () => selectPlayableCharacter('architect'));
         this.agents['craftsman'].on('pointerdown', () => selectPlayableCharacter('craftsman'));
@@ -1259,8 +1347,20 @@
           partyData.sentinel.mp = 100;
           updatePartyStatsUI();
           play8BitSFX('coffee');
-          this.showBubble(activePlayerActor, "☕ *Gulp!* Menikmati kopi segar di pantry. Mana & stamina party pulih 100%!");
-          logTerminal("PANTRY", "☕ Seluruh anggota party meminum kopi! MP & Stamina terisi penuh 100%!", "text-sky-300 font-bold");
+          this.showBubble(activePlayerActor, "☕ *Gulp!* Kopi segar memulihkan MP party 100%!");
+          logTerminal("PANTRY", "☕ Kopi segar di pantry diminum! MP party terisi 100%!", "text-sky-300 font-bold");
+        } else if (type === 'crystal') {
+          play8BitSFX('mana_crystal');
+          partyData[activePlayerActor].exp += 25;
+          this.showBubble(activePlayerActor, "💎 *Glow!* Menyentuh Mana Shard memberi +25 EXP murni!");
+          logTerminal("CRYSTAL", `💎 ${activePlayerActor.toUpperCase()} menyerap energi Mana Shard (+25 EXP)!`, "text-cyan-300 font-bold");
+          updatePartyStatsUI();
+        } else if (type === 'fountain') {
+          play8BitSFX('fountain');
+          this.showBubble(activePlayerActor, "⛲ Membasuh muka di air mancur kastil. Stamina pulih!");
+        } else if (type === 'bed') {
+          play8BitSFX('step');
+          this.showBubble(activePlayerActor, "🛌 Beristirahat sejenak di asrama pahlawan.");
         } else if (type === 'bookshelf') {
           play8BitSFX('book');
           const isJs = questLanguageSelect.value === 'javascript';
@@ -1274,15 +1374,15 @@
           const t = templates[Math.floor(Math.random() * templates.length)];
           document.getElementById('quest-title').value = t.title;
           document.getElementById('quest-prompt').value = t.prompt;
-          this.showBubble(activePlayerActor, `📖 Membaca naskah kuno di Vault: Memuat template "${t.title}" ke papan quest!`);
-          logTerminal("ARCHIVE", `📚 Template "${t.title}" berhasil dimuat dari Knowledge Vault ke Quest Board!`, "text-amber-300");
+          this.showBubble(activePlayerActor, `📖 Membaca naskah di Vault: Memuat template "${t.title}"!`);
+          logTerminal("ARCHIVE", `📚 Template "${t.title}" berhasil dimuat dari Knowledge Vault!`, "text-amber-300");
         } else if (type === 'anvil') {
           play8BitSFX('hammer');
-          this.showBubble('craftsman', "⚒️ *Clang!* Palu tempaan diasah tajam. Kecepatan menulis kode Forge meningkat!");
-          logTerminal("FORGE", "⚒️ Forge Master mengasah palu tempa di anvil! Efisiensi koding bertambah.", "text-amber-400");
+          this.showBubble('craftsman', "⚒️ *Clang!* Palu tempaan diasah tajam di Forge!");
+          logTerminal("FORGE", "⚒️ Forge Master mengasah palu tempa di anvil!", "text-amber-400");
         } else if (type === 'table') {
           play8BitSFX('chat');
-          this.showBubble('architect', "🔮 Meja Blueprint siap untuk perumusan arsitektur modular.");
+          this.showBubble('architect', "🔮 Meja Blueprint siap untuk perumusan solusi modular.");
         }
       }
 
@@ -1292,16 +1392,16 @@
         bossHpFill.style.width = `${damageRemaining}%`;
         bossHpText.innerText = `${damageRemaining} HP`;
 
-        this.moveAndSpeak('architect', 590, 310, "⚡ Arcane Test Beam!", 500);
-        this.moveAndSpeak('craftsman', 600, 390, "🔨 Forge Quake Smash!", 500);
-        this.moveAndSpeak('sentinel', 530, 345, "🗡️ Zero-Trust Holy Slash!", 500);
+        this.moveAndSpeak('architect', 650, 310, "⚡ Arcane Test Beam!", 500);
+        this.moveAndSpeak('craftsman', 660, 390, "🔨 Forge Quake Smash!", 500);
+        this.moveAndSpeak('sentinel', 600, 345, "🗡️ Zero-Trust Holy Slash!", 500);
 
         play8BitSFX('laser');
         this.time.delayedCall(200, () => play8BitSFX('hammer'));
         this.time.delayedCall(400, () => play8BitSFX('attack'));
 
         for (let i = 0; i < 4; i++) {
-          const spark = this.add.image(660 + (i * 12), 330 + (i % 2 * 16), 'slash_fx').setScale(1.5);
+          const spark = this.add.image(720 + (i * 12), 330 + (i % 2 * 16), 'slash_fx').setScale(1.5);
           this.tweens.add({
             targets: spark,
             alpha: 0,
@@ -1313,14 +1413,14 @@
 
         this.tweens.add({
           targets: this.bossMonster,
-          x: 700,
+          x: 760,
           alpha: 0.3,
           duration: 100,
           yoyo: true,
           repeat: 4,
           onComplete: () => {
             if (this.bossMonster) {
-              this.bossMonster.x = 685;
+              this.bossMonster.x = 745;
               this.bossMonster.alpha = 1.0;
             }
           }
@@ -1386,8 +1486,8 @@
         else if (joystickState.down) { vy = speed; }
 
         if (vx !== 0 || vy !== 0) {
-          sprite.x = Phaser.Math.Clamp(sprite.x + vx, 45, 815);
-          sprite.y = Phaser.Math.Clamp(sprite.y + vy, 45, 435);
+          sprite.x = Phaser.Math.Clamp(sprite.x + vx, 45, 875);
+          sprite.y = Phaser.Math.Clamp(sprite.y + vy, 45, 475);
           
           if (nameTag) nameTag.setPosition(sprite.x, sprite.y + 26);
           if (bubbleObj && bubbleObj.container.visible) {
@@ -1433,17 +1533,17 @@
       }
 
       gatherInWarRoom(dialogueActor, dialogue) {
-        this.moveAndSpeak('architect', 98, 100, (dialogueActor === 'architect' ? dialogue : ''));
-        this.moveAndSpeak('craftsman', 158, 100, (dialogueActor === 'craftsman' ? dialogue : ''));
-        this.moveAndSpeak('sentinel', 128, 155, (dialogueActor === 'sentinel' ? dialogue : ''));
+        this.moveAndSpeak('architect', 90, 95, (dialogueActor === 'architect' ? dialogue : ''));
+        this.moveAndSpeak('craftsman', 150, 95, (dialogueActor === 'craftsman' ? dialogue : ''));
+        this.moveAndSpeak('sentinel', 120, 150, (dialogueActor === 'sentinel' ? dialogue : ''));
       }
     }
 
     const phaserConfig = {
       type: Phaser.AUTO,
       parent: 'phaser-container',
-      width: 860,
-      height: 460,
+      width: 900,
+      height: 500,
       pixelArt: true,
       roundPixels: true,
       scene: MedievalOfficeScene,
@@ -1529,7 +1629,7 @@
         const extra = data.extra || {};
         
         let color = "text-indigo-300";
-        let targetX = 128, targetY = 120;
+        let targetX = 120, targetY = 115;
         
         if (extra.mode === "discussion") {
           if (!isFastReplay) {
@@ -1541,13 +1641,13 @@
           }
         } else {
           if (actorId === "architect") {
-            targetX = 128; targetY = 120;
+            targetX = 120; targetY = 115;
             activePhase.innerText = "WAR ROOM (BLUEPRINT)";
           }
           if (actorId === "craftsman") {
             if (!isFastReplay) play8BitSFX('hammer');
             color = "text-amber-300"; 
-            targetX = 128; targetY = 330;
+            targetX = 128; targetY = 320;
             activePhase.innerText = "THE FORGE (DEV WORKSHOP)"; 
             partyData.craftsman.mp = Math.max(20, partyData.craftsman.mp - 30);
             updatePartyStatsUI();
