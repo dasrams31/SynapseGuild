@@ -9,7 +9,7 @@ from typing import Optional
 
 API_BASE_URL = "http://127.0.0.1:8100/api"
 ADMIN_CHAT_ID = "606533609"
-BOT_TOKEN = "«redacted:8818582573:AAGKKZUww…».NRcvzlsuWIQ"
+BOT_TOKEN = "8818582573:AAGKKZUwwgrKk0nR3Z88Z875NRcvzlsuWIQ"
 
 def send_telegram_message(bot_token: str, chat_id: str, text: str, parse_mode: str = "Markdown"):
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
@@ -47,7 +47,7 @@ def monitor_and_deliver_quest(quest_id: str, bot_token: str, chat_id: str, title
                     files = list(result.get("files", {}).keys())
                     review = result.get("review", "Semua pengujian lolos.")
                     
-                    # Fetch ZIP artifact directly (without auto_wipe to let Telegram deliver safely)
+                    # Fetch ZIP artifact directly
                     zip_res = requests.get(f"{API_BASE_URL}/quests/{quest_id}/download?auto_wipe=false", timeout=15)
                     if zip_res.status_code == 200:
                         caption = (
@@ -84,18 +84,20 @@ def run_telegram_listener(bot_token: str, admin_chat_id: str):
     except Exception:
         pass
 
+    session = requests.Session()
+
     while True:
         try:
             url = f"https://api.telegram.org/bot{bot_token}/getUpdates"
-            params = {"timeout": 20}
+            params = {"timeout": 15}
             if offset:
                 params["offset"] = offset
                 
-            resp = requests.get(url, params=params, timeout=30)
+            resp = session.get(url, params=params, timeout=25)
             data = resp.json()
             
             if not data.get("ok"):
-                time.sleep(3)
+                time.sleep(2)
                 continue
                 
             for update in data.get("result", []):
@@ -187,7 +189,8 @@ def run_telegram_listener(bot_token: str, admin_chat_id: str):
                         send_telegram_message(bot_token, chat_id, f"🔴 Gateway offline: {err}")
                         
         except Exception as e:
-            time.sleep(3)
+            session = requests.Session()
+            time.sleep(2)
 
 if __name__ == "__main__":
     run_telegram_listener(BOT_TOKEN, ADMIN_CHAT_ID)
