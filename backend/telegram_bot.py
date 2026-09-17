@@ -11,11 +11,17 @@ API_BASE_URL = "http://127.0.0.1:8100/api"
 ADMIN_CHAT_ID = "606533609"
 BOT_TOKEN = "8818582573:AAGKKZUwwgrKk0nR3Z88Z875NRcvzlsuWIQ"
 
-def send_telegram_message(bot_token: str, chat_id: str, text: str, parse_mode: str = "Markdown"):
+def send_telegram_message(bot_token: str, chat_id: str, text: str, parse_mode: Optional[str] = "Markdown"):
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    payload = {"chat_id": chat_id, "text": text, "parse_mode": parse_mode}
+    payload = {"chat_id": chat_id, "text": text}
+    if parse_mode:
+        payload["parse_mode"] = parse_mode
     try:
-        requests.post(url, json=payload, timeout=10)
+        r = requests.post(url, json=payload, timeout=10)
+        if not r.ok and parse_mode:
+            # Fallback plain text if markdown formatting fails
+            payload.pop("parse_mode", None)
+            requests.post(url, json=payload, timeout=10)
     except Exception as e:
         print(f"Error sending TG msg: {e}")
 
@@ -29,17 +35,36 @@ def send_telegram_document(bot_token: str, chat_id: str, file_bytes: bytes, file
         print(f"Error sending TG doc: {e}")
 
 def monitor_and_deliver_quest(quest_id: str, bot_token: str, chat_id: str, title: str, language: str = "python"):
-    """Background thread to poll quest progress and deliver zip file upon completion."""
-    max_wait = 240
+    """Background thread to poll quest progress, stream dialogue logs to Telegram, and deliver zip file upon completion."""
+    max_wait = 300
     start = time.time()
+    last_dialogue_idx = 0
+    actor_emojis = {
+        "architect": "🧙‍♂️ *[The Sage - Planner]*",
+        "craftsman": "⚒️ *[Forge Master - Coder]*",
+        "sentinel": "🛡️ *[The Sentinel - QA Auditor]*"
+    }
     
     while time.time() - start < max_wait:
-        time.sleep(3)
+        time.sleep(2.5)
         try:
             res = requests.get(f"{API_BASE_URL}/quests/{quest_id}", timeout=5)
             if res.status_code == 200:
                 data = res.json()
                 status = data.get("status")
+                dialogues = data.get("dialogues", [])
+
+                # Stream new agent conversation dialogues to Telegram live
+                while last_dialogue_idx < len(dialogues):
+                    d = dialogues[last_dialogue_idx]
+                    speaker = d.get("speaker", "agent")
+                    text = d.get("text", "")
+                    prefix = actor_emojis.get(speaker, f"🤖 *[{speaker.capitalize()}]*")
+                    
+                    dialogue_msg = f"{prefix}\n💬 \"_{text}_\""
+                    send_telegram_message(bot_token, chat_id, dialogue_msg)
+                    last_dialogue_idx += 1
+                    time.sleep(0.4)  # Small pacing between dialogues
                 
                 if status == "completed":
                     result = data.get("result", {})
@@ -54,17 +79,17 @@ def monitor_and_deliver_quest(quest_id: str, bot_token: str, chat_id: str, title
                             f"🏆 *QUEST SELESAI & THE BUG BEAST K.O!* ⚔️✨\n\n"
                             f"📜 *Quest:* {title}\n"
                             f"🐍 *Language:* `{language.upper()}`\n"
-                            f"📊 *Skor Sentinel:* `{score}/100` (Tests Passed)\n"
+                            f"📊 *Skor Sentinel:* `{score}/100` (100% Tests Passed)\n"
                             f"📦 *File Terlampir:* {', '.join(f'`{f}`' for f in files)}\n"
-                            f"📝 *Review:* _{review}_\n\n"
-                            f"⚠️ *Catatan Storage:* Berkas sementara di server otomatis dihapus setelah *15 menit* demi efisiensi storage."
+                            f"📝 *Review Sentinel:* _{review}_\n\n"
+                            f"⚠️ *Storage Policy:* Berkas di server otomatis di-wipe setelah 15 menit."
                         )
                         send_telegram_document(bot_token, chat_id, zip_res.content, f"{quest_id}_artifacts.zip", caption)
                     else:
-                        send_telegram_message(bot_token, chat_id, f"✅ Quest selesai! Skor: {score}/100. File: {', '.join(files)}")
+                        send_telegram_message(bot_token, chat_id, f"✅ *Quest Selesai!* Skor: {score}/100. File: {', '.join(files)}")
                     break
                 elif status == "failed":
-                    send_telegram_message(bot_token, chat_id, f"❌ *Quest Gagal:* Batas iterasi habis atau pengujian belum terpenuhi.")
+                    send_telegram_message(bot_token, chat_id, f"❌ *Quest Gagal:* Batas iterasi habis atau pengujian belum lolos.")
                     break
         except Exception as e:
             print(f"Error monitoring quest: {e}")
