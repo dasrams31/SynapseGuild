@@ -272,3 +272,5 @@ async def websocket_endpoint(websocket: WebSocket):
         manager.disconnect(websocket)
     except Exception:
         manager.disconnect(websocket)
+
+# Guildhall telemetry & latency benchmark hook v1.0
